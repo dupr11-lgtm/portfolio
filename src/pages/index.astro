@@ -1,0 +1,175 @@
+---
+import { getCollection } from "astro:content";
+import Meta from "@/components/meta.astro";
+import dayjs from "dayjs";
+
+const posts = await getCollection("posts");
+const sortedProjects = posts.sort((a, b) =>
+  dayjs(a.data.createdAt).isAfter(dayjs(b.data.createdAt)) ? -1 : 1,
+);
+---
+
+<html lang="fr">
+	<head>
+		<Meta title="Aliénor du Parc" description="Portfolio d'architecture" />
+	</head>
+	<body class="font-body min-h-screen bg-[#2F4A6D] text-neutral-100 antialiased">
+		<header id="top-nav" class="fixed left-0 right-0 top-0 z-30 hidden items-center justify-between bg-[#2F4A6D] px-6 py-5 md:px-12">
+			<a href="#home" class="inline-flex items-center">
+				<img src="/static/maison2.png" alt="Logo Aliénor" class="h-14 w-14 object-contain md:h-16 md:w-16" />
+			</a>
+			<nav class="absolute left-1/2 -translate-x-1/2">
+				<ul class="flex items-center gap-7 text-sm uppercase tracking-[0.2em]">
+					<li><a class="module-tab" data-target="vibe" href="#vibe">Vibe</a></li>
+					<li><a class="module-tab" data-target="portfolio" href="#portfolio">Portfolio</a></li>
+					<li><a class="module-tab" data-target="contact" href="#contact">Contact</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main class="relative bg-[#2F4A6D]">
+			<section id="home" data-section="home" class="relative flex min-h-screen flex-col items-center justify-center px-6 pb-14 text-center">
+				<p class="font-title absolute right-6 top-8 z-10 text-right text-lg uppercase leading-none tracking-[0.08em] text-[#E53935] md:right-12 md:text-2xl">Alienor du Parc</p>
+				<div class="relative z-10 flex flex-col items-center gap-6">
+					<img src="/static/maison2.png" alt="Logo Aliénor" class="h-[24rem] w-[24rem] object-contain md:h-[42rem] md:w-[42rem]" />
+				</div>
+				<nav class="relative z-10 mt-16 md:absolute md:bottom-10 md:mt-0">
+					<ul class="flex items-center gap-6 text-sm uppercase tracking-[0.2em] md:gap-10">
+						<li><a class="module-tab" data-target="vibe" href="#vibe">Vibe</a></li>
+						<li><a class="module-tab" data-target="portfolio" href="#portfolio">Portfolio</a></li>
+						<li><a class="module-tab" data-target="contact" href="#contact">Contact</a></li>
+					</ul>
+				</nav>
+			</section>
+
+			<section id="vibe" data-section="vibe" class="mx-auto min-h-screen w-full max-w-6xl px-6 py-24 md:px-12 md:pt-32">
+				<h2 class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-white md:text-6xl">Vibe</h2>
+				<div class="grid gap-8 md:grid-cols-[1fr_auto_1fr] md:items-center">
+					<article class="rounded-2xl border border-white/25 bg-white/10 p-6">
+						<h3 class="font-title text-3xl uppercase tracking-[0.05em] text-white">Formation</h3>
+						<div class="mt-4 space-y-4 text-sm leading-relaxed text-neutral-100">
+							<p>Ecole Speciale d'Architecture, Paris - Licence<br />2022 - 2025</p>
+							<p>State Academy of Fine Arts, Stuttgart ERASMUS<br />octobre 2024 - fevrier 2025</p>
+							<p>Immaconcept, Bordeaux - Bachelor Design d'Espace<br />2021 - 2022</p>
+							<p>Lycee St Jacques de Compostelle, Dax<br />2021 - 2023<br />BAC specialites Histoire-Geographie-Geopolitique-Sciences Politiques, Mathematiques</p>
+							<p>Lycee Isaac de l'Etoile, Poitiers - Internat<br />2019 - 2020<br />Premiere option Histoire Des Arts<br />Specialites Histoire-Geographie-Geopolitique-Sciences Politiques, Mathematiques, Litterature Anglaise</p>
+							<p>Lycee Isaac de l'Etoile, Poitiers - Internat<br />2018 - 2019<br />Seconde - Option Creation Culture Design<br />option Histoire des Arts</p>
+							<p>Ecole d'Arts Plastiques, Chatellerault<br />2014 - 2018</p>
+						</div>
+					</article>
+
+					<div class="flex justify-center">
+						<img src="/static/photoprofil_upscayl_5x_upscayl-standard-4x.png" alt="Photo de profil d'Alienor" class="h-64 w-64 border border-white/40 object-cover md:h-80 md:w-80" />
+					</div>
+
+					<article class="rounded-2xl border border-white/25 bg-white/10 p-6">
+						<h3 class="font-title text-3xl uppercase tracking-[0.05em] text-white">Qui je suis</h3>
+						<p class="mt-4 text-sm leading-relaxed text-neutral-100">Bonjour<br />Je suis actuellement etudiante en architecture, passionnee par les nouvelles technologies IA.<br />Si je ne suis pas sur Midjourney ou en train de discuter avec ChatGPT, je suis probablement en train d'ecrire mon podcast ou de courir un autre marathon.</p>
+					</article>
+				</div>
+			</section>
+
+			<section id="portfolio" data-section="portfolio" class="mx-auto min-h-screen w-full max-w-6xl px-6 py-24 md:px-12 md:pt-32">
+				<h2 class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-white md:text-6xl">Portfolio</h2>
+				<div class="space-y-4">
+					{sortedProjects.map((project) => (
+						<a href={new URL(`/post/${project.slug}`, Astro.url)} class="project-row grid min-h-36 grid-cols-1 items-stretch gap-0 overflow-hidden rounded-2xl border border-white/20 transition-colors duration-200 md:grid-cols-[40%_60%]">
+							<div class="h-full">
+								<img src="/static/alienor.png" alt={project.data.title} class="h-full min-h-36 w-full object-cover" />
+							</div>
+							<div class="flex h-full flex-col justify-center px-6 py-6 md:px-8">
+								<p class="text-xs uppercase tracking-[0.16em] opacity-75">{dayjs(project.data.createdAt).format("MM/YYYY")}</p>
+								<h3 class="font-title mt-2 text-3xl leading-tight md:text-4xl">{project.data.title}</h3>
+							</div>
+						</a>
+					))}
+				</div>
+			</section>
+
+			<section id="contact" data-section="contact" class="mx-auto min-h-screen w-full max-w-4xl px-6 py-24 md:px-12 md:pt-32">
+				<h2 class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-white md:text-6xl">Contact</h2>
+				<div class="rounded-2xl border border-white/25 bg-white/10 p-8 text-center">
+					<p class="text-lg">email : <a href="mailto:alienor@duparc.com" class="font-semibold underline underline-offset-4">alienor@duparc.com</a></p>
+				</div>
+			</section>
+		</main>
+
+		<script>
+			const topNav = document.getElementById("top-nav");
+			const tabs = document.querySelectorAll<HTMLAnchorElement>(".module-tab");
+			const sections = document.querySelectorAll<HTMLElement>("[data-section]");
+			const contentSections = document.querySelectorAll<HTMLElement>("#vibe, #portfolio, #contact");
+
+			const updateActiveTab = (currentId) => {
+				tabs.forEach((tab) => {
+					const isActive = tab.dataset.target === currentId;
+					tab.classList.toggle("font-bold", isActive);
+					tab.classList.toggle("opacity-60", !isActive);
+				});
+			};
+
+			const navObserver = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.target.id === "home") {
+							if (entry.isIntersecting) {
+								topNav?.classList.add("hidden");
+								topNav?.classList.remove("flex");
+								updateActiveTab("");
+							} else {
+								topNav?.classList.remove("hidden");
+								topNav?.classList.add("flex");
+							}
+						}
+					});
+				},
+				{ threshold: 0.35 },
+			);
+
+			const updateSectionFromScroll = () => {
+				const marker = window.innerHeight * 0.45;
+				let currentId = "";
+
+				contentSections.forEach((section) => {
+					const rect = section.getBoundingClientRect();
+					if (rect.top <= marker && rect.bottom > marker) {
+						currentId = section.id;
+					}
+				});
+
+				updateActiveTab(currentId);
+			};
+
+			sections.forEach((section) => {
+				if (section.id === "home") {
+					navObserver.observe(section);
+				}
+			});
+
+			window.addEventListener("scroll", updateSectionFromScroll, { passive: true });
+			window.addEventListener("resize", updateSectionFromScroll);
+			updateSectionFromScroll();
+		</script>
+
+		<style>
+			html {
+				scroll-behavior: smooth;
+			}
+
+			.module-tab {
+				color: rgb(255 255 255);
+				transition: opacity 180ms ease;
+			}
+
+			.project-row {
+				background-color: rgba(255, 255, 255, 0.08);
+				color: rgb(248 248 248);
+			}
+
+			.project-row:hover {
+				background-color: rgb(229, 57, 53);
+				color: rgb(255 255 255);
+			}
+		</style>
+	</body>
+</html>
