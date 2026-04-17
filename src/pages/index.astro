@@ -16,7 +16,7 @@ const sortedProjects = posts.sort((a, b) =>
 	<body class="font-body min-h-screen bg-[#2F4A6D] text-neutral-100 antialiased">
 		<header id="top-nav" class="fixed left-0 right-0 top-0 z-30 hidden items-center justify-between bg-[#2F4A6D] px-6 py-5 md:px-12">
 			<a href="#home" class="inline-flex items-center">
-				<img src="/favicon.svg" alt="Logo Aliénor" class="h-14 w-14 object-contain md:h-16 md:w-16" />
+				<img src="/favicon1.svg" alt="Logo Aliénor" class="logo-red h-14 w-14 object-contain md:h-16 md:w-16" />
 			</a>
 			<nav class="absolute left-1/2 -translate-x-1/2">
 				<ul class="flex items-center gap-7 text-sm uppercase tracking-[0.2em]">
@@ -31,7 +31,7 @@ const sortedProjects = posts.sort((a, b) =>
 			<section id="home" data-section="home" class="relative flex min-h-screen flex-col items-center justify-center px-6 pb-14 text-center">
 				<p class="font-title absolute right-6 top-8 z-10 text-right text-lg uppercase leading-none tracking-[0.08em] text-[#E53935] md:right-12 md:text-2xl">Alienor du Parc</p>
 				<div class="relative z-10 flex flex-col items-center gap-6">
-					<img src="/favicon.svg" alt="Logo Aliénor" class="h-[24rem] w-[24rem] object-contain md:h-[42rem] md:w-[42rem]" />
+					<img src="/favicon1.svg" alt="Logo Aliénor" class="logo-red h-[24rem] w-[24rem] object-contain md:h-[42rem] md:w-[42rem]" />
 				</div>
 				<nav class="relative z-10 mt-16 md:absolute md:bottom-10 md:mt-0">
 					<ul class="flex items-center gap-6 text-sm uppercase tracking-[0.2em] md:gap-10">
@@ -44,9 +44,9 @@ const sortedProjects = posts.sort((a, b) =>
 
 			<section id="vibe" data-section="vibe" class="min-h-screen w-full px-6 py-24 md:px-12 md:pt-32">
 				<h2 class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-white md:text-6xl">Vibe</h2>
-				<div class="grid gap-8 md:grid-cols-[minmax(0,1.4fr)_auto_minmax(0,1fr)] md:items-start">
-					<article class="p-0">
-						<h3 class="font-title text-3xl uppercase tracking-[0.05em] text-white">Formation</h3>
+				<div class="grid gap-8 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-start">
+					<article id="formation-content" class="p-0">
+						<h3 class="m-0 font-title text-3xl uppercase tracking-[0.05em] text-white">Formation</h3>
 						<div class="mt-4 space-y-4 text-sm leading-relaxed text-neutral-100">
 							<p>Ecole Speciale d'Architecture, Paris - Licence<br />2022 - 2025</p>
 							<p>State Academy of Fine Arts, Stuttgart ERASMUS<br />octobre 2024 - fevrier 2025</p>
@@ -56,12 +56,12 @@ const sortedProjects = posts.sort((a, b) =>
 						</div>
 					</article>
 
-					<div class="flex justify-center md:pt-8">
-						<img src="/photoprofil2.svg" alt="Photo de profil d'Alienor" class="h-64 w-64 rounded-2xl object-cover md:h-80 md:w-80" />
+					<div class="flex items-start justify-center">
+						<img id="vibe-photo" src="/194135c7-391d-4556-9044-1ccea4404889.png" alt="Photo de profil d'Alienor" class="w-full max-w-[300px] rounded-2xl object-cover md:w-[300px]" />
 					</div>
 
-					<article class="p-0 md:pt-8">
-						<h3 class="font-title text-3xl uppercase tracking-[0.05em] text-white">Qui je suis</h3>
+					<article class="p-0">
+						<h3 class="m-0 font-title text-3xl uppercase tracking-[0.05em] text-white">Qui je suis</h3>
 						<p class="mt-4 text-sm leading-relaxed text-neutral-100">Bonjour<br />Je suis actuellement etudiante en architecture, passionnee par les nouvelles technologies IA.<br />Si je ne suis pas sur Midjourney ou en train de discuter avec ChatGPT, je suis probablement en train d'ecrire mon podcast ou de courir un autre marathon.</p>
 					</article>
 				</div>
@@ -147,6 +147,25 @@ const sortedProjects = posts.sort((a, b) =>
 			window.addEventListener("scroll", updateSectionFromScroll, { passive: true });
 			window.addEventListener("resize", updateSectionFromScroll);
 			updateSectionFromScroll();
+
+			const formationContent = document.getElementById("formation-content");
+			const vibePhoto = document.getElementById("vibe-photo");
+
+			const alignVibePhotoToFormation = () => {
+				if (!formationContent || !vibePhoto) return;
+				if (window.innerWidth < 768) {
+					vibePhoto.style.height = "auto";
+					return;
+				}
+				vibePhoto.style.height = `${formationContent.getBoundingClientRect().height}px`;
+			};
+
+			alignVibePhotoToFormation();
+			window.addEventListener("resize", alignVibePhotoToFormation);
+			if (formationContent) {
+				new ResizeObserver(alignVibePhotoToFormation).observe(formationContent);
+			}
+
 		</script>
 
 		<style>
@@ -167,6 +186,10 @@ const sortedProjects = posts.sort((a, b) =>
 			.project-row:hover {
 				background-color: rgb(229, 57, 53);
 				color: rgb(255 255 255);
+			}
+
+			.logo-red {
+				filter: brightness(0) saturate(100%) invert(33%) sepia(98%) saturate(2209%) hue-rotate(339deg) brightness(91%) contrast(93%);
 			}
 		</style>
 	</body>
