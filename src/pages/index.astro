@@ -113,7 +113,7 @@ for (const project of sortedProjects) {
 				<h2 class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-white md:text-6xl">Portfolio</h2>
 				<div class="space-y-4">
 					{sortedProjects.map((project) => (
-						<a href={new URL(`/post/${project.slug}`, Astro.url)} class="project-row grid min-h-36 grid-cols-1 items-stretch gap-0 overflow-hidden transition-colors duration-200 md:grid-cols-[40%_60%]">
+						<a href={`/post/${project.slug}`} class="project-row grid min-h-36 grid-cols-1 items-stretch gap-0 overflow-hidden transition-colors duration-200 md:grid-cols-[40%_60%]">
 							<div class="h-full md:aspect-[16/5]">
 								<img src={coverBySlug.get(project.slug) ?? "/static/alienor.png"} alt={project.data.title} class="h-full w-full object-cover" />
 							</div>

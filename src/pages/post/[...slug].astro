@@ -175,7 +175,7 @@ const { Content } = await post.render();
                         <img
                             src={toImageUrl(coverImage)}
                             alt={`${post.data.title} cover`}
-                            class="w-full rounded-md"
+                            class="post-image w-full rounded-md cursor-zoom-in"
                         />
                     )
                 }
@@ -191,7 +191,7 @@ const { Content } = await post.render();
                                 <img
                                     src={toImageUrl(image)}
                                     alt={`${post.data.title} image`}
-                                    class="w-full rounded-md object-cover"
+                                    class="post-image w-full rounded-md object-cover cursor-zoom-in"
                                     loading="lazy"
                                 />
                             ))}
@@ -200,6 +200,40 @@ const { Content } = await post.render();
                 }
             </div>
         </main>
+        <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 p-6">
+            <button id="lightbox-close" class="absolute right-5 top-4 text-4xl leading-none text-white" aria-label="Fermer">&times;</button>
+            <img id="lightbox-image" src="" alt="Image agrandie" class="max-h-[92vh] max-w-[92vw] object-contain" />
+        </div>
+        <script>
+            const images = document.querySelectorAll<HTMLImageElement>("article img, .post-image");
+            const lightbox = document.getElementById("lightbox");
+            const lightboxImage = document.getElementById("lightbox-image") as HTMLImageElement | null;
+            const closeBtn = document.getElementById("lightbox-close");
+
+            const closeLightbox = () => {
+                lightbox?.classList.add("hidden");
+                lightbox?.classList.remove("flex");
+            };
+
+            images.forEach((img) => {
+                img.classList.add("cursor-zoom-in");
+                img.addEventListener("click", () => {
+                    if (!lightboxImage) return;
+                    lightboxImage.src = img.currentSrc || img.src;
+                    lightboxImage.alt = img.alt || "Image";
+                    lightbox?.classList.remove("hidden");
+                    lightbox?.classList.add("flex");
+                });
+            });
+
+            closeBtn?.addEventListener("click", closeLightbox);
+            lightbox?.addEventListener("click", (event) => {
+                if (event.target === lightbox) closeLightbox();
+            });
+            window.addEventListener("keydown", (event) => {
+                if (event.key === "Escape") closeLightbox();
+            });
+        </script>
         <style>
             .logo-red {
                 filter: brightness(0) saturate(100%) invert(33%) sepia(98%) saturate(2209%) hue-rotate(339deg) brightness(91%) contrast(93%);
