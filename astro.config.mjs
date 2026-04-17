@@ -4,7 +4,7 @@ import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://alienor.fr",
+  site: "https://duparc.studio",
   integrations: [mdx(), tailwind()],
   trailingSlash: "never",
 });
