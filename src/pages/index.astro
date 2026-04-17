@@ -2,11 +2,53 @@
 import { getCollection } from "astro:content";
 import Meta from "@/components/meta.astro";
 import dayjs from "dayjs";
+import fs from "node:fs";
+import path from "node:path";
 
 const posts = await getCollection("posts");
 const sortedProjects = posts.sort((a, b) =>
   dayjs(a.data.createdAt).isAfter(dayjs(b.data.createdAt)) ? -1 : 1,
 );
+
+const projectsRoot = path.join(process.cwd(), "public", "projects");
+const imageExt = new Set([".png", ".jpg", ".jpeg", ".webp", ".svg"]);
+
+const norm = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .replace(/\.mdx?$/i, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+const projectDirs = fs.existsSync(projectsRoot)
+  ? fs.readdirSync(projectsRoot, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)
+  : [];
+
+const findProjectDir = (title: string, slug: string) => {
+  const titleKey = norm(title);
+  const slugKey = norm(slug);
+  return (
+    projectDirs.find((dir) => {
+      const dirKey = norm(dir);
+      return dirKey === titleKey || dirKey === slugKey;
+    }) ?? null
+  );
+};
+
+const coverBySlug = new Map<string, string>();
+for (const project of sortedProjects) {
+  const dir = findProjectDir(project.data.title, project.slug);
+  if (!dir) continue;
+  const files = fs.readdirSync(path.join(projectsRoot, dir));
+  const cover = files.find((f) => /^cover\./i.test(f) && imageExt.has(path.extname(f).toLowerCase()));
+  if (!cover) continue;
+  coverBySlug.set(
+    project.slug,
+    `/projects/${encodeURIComponent(dir)}/${encodeURIComponent(cover)}`,
+  );
+}
 ---
 
 <html lang="fr">
@@ -72,8 +114,8 @@ const sortedProjects = posts.sort((a, b) =>
 				<div class="space-y-4">
 					{sortedProjects.map((project) => (
 						<a href={new URL(`/post/${project.slug}`, Astro.url)} class="project-row grid min-h-36 grid-cols-1 items-stretch gap-0 overflow-hidden transition-colors duration-200 md:grid-cols-[40%_60%]">
-							<div class="h-full">
-								<img src="/static/alienor.png" alt={project.data.title} class="h-full min-h-36 w-full object-cover" />
+							<div class="h-full md:aspect-[16/5]">
+								<img src={coverBySlug.get(project.slug) ?? "/static/alienor.png"} alt={project.data.title} class="h-full w-full object-cover" />
 							</div>
 							<div class="flex h-full flex-col justify-center px-6 py-6 md:px-8">
 								<p class="text-xs uppercase tracking-[0.16em] opacity-75">{dayjs(project.data.createdAt).format("MM/YYYY")}</p>

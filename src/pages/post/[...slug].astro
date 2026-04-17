@@ -3,6 +3,8 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import Meta from "@/components/meta.astro";
 import { ClipboardIcon, StarIcon } from "@lucide/astro";
 import dayjs from "dayjs";
+import fs from "node:fs";
+import path from "node:path";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
@@ -28,6 +30,41 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
+
+const projectsRoot = path.join(process.cwd(), "public", "projects");
+const imageExt = new Set([".png", ".jpg", ".jpeg", ".webp", ".svg"]);
+
+const norm = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .replace(/\.mdx?$/i, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+const projectDirs = fs.existsSync(projectsRoot)
+  ? fs.readdirSync(projectsRoot, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)
+  : [];
+
+const dirName =
+  projectDirs.find((dir) => {
+    const key = norm(dir);
+    return key === norm(post.data.title) || key === norm(post.slug);
+  }) ?? null;
+
+const postImages = dirName
+  ? fs
+      .readdirSync(path.join(projectsRoot, dirName))
+      .filter((f) => imageExt.has(path.extname(f).toLowerCase()))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }))
+  : [];
+
+const coverImage = postImages.find((f) => /^cover\./i.test(f)) ?? null;
+const galleryImages = postImages.filter((f) => f !== coverImage);
+
+const toImageUrl = (fileName: string) =>
+  `/projects/${encodeURIComponent(dirName ?? "")}/${encodeURIComponent(fileName)}`;
 
 if (Astro.url.pathname.endsWith(".md")) {
   const markdown = `${post.data.title}\n${post.body}`;
@@ -133,11 +170,34 @@ const { Content } = await post.render();
                         </div>
                     </div>
                 </div>
+                {
+                    coverImage && (
+                        <img
+                            src={toImageUrl(coverImage)}
+                            alt={`${post.data.title} cover`}
+                            class="w-full rounded-md"
+                        />
+                    )
+                }
                 <article
                     class="prose prose-invert prose-pre:max-h-[600px] prose-img:rounded-md max-w-none md:text-justify"
                 >
                     <Content />
                 </article>
+                {
+                    galleryImages.length > 0 && (
+                        <section class="grid gap-4 md:grid-cols-2">
+                            {galleryImages.map((image) => (
+                                <img
+                                    src={toImageUrl(image)}
+                                    alt={`${post.data.title} image`}
+                                    class="w-full rounded-md object-cover"
+                                    loading="lazy"
+                                />
+                            ))}
+                        </section>
+                    )
+                }
             </div>
         </main>
         <style>
