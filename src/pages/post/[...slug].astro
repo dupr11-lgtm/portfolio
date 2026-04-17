@@ -63,8 +63,14 @@ const postImages = dirName
 const coverImage = postImages.find((f) => /^cover\./i.test(f)) ?? null;
 const galleryImages = postImages.filter((f) => f !== coverImage);
 
-const toImageUrl = (fileName: string) =>
-  `/projects/${encodeURIComponent(dirName ?? "")}/${encodeURIComponent(fileName)}`;
+const toImageUrl = (fileName: string) => {
+  const base = `/projects/${encodeURIComponent(dirName ?? "")}/${encodeURIComponent(fileName)}`;
+  if (!dirName) return base;
+  const fullPath = path.join(projectsRoot, dirName, fileName);
+  if (!fs.existsSync(fullPath)) return base;
+  const version = fs.statSync(fullPath).mtimeMs.toFixed(0);
+  return `${base}?v=${version}`;
+};
 
 if (Astro.url.pathname.endsWith(".md")) {
   const markdown = `${post.data.title}\n${post.body}`;
@@ -175,7 +181,7 @@ const { Content } = await post.render();
                         <img
                             src={toImageUrl(coverImage)}
                             alt={`${post.data.title} cover`}
-                            class="post-image w-full rounded-md cursor-zoom-in"
+                            class="post-image w-full rounded-md object-cover cursor-zoom-in"
                         />
                     )
                 }
@@ -186,12 +192,12 @@ const { Content } = await post.render();
                 </article>
                 {
                     galleryImages.length > 0 && (
-                        <section class="grid gap-4 md:grid-cols-2">
+                        <section class="grid grid-cols-1 gap-4 md:grid-cols-2">
                             {galleryImages.map((image) => (
                                 <img
                                     src={toImageUrl(image)}
                                     alt={`${post.data.title} image`}
-                                    class="post-image w-full rounded-md object-cover cursor-zoom-in"
+                                    class="post-image w-full aspect-[4/3] rounded-md object-cover cursor-zoom-in"
                                     loading="lazy"
                                 />
                             ))}
