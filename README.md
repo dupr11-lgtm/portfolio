@@ -1,10 +1,10 @@
-# alienor.fr
+# duparc.studio
 
-Welcome to **Alienor**! This site is a rebranded take on the original reactive.so project, tailored to highlight the alienor.fr domain while keeping the same mission: making educational content available to everyone, no matter where they are.
+Welcome to **Alienor**! This site is a rebranded take on the original reactive.so project, tailored to highlight the duparc.studio domain while keeping the same mission: making educational content available to everyone, no matter where they are.
 
 ## About the Project
 
-alienor.fr is a community-driven hub where contributors share deep-dives on programming, tooling, and workflow tips. The content lives in `src/content/posts`, and each post generates a static page through Astro.
+duparc.studio is a community-driven hub where contributors share deep-dives on programming, tooling, and workflow tips. The content lives in `src/content/posts`, and each post generates a static page through Astro.
 
 ## Getting Started Locally
 

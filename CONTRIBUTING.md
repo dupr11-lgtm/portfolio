@@ -1,6 +1,6 @@
 # Contributing to Alienor
 
-Thank you for considering contributing to Alienor! This experience builds on the Reactive boilerplate with the alienor.fr branding, but the contribution flow remains the same. Please read through the following guidelines to make everything smooth for you and the community.
+Thank you for considering contributing to Alienor! This experience builds on the Reactive boilerplate with the duparc.studio branding, but the contribution flow remains the same. Please read through the following guidelines to make everything smooth for you and the community.
 
 ## Table of Contents
 
