@@ -60,8 +60,16 @@ const postImages = dirName
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }))
   : [];
 
-const coverImage = postImages.find((f) => /^cover\./i.test(f)) ?? null;
-const galleryImages = postImages.filter((f) => f !== coverImage);
+const preferredPostCoverBySlug = new Map<string, string>([["nakagin-capsule", "cover2.jpeg"]]);
+const coverExclusionsBySlug = new Map<string, string[]>([["nakagin-capsule", ["cover.jpg"]]]);
+
+const preferredPostCover = preferredPostCoverBySlug.get(post.slug);
+const coverImage =
+  (preferredPostCover && postImages.includes(preferredPostCover) && preferredPostCover) ||
+  postImages.find((f) => /^cover\./i.test(f)) ||
+  null;
+const excluded = new Set<string>([coverImage ?? "", ...(coverExclusionsBySlug.get(post.slug) ?? [])]);
+const galleryImages = postImages.filter((f) => !excluded.has(f));
 
 const toImageUrl = (fileName: string) => {
   const base = `/projects/${encodeURIComponent(dirName ?? "")}/${encodeURIComponent(fileName)}`;
