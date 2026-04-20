@@ -132,7 +132,7 @@ const blueFilledStarSlugs = new Set([
   "festival--structure-temporaire",
   "chatel",
 ]);
-const isBlueFilledStarProject = blueFilledStarSlugs.has(post.slug);
+const isBlueFilledStarProject = blueFilledStarSlugs.has(post.slug) || post.slug === "ivresse";
 
 const toImageUrl = (fileName: string) => {
   const base = `/projects/${encodeURIComponent(dirName ?? "")}/${encodeURIComponent(fileName)}`;
@@ -142,6 +142,23 @@ const toImageUrl = (fileName: string) => {
   const version = fs.statSync(fullPath).mtimeMs.toFixed(0);
   return `${base}?v=${version}`;
 };
+
+const podcastAudioCandidates = ["podcats.mp3", "podcast.mp3"];
+const podcastAudioFile =
+  post.slug === "podcast" && dirName
+    ? podcastAudioCandidates.find((name) => fs.existsSync(path.join(projectsRoot, dirName, name))) ?? null
+    : null;
+const podcastAudioUrl = podcastAudioFile ? toImageUrl(podcastAudioFile) : null;
+const podcastThumbCandidates = [
+  "Miniature officielle.png",
+  "Miniature officielle.jpg",
+  "Miniature officielle.jpeg",
+];
+const podcastThumbFile =
+  post.slug === "podcast" && dirName
+    ? podcastThumbCandidates.find((name) => fs.existsSync(path.join(projectsRoot, dirName, name))) ?? null
+    : null;
+const podcastThumbUrl = podcastThumbFile ? toImageUrl(podcastThumbFile) : null;
 
 if (Astro.url.pathname.endsWith(".md")) {
   const markdown = `${post.data.title}\n${post.body}`;
@@ -178,25 +195,19 @@ const { Content } = await post.render();
                     {
                         post.slug === "podcast" && (
                             <p class="text-sm font-semibold uppercase tracking-[0.12em] text-[#2F4A6D]/85">
-                                <a
-                                    href="https://open.spotify.com/show/46YfZTl2c1TjJ9xSDRSDGc?si=2a4a432f3f5e437d"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="underline underline-offset-4"
-                                >
-                                    double vision : architecture abroad
-                                </a>
+                                double vision : architecture abroad
                             </p>
                         )
                     }
                     {
                         post.slug === "ivresse" && (
-                            <p class="text-sm font-semibold uppercase tracking-[0.12em] text-[#2F4A6D]/85">
+                            <p class="text-sm font-semibold uppercase tracking-[0.12em] text-[#E53935]">
                                 <a
                                     href="/livre/ivresse"
-                                    class="underline underline-offset-4"
+                                    class="inline-flex items-center gap-1"
                                 >
-                                    14 minutes et 16 heures
+                                    <span class="underline underline-offset-4">14 minutes et 16 heures</span>
+                                    <span aria-hidden="true">↗</span>
                                 </a>
                             </p>
                         )
@@ -270,6 +281,45 @@ const { Content } = await post.render();
                         />
                     )
                 }
+                {
+                    post.slug === "podcast" && podcastAudioUrl && (
+                        <section id="podcast-panel" class="podcast-panel rounded-2xl border border-[#2F4A6D]/20 px-3 py-2 md:px-4 md:py-2.5">
+                            <audio id="podcast-audio" src={podcastAudioUrl}></audio>
+                            <div class="relative flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#2F4A6D]/70">
+                                <div class="flex min-w-0 items-center gap-2 pr-10">
+                                    {
+                                        podcastThumbUrl && (
+                                            <img
+                                                src={podcastThumbUrl}
+                                                alt="Miniature officielle"
+                                                class="h-7 w-7 rounded object-cover"
+                                            />
+                                        )
+                                    }
+                                </div>
+                                <button
+                                    id="podcast-toggle"
+                                    class="absolute left-1/2 top-1/2 inline-flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#2F4A6D] text-[11px] leading-none text-[#F9FAF7]"
+                                    aria-label="Lecture / pause"
+                                >
+                                    ▶
+                                </button>
+                                <span class="pl-10 text-right">Aliénor Knoll &amp; Aliénor du Parc</span>
+                            </div>
+                            <div class="mt-1.5">
+                                <div id="podcast-track" class="podcast-track-hit w-full">
+                                    <div id="podcast-track-bar" class="h-1 w-full overflow-hidden rounded-full bg-[#2F4A6D]/20">
+                                        <div id="podcast-progress" class="h-full w-0 bg-[#2F4A6D]"></div>
+                                    </div>
+                                </div>
+                                <div class="mt-1.5 flex items-center justify-between text-[11px] font-semibold text-[#2F4A6D]/80">
+                                    <span id="podcast-current">00:00</span>
+                                    <span id="podcast-duration">00:00</span>
+                                </div>
+                            </div>
+                        </section>
+                    )
+                }
                 <article
                     class="prose prose-invert prose-pre:max-h-[600px] max-w-none md:text-justify"
                 >
@@ -335,6 +385,90 @@ const { Content } = await post.render();
             const nextBtn = document.getElementById("lightbox-next");
             let currentIndex = 0;
             let rotationDeg = 0;
+
+            const podcastAudio = document.getElementById("podcast-audio") as HTMLAudioElement | null;
+            const podcastPanel = document.getElementById("podcast-panel");
+            const podcastToggle = document.getElementById("podcast-toggle");
+            const podcastTrack = document.getElementById("podcast-track");
+            const podcastProgress = document.getElementById("podcast-progress");
+            const podcastCurrent = document.getElementById("podcast-current");
+            const podcastDuration = document.getElementById("podcast-duration");
+
+            let isScrubbing = false;
+
+            const formatTime = (seconds: number) => {
+                if (!Number.isFinite(seconds)) return "00:00";
+                const total = Math.max(0, Math.floor(seconds));
+                const mins = Math.floor(total / 60)
+                    .toString()
+                    .padStart(2, "0");
+                const secs = (total % 60).toString().padStart(2, "0");
+                return `${mins}:${secs}`;
+            };
+
+            const syncPodcastUi = () => {
+                if (!podcastAudio) return;
+                const ratio =
+                    podcastAudio.duration > 0
+                        ? (podcastAudio.currentTime / podcastAudio.duration) * 100
+                        : 0;
+                if (podcastProgress) {
+                    (podcastProgress as HTMLElement).style.width = `${Math.min(
+                        100,
+                        Math.max(0, ratio),
+                    )}%`;
+                }
+                if (podcastCurrent) podcastCurrent.textContent = formatTime(podcastAudio.currentTime);
+                if (podcastDuration) podcastDuration.textContent = formatTime(podcastAudio.duration);
+                if (podcastToggle) podcastToggle.textContent = podcastAudio.paused ? "▶" : "❚❚";
+                if (podcastPanel) podcastPanel.classList.toggle("is-active", !podcastAudio.paused);
+            };
+
+            podcastToggle?.addEventListener("click", () => {
+                if (!podcastAudio) return;
+                if (podcastAudio.paused) {
+                    podcastAudio.play();
+                } else {
+                    podcastAudio.pause();
+                }
+            });
+
+            const scrubToClientX = (clientX: number) => {
+                if (!podcastAudio || !podcastTrack) return;
+                const rect = podcastTrack.getBoundingClientRect();
+                const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+                podcastAudio.currentTime = ratio * (podcastAudio.duration || 0);
+                syncPodcastUi();
+            };
+
+            podcastTrack?.addEventListener("click", (event) => {
+                scrubToClientX(event.clientX);
+            });
+
+            podcastTrack?.addEventListener("pointerdown", (event) => {
+                isScrubbing = true;
+                scrubToClientX(event.clientX);
+                (podcastTrack as HTMLElement).setPointerCapture(event.pointerId);
+            });
+
+            podcastTrack?.addEventListener("pointermove", (event) => {
+                if (!isScrubbing) return;
+                scrubToClientX(event.clientX);
+            });
+
+            podcastTrack?.addEventListener("pointerup", (event) => {
+                isScrubbing = false;
+                (podcastTrack as HTMLElement).releasePointerCapture(event.pointerId);
+            });
+
+            podcastTrack?.addEventListener("pointercancel", () => {
+                isScrubbing = false;
+            });
+
+            podcastAudio?.addEventListener("loadedmetadata", syncPodcastUi);
+            podcastAudio?.addEventListener("timeupdate", syncPodcastUi);
+            podcastAudio?.addEventListener("play", syncPodcastUi);
+            podcastAudio?.addEventListener("pause", syncPodcastUi);
 
             const applyRotation = () => {
                 if (!lightboxImage) return;
@@ -438,6 +572,58 @@ const { Content } = await post.render();
                 object-position: top center;
                 transform: scale(1.85) translateY(-12%);
                 transform-origin: top center;
+            }
+
+            .podcast-panel {
+                background-color: rgba(47, 74, 109, 0.08);
+                transition: background-color 180ms ease;
+            }
+
+            .podcast-panel:hover,
+            .podcast-panel.is-active {
+                background-color: #2f4a6d;
+            }
+
+            .podcast-panel:hover,
+            .podcast-panel:hover #podcast-current,
+            .podcast-panel:hover #podcast-duration,
+            .podcast-panel:hover span,
+            .podcast-panel.is-active,
+            .podcast-panel.is-active #podcast-current,
+            .podcast-panel.is-active #podcast-duration,
+            .podcast-panel.is-active span {
+                color: #f9faf7;
+            }
+
+            .podcast-panel:hover #podcast-track-bar {
+                background-color: rgba(249, 250, 247, 0.34);
+            }
+
+            .podcast-panel.is-active #podcast-track-bar {
+                background-color: rgba(249, 250, 247, 0.34);
+            }
+
+            .podcast-panel:hover #podcast-progress {
+                background-color: #f9faf7;
+            }
+
+            .podcast-panel.is-active #podcast-progress {
+                background-color: #f9faf7;
+            }
+
+            .podcast-panel:hover #podcast-toggle {
+                background-color: #f9faf7;
+                color: #2f4a6d;
+            }
+
+            .podcast-panel.is-active #podcast-toggle {
+                background-color: #f9faf7;
+                color: #2f4a6d;
+            }
+
+            .podcast-track-hit {
+                padding: 0.4rem 0;
+                margin: -0.25rem 0;
             }
 
             .festival-half-frame {
