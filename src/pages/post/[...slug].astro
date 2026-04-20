@@ -61,7 +61,10 @@ const postImages = dirName
   : [];
 
 const preferredPostCoverBySlug = new Map<string, string>([["nakagin-capsule", "cover2.jpeg"]]);
-const coverExclusionsBySlug = new Map<string, string[]>([["nakagin-capsule", ["cover.jpg"]]]);
+const coverExclusionsBySlug = new Map<string, string[]>([
+  ["nakagin-capsule", ["cover.jpg"]],
+  ["podcast", ["Miniature officielle.png", "Miniature officielle.jpg", "Miniature officielle.jpeg"]],
+]);
 
 const preferredPostCover = preferredPostCoverBySlug.get(post.slug);
 const coverImage =
@@ -69,7 +72,11 @@ const coverImage =
   postImages.find((f) => /^cover\./i.test(f)) ||
   null;
 const excluded = new Set<string>([coverImage ?? "", ...(coverExclusionsBySlug.get(post.slug) ?? [])]);
-const galleryImages = postImages.filter((f) => !excluded.has(f));
+const galleryImages = postImages.filter((f) => {
+  if (excluded.has(f)) return false;
+  if (post.slug === "podcast" && /miniature\s*officielle/i.test(f)) return false;
+  return true;
+});
 
 const imagePositionByPost = new Map<string, Map<string, string>>([
   ["entre-deux-corps", new Map([["3.png", "50% 64%"]])],
@@ -156,7 +163,9 @@ const podcastThumbCandidates = [
 ];
 const podcastThumbFile =
   post.slug === "podcast" && dirName
-    ? podcastThumbCandidates.find((name) => fs.existsSync(path.join(projectsRoot, dirName, name))) ?? null
+    ? podcastThumbCandidates.find((name) => fs.existsSync(path.join(projectsRoot, dirName, name))) ||
+      postImages.find((name) => /miniature\s*officielle/i.test(name)) ||
+      null
     : null;
 const podcastThumbUrl = podcastThumbFile ? toImageUrl(podcastThumbFile) : null;
 
