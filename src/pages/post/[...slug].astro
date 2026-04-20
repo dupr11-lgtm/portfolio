@@ -157,7 +157,7 @@ const { Content } = await post.render();
         <Meta
             title={`${post.data.title} | Aliénor du Parc`}
             description={post.data.description}
-            slug={`/static/${post.slug}.png`}
+            slug={coverImage && dirName ? `/projects/${encodeURIComponent(dirName)}/${encodeURIComponent(coverImage)}` : undefined}
         />
     </head>
     <body class="font-body bg-[#F9FAF7] text-[#2F4A6D] antialiased">
