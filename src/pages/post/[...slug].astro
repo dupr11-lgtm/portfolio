@@ -316,10 +316,17 @@ const { Content } = await post.render();
                                 <span class="pl-10 text-right">Aliénor Knoll &amp; Aliénor du Parc</span>
                             </div>
                             <div class="mt-1.5">
-                                <div id="podcast-track" class="podcast-track-hit w-full">
-                                    <div id="podcast-track-bar" class="h-1 w-full overflow-hidden rounded-full bg-[#2F4A6D]/20">
-                                        <div id="podcast-progress" class="h-full w-0 bg-[#2F4A6D]"></div>
-                                    </div>
+                                <div class="podcast-track-hit w-full">
+                                    <input
+                                        id="podcast-seek"
+                                        type="range"
+                                        min="0"
+                                        max="1000"
+                                        value="0"
+                                        step="1"
+                                        class="podcast-seek"
+                                        aria-label="Avancer ou reculer l'audio"
+                                    />
                                 </div>
                                 <div class="mt-1.5 flex items-center justify-between text-[11px] font-semibold text-[#2F4A6D]/80">
                                     <span id="podcast-current">00:00</span>
@@ -398,12 +405,9 @@ const { Content } = await post.render();
             const podcastAudio = document.getElementById("podcast-audio") as HTMLAudioElement | null;
             const podcastPanel = document.getElementById("podcast-panel");
             const podcastToggle = document.getElementById("podcast-toggle");
-            const podcastTrack = document.getElementById("podcast-track");
-            const podcastProgress = document.getElementById("podcast-progress");
+            const podcastSeek = document.getElementById("podcast-seek") as HTMLInputElement | null;
             const podcastCurrent = document.getElementById("podcast-current");
             const podcastDuration = document.getElementById("podcast-duration");
-
-            let isScrubbing = false;
 
             const formatTime = (seconds: number) => {
                 if (!Number.isFinite(seconds)) return "00:00";
@@ -421,12 +425,7 @@ const { Content } = await post.render();
                     podcastAudio.duration > 0
                         ? (podcastAudio.currentTime / podcastAudio.duration) * 100
                         : 0;
-                if (podcastProgress) {
-                    (podcastProgress as HTMLElement).style.width = `${Math.min(
-                        100,
-                        Math.max(0, ratio),
-                    )}%`;
-                }
+                if (podcastSeek) podcastSeek.value = String(Math.round((Math.min(100, Math.max(0, ratio)) / 100) * 1000));
                 if (podcastCurrent) podcastCurrent.textContent = formatTime(podcastAudio.currentTime);
                 if (podcastDuration) podcastDuration.textContent = formatTime(podcastAudio.duration);
                 if (podcastToggle) podcastToggle.textContent = podcastAudio.paused ? "▶" : "❚❚";
@@ -442,67 +441,12 @@ const { Content } = await post.render();
                 }
             });
 
-            const scrubToClientX = (clientX: number) => {
-                if (!podcastAudio || !podcastTrack) return;
-                const rect = podcastTrack.getBoundingClientRect();
-                const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+            podcastSeek?.addEventListener("input", () => {
+                if (!podcastAudio) return;
+                const ratio = Number(podcastSeek.value) / 1000;
                 podcastAudio.currentTime = ratio * (podcastAudio.duration || 0);
                 syncPodcastUi();
-            };
-
-            podcastTrack?.addEventListener("click", (event) => {
-                scrubToClientX(event.clientX);
             });
-
-            podcastTrack?.addEventListener("pointerdown", (event) => {
-                isScrubbing = true;
-                scrubToClientX(event.clientX);
-                (podcastTrack as HTMLElement).setPointerCapture(event.pointerId);
-            });
-
-            podcastTrack?.addEventListener("pointermove", (event) => {
-                if (!isScrubbing) return;
-                scrubToClientX(event.clientX);
-            });
-
-            podcastTrack?.addEventListener("pointerup", (event) => {
-                isScrubbing = false;
-                (podcastTrack as HTMLElement).releasePointerCapture(event.pointerId);
-            });
-
-            podcastTrack?.addEventListener("pointercancel", () => {
-                isScrubbing = false;
-            });
-
-            // Fallback for browsers where pointer drag is inconsistent in production
-            let isMouseScrubbing = false;
-            podcastTrack?.addEventListener("mousedown", (event) => {
-                isMouseScrubbing = true;
-                scrubToClientX(event.clientX);
-            });
-            window.addEventListener("mousemove", (event) => {
-                if (!isMouseScrubbing) return;
-                scrubToClientX(event.clientX);
-            });
-            window.addEventListener("mouseup", () => {
-                isMouseScrubbing = false;
-            });
-
-            podcastTrack?.addEventListener("touchstart", (event) => {
-                const touch = event.touches[0];
-                if (!touch) return;
-                isScrubbing = true;
-                scrubToClientX(touch.clientX);
-            }, { passive: true });
-            podcastTrack?.addEventListener("touchmove", (event) => {
-                if (!isScrubbing) return;
-                const touch = event.touches[0];
-                if (!touch) return;
-                scrubToClientX(touch.clientX);
-            }, { passive: true });
-            window.addEventListener("touchend", () => {
-                isScrubbing = false;
-            }, { passive: true });
 
             podcastAudio?.addEventListener("loadedmetadata", syncPodcastUi);
             podcastAudio?.addEventListener("timeupdate", syncPodcastUi);
@@ -634,20 +578,64 @@ const { Content } = await post.render();
                 color: #f9faf7;
             }
 
-            .podcast-panel:hover #podcast-track-bar {
-                background-color: rgba(249, 250, 247, 0.34);
+            .podcast-seek {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 100%;
+                height: 18px;
+                background: transparent;
+                margin: 0;
             }
 
-            .podcast-panel.is-active #podcast-track-bar {
-                background-color: rgba(249, 250, 247, 0.34);
+            .podcast-seek::-webkit-slider-runnable-track {
+                height: 4px;
+                background: rgba(47, 74, 109, 0.2);
+                border-radius: 999px;
             }
 
-            .podcast-panel:hover #podcast-progress {
-                background-color: #f9faf7;
+            .podcast-seek::-moz-range-track {
+                height: 4px;
+                background: rgba(47, 74, 109, 0.2);
+                border-radius: 999px;
             }
 
-            .podcast-panel.is-active #podcast-progress {
-                background-color: #f9faf7;
+            .podcast-seek::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 12px;
+                height: 12px;
+                border-radius: 999px;
+                margin-top: -4px;
+                background: #2f4a6d;
+                border: 0;
+            }
+
+            .podcast-seek::-moz-range-thumb {
+                width: 12px;
+                height: 12px;
+                border-radius: 999px;
+                background: #2f4a6d;
+                border: 0;
+            }
+
+            .podcast-panel:hover .podcast-seek::-webkit-slider-runnable-track,
+            .podcast-panel.is-active .podcast-seek::-webkit-slider-runnable-track {
+                background: rgba(249, 250, 247, 0.34);
+            }
+
+            .podcast-panel:hover .podcast-seek::-moz-range-track,
+            .podcast-panel.is-active .podcast-seek::-moz-range-track {
+                background: rgba(249, 250, 247, 0.34);
+            }
+
+            .podcast-panel:hover .podcast-seek::-webkit-slider-thumb,
+            .podcast-panel.is-active .podcast-seek::-webkit-slider-thumb {
+                background: #f9faf7;
+            }
+
+            .podcast-panel:hover .podcast-seek::-moz-range-thumb,
+            .podcast-panel.is-active .podcast-seek::-moz-range-thumb {
+                background: #f9faf7;
             }
 
             .podcast-panel:hover #podcast-toggle {
