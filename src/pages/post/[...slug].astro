@@ -412,7 +412,7 @@ const { Content } = await post.render();
             const podcastCurrent = document.getElementById("podcast-current");
             const podcastDuration = document.getElementById("podcast-duration");
             const podcastStatus = document.getElementById("podcast-status");
-            let podcastReady = false;
+            let metadataReady = false;
             let pendingSeekRatio: number | null = null;
 
             const applyPendingSeek = () => {
@@ -428,10 +428,8 @@ const { Content } = await post.render();
                 if (isLoading) {
                     podcastToggle.textContent = "◌";
                     podcastToggle.classList.add("is-loading");
-                    (podcastToggle as HTMLButtonElement).disabled = true;
                 } else {
                     podcastToggle.classList.remove("is-loading");
-                    (podcastToggle as HTMLButtonElement).disabled = false;
                     if (podcastAudio) {
                         podcastToggle.textContent = podcastAudio.paused ? "▶" : "❚❚";
                     }
@@ -450,10 +448,10 @@ const { Content } = await post.render();
 
             const syncPodcastUi = () => {
                 if (!podcastAudio) return;
-                const readyNow = podcastAudio.readyState >= 2;
-                if (readyNow !== podcastReady) {
-                    podcastReady = readyNow;
-                    setToggleLoading(!podcastReady);
+                const hasDuration = Number.isFinite(podcastAudio.duration) && podcastAudio.duration > 0;
+                if (hasDuration && !metadataReady) {
+                    metadataReady = true;
+                    setToggleLoading(false);
                 }
                 const ratio =
                     podcastAudio.duration > 0
@@ -475,11 +473,8 @@ const { Content } = await post.render();
 
             podcastToggle?.addEventListener("click", () => {
                 if (!podcastAudio) return;
-                if (!podcastReady) {
-                    podcastAudio.load();
-                    return;
-                }
                 if (podcastAudio.paused) {
+                    if (!metadataReady) podcastAudio.load();
                     podcastAudio.play().catch(() => {
                         if (podcastStatus) {
                             podcastStatus.textContent = "Lecture bloquee par le navigateur. Reclique sur Play.";
@@ -516,18 +511,22 @@ const { Content } = await post.render();
                 applyPendingSeek();
                 syncPodcastUi();
             });
-            podcastAudio?.addEventListener("canplay", syncPodcastUi);
-            podcastAudio?.addEventListener("canplay", () => {
-                applyPendingSeek();
-                syncPodcastUi();
-            });
             podcastAudio?.addEventListener("durationchange", () => {
                 applyPendingSeek();
                 syncPodcastUi();
             });
+            podcastAudio?.addEventListener("canplay", syncPodcastUi);
             podcastAudio?.addEventListener("timeupdate", syncPodcastUi);
             podcastAudio?.addEventListener("play", syncPodcastUi);
             podcastAudio?.addEventListener("pause", syncPodcastUi);
+            podcastAudio?.addEventListener("ended", syncPodcastUi);
+            podcastAudio?.addEventListener("error", () => {
+                if (podcastStatus) {
+                    podcastStatus.textContent = "Audio indisponible pour le moment. Recharge la page.";
+                    podcastStatus.classList.remove("hidden");
+                }
+                setToggleLoading(false);
+            });
             podcastAudio?.addEventListener("play", () => {
                 if (podcastStatus) podcastStatus.classList.add("hidden");
             });
