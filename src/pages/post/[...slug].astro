@@ -87,7 +87,7 @@ const imagePositionByPost = new Map<string, Map<string, string>>([
   ["centre-de-recherches", new Map([["3.jpg", "50% 58%"]])],
   ["ecole-sad", new Map([["cover.jpg", "50% 64%"]])],
   ["nakagin-capsule", new Map([["2.png", "50% 0%"]])],
-  ["stage-simon-1", new Map([["cover.png", "50% 66%"]])],
+  ["stage-simon-1", new Map([["cover.png", "50% 82%"]])],
   ["stage-chantier", new Map([["2.png", "40% 36%"]])],
 ]);
 
@@ -185,6 +185,20 @@ const { Content } = await post.render();
                                     class="underline underline-offset-4"
                                 >
                                     double vision : architecture abroad
+                                </a>
+                            </p>
+                        )
+                    }
+                    {
+                        post.slug === "ivresse" && (
+                            <p class="text-sm font-semibold uppercase tracking-[0.12em] text-[#2F4A6D]/85">
+                                <a
+                                    href="/projects/ivresse.mdx/1.pdf"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="underline underline-offset-4"
+                                >
+                                    14 minutes et 16 heures
                                 </a>
                             </p>
                         )

@@ -41,7 +41,9 @@ const findProjectDir = (title: string, slug: string) => {
 };
 
 const coverBySlug = new Map<string, string>();
-const preferredHomeCoverBySlug = new Map<string, string>([["nakagin-capsule", "cover.jpg"]]);
+const preferredHomeCoverBySlug = new Map<string, string>([
+    ["nakagin-capsule", "cover.jpg"],
+]);
 for (const project of sortedProjects) {
     const dir = findProjectDir(project.data.title, project.slug);
     if (!dir) continue;
@@ -51,9 +53,10 @@ for (const project of sortedProjects) {
     const cover =
         (preferred && files.includes(preferred) && preferred) ||
         files.find(
-        (f) =>
-            /^cover\./i.test(f) && imageExt.has(path.extname(f).toLowerCase()),
-    );
+            (f) =>
+                /^cover\./i.test(f) &&
+                imageExt.has(path.extname(f).toLowerCase()),
+        );
     if (!cover) continue;
     const coverPath = path.join(projectDirPath, cover);
     const version = fs.statSync(coverPath).mtimeMs.toFixed(0);
@@ -73,7 +76,7 @@ const thumbPositionBySlug = new Map<string, string>([
     ["avenue-daumesnil", "50% 50%"],
     ["32-logements", "50% 68%"],
     ["ecole-sad", "50% 34%"],
-    ["stage-simon-1", "50% 66%"],
+    ["stage-simon-1", "50% 82%"],
     ["stage-chantier", "50% 56%"],
 ]);
 
@@ -215,10 +218,12 @@ const thumbFilterBySlug = new Map<string, string>();
                         >
                             Formation
                         </h3>
-                        <div class="mt-4 space-y-5 text-sm leading-relaxed text-[#2F4A6D]">
+                        <div
+                            class="mt-4 space-y-5 text-sm leading-relaxed text-[#2F4A6D]"
+                        >
                             <p>
-                                <span class="formation-date">2022 - 2025</span><br
-                                />Licence - Ecole Speciale d'Architecture,
+                                <span class="formation-date">2022 - 2025</span
+                                ><br />Licence - École Spéciale d'Architecture,
                                 Paris
                             </p>
                             <p>
@@ -228,23 +233,23 @@ const thumbFilterBySlug = new Map<string, string>();
                                 Stuttgart
                             </p>
                             <p>
-                                <span class="formation-date">2021 - 2022</span><br
-                                />Bachelor Design d'Espace - Immaconcept,
+                                <span class="formation-date">2021 - 2022</span
+                                ><br />Bachelor Design d'Espace - Immaconcept,
                                 Bordeaux
                             </p>
                             <p>
-                                <span class="formation-date">2020 - 2021</span><br
-                                />Baccalaureat - Lycee
+                                <span class="formation-date">2020 - 2021</span
+                                ><br />Baccalauréat - Lycee
                                 Saint-Jacques-de-Compostelle, Dax<br
-                                />Specialites
-                                Histoire-Geographie-Geopolitique-Sciences
-                                politiques, Mathematiques
+                                />Spécialités
+                                Histoire-Géographie-Géopolitique-Sciences
+                                politiques, Mathématiques
                             </p>
                             <p>
-                                <span class="formation-date">2018 - 2020</span><br
-                                />Lycee Isaac de l'Etoile, Poitiers<br />Seconde
-                                - Option Creation Culture Design et Histoire des
-                                Arts
+                                <span class="formation-date">2018 - 2020</span
+                                ><br />Lycee Isaac de l'Étoile, Poitiers<br
+                                />Seconde - Option Création Culture Design et
+                                Histoire des Arts
                             </p>
                         </div>
                     </article>
@@ -264,14 +269,12 @@ const thumbFilterBySlug = new Map<string, string>();
                         >
                             En bref
                         </h3>
-                        <p
-                            class="mt-4 text-sm leading-relaxed text-[#2F4A6D]"
-                        >
+                        <p class="mt-4 text-sm leading-relaxed text-[#2F4A6D]">
                             Je suis actuellement étudiante en architecture,
                             passionnée par les nouvelles technologies et
                             l'intelligence artificielle.<br /><br />Si je ne
-                            suis pas sur Midjourney ou en train de discuter
-                            avec ChatGPT, je suis sûrement en train d'écrire un
+                            suis pas sur Midjourney ou en train de discuter avec
+                            ChatGPT, je suis sûrement en train d'écrire un
                             nouvel épisode de podcast ou de préparer mon
                             prochain marathon.
                         </p>
@@ -294,7 +297,7 @@ const thumbFilterBySlug = new Map<string, string>();
                         sortedProjects.map((project) => (
                             <a
                                 href={`/post/${project.slug}`}
-                                class="project-row grid min-h-36 grid-cols-1 items-stretch gap-0 overflow-hidden transition-colors duration-200 md:grid-cols-[40%_60%]"
+                                class="project-row grid min-h-36 grid-cols-1 items-stretch gap-0 overflow-hidden rounded-2xl transition-colors duration-200 md:grid-cols-[40%_60%]"
                             >
                                 <div class="relative h-full md:aspect-[16/5]">
                                     <img
@@ -454,7 +457,9 @@ const thumbFilterBySlug = new Map<string, string>();
             }
 
             .nav-logo-img {
-                filter: brightness(0) saturate(100%) invert(27%) sepia(24%) saturate(879%) hue-rotate(174deg) brightness(94%) contrast(90%);
+                filter: brightness(0) saturate(100%) invert(27%) sepia(24%)
+                    saturate(879%) hue-rotate(174deg) brightness(94%)
+                    contrast(90%);
             }
 
             .top-nav {
@@ -502,7 +507,9 @@ const thumbFilterBySlug = new Map<string, string>();
             }
 
             .logo-red {
-                filter: brightness(0) saturate(100%) invert(27%) sepia(24%) saturate(879%) hue-rotate(174deg) brightness(94%) contrast(90%);
+                filter: brightness(0) saturate(100%) invert(27%) sepia(24%)
+                    saturate(879%) hue-rotate(174deg) brightness(94%)
+                    contrast(90%);
             }
 
             .formation-date {
