@@ -474,6 +474,36 @@ const { Content } = await post.render();
                 isScrubbing = false;
             });
 
+            // Fallback for browsers where pointer drag is inconsistent in production
+            let isMouseScrubbing = false;
+            podcastTrack?.addEventListener("mousedown", (event) => {
+                isMouseScrubbing = true;
+                scrubToClientX(event.clientX);
+            });
+            window.addEventListener("mousemove", (event) => {
+                if (!isMouseScrubbing) return;
+                scrubToClientX(event.clientX);
+            });
+            window.addEventListener("mouseup", () => {
+                isMouseScrubbing = false;
+            });
+
+            podcastTrack?.addEventListener("touchstart", (event) => {
+                const touch = event.touches[0];
+                if (!touch) return;
+                isScrubbing = true;
+                scrubToClientX(touch.clientX);
+            }, { passive: true });
+            podcastTrack?.addEventListener("touchmove", (event) => {
+                if (!isScrubbing) return;
+                const touch = event.touches[0];
+                if (!touch) return;
+                scrubToClientX(touch.clientX);
+            }, { passive: true });
+            window.addEventListener("touchend", () => {
+                isScrubbing = false;
+            }, { passive: true });
+
             podcastAudio?.addEventListener("loadedmetadata", syncPodcastUi);
             podcastAudio?.addEventListener("timeupdate", syncPodcastUi);
             podcastAudio?.addEventListener("play", syncPodcastUi);
