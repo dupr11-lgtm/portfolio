@@ -413,6 +413,7 @@ const { Content } = await post.render();
             const podcastDuration = document.getElementById("podcast-duration");
             const podcastStatus = document.getElementById("podcast-status");
             let podcastReady = false;
+            let pendingSeekRatio: number | null = null;
 
             const setToggleLoading = (isLoading: boolean) => {
                 if (!podcastToggle) return;
@@ -480,17 +481,40 @@ const { Content } = await post.render();
             const seekFromRange = () => {
                 if (!podcastAudio) return;
                 if (!podcastSeek) return;
-                const ratio = Number(podcastSeek.value) / 1000;
-                podcastSeek.style.setProperty("--podcast-progress", `${Math.min(100, Math.max(0, ratio * 100))}%`);
-                podcastAudio.currentTime = ratio * (podcastAudio.duration || 0);
-                syncPodcastUi();
+                const ratio = Math.min(1, Math.max(0, Number(podcastSeek.value) / 1000));
+                podcastSeek.style.setProperty("--podcast-progress", `${ratio * 100}%`);
+
+                const hasDuration = Number.isFinite(podcastAudio.duration) && podcastAudio.duration > 0;
+                if (!hasDuration) {
+                    pendingSeekRatio = ratio;
+                    return;
+                }
+
+                podcastAudio.currentTime = ratio * podcastAudio.duration;
+                pendingSeekRatio = null;
             };
 
             podcastSeek?.addEventListener("input", seekFromRange);
             podcastSeek?.addEventListener("change", seekFromRange);
 
             podcastAudio?.addEventListener("loadedmetadata", syncPodcastUi);
+            podcastAudio?.addEventListener("loadedmetadata", () => {
+                if (!podcastAudio) return;
+                if (pendingSeekRatio === null) return;
+                if (!Number.isFinite(podcastAudio.duration) || podcastAudio.duration <= 0) return;
+                podcastAudio.currentTime = pendingSeekRatio * podcastAudio.duration;
+                pendingSeekRatio = null;
+                syncPodcastUi();
+            });
             podcastAudio?.addEventListener("canplay", syncPodcastUi);
+            podcastAudio?.addEventListener("canplay", () => {
+                if (!podcastAudio) return;
+                if (pendingSeekRatio === null) return;
+                if (!Number.isFinite(podcastAudio.duration) || podcastAudio.duration <= 0) return;
+                podcastAudio.currentTime = pendingSeekRatio * podcastAudio.duration;
+                pendingSeekRatio = null;
+                syncPodcastUi();
+            });
             podcastAudio?.addEventListener("waiting", () => setToggleLoading(true));
             podcastAudio?.addEventListener("timeupdate", syncPodcastUi);
             podcastAudio?.addEventListener("play", syncPodcastUi);
