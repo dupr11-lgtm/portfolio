@@ -309,6 +309,7 @@ const { Content } = await post.render();
         <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#2F4A6D]/95 p-6">
             <button id="lightbox-prev" class="absolute left-5 top-1/2 -translate-y-1/2 text-5xl leading-none text-white/90" aria-label="Image precedente">&#8249;</button>
             <button id="lightbox-close" class="absolute right-5 top-4 text-4xl leading-none text-white" aria-label="Fermer">&times;</button>
+            <button id="lightbox-rotate" class="absolute right-16 top-4 text-3xl leading-none text-white/90" aria-label="Rotation 90 degres">&#8635;</button>
             <button id="lightbox-next" class="absolute right-5 top-1/2 -translate-y-1/2 text-5xl leading-none text-white/90" aria-label="Image suivante">&#8250;</button>
             <img id="lightbox-image" src="" alt="Image agrandie" class="max-h-[92vh] max-w-[92vw] object-contain" />
         </div>
@@ -317,9 +318,16 @@ const { Content } = await post.render();
             const lightbox = document.getElementById("lightbox");
             const lightboxImage = document.getElementById("lightbox-image") as HTMLImageElement | null;
             const closeBtn = document.getElementById("lightbox-close");
+            const rotateBtn = document.getElementById("lightbox-rotate");
             const prevBtn = document.getElementById("lightbox-prev");
             const nextBtn = document.getElementById("lightbox-next");
             let currentIndex = 0;
+            let rotationDeg = 0;
+
+            const applyRotation = () => {
+                if (!lightboxImage) return;
+                lightboxImage.style.transform = `rotate(${rotationDeg}deg)`;
+            };
 
             const openAt = (index: number) => {
                 if (!lightboxImage || images.length === 0) return;
@@ -327,6 +335,8 @@ const { Content } = await post.render();
                 const img = images[currentIndex];
                 lightboxImage.src = img.currentSrc || img.src;
                 lightboxImage.alt = img.alt || "Image";
+                rotationDeg = 0;
+                applyRotation();
                 lightbox?.classList.remove("hidden");
                 lightbox?.classList.add("flex");
             };
@@ -334,10 +344,16 @@ const { Content } = await post.render();
             const closeLightbox = () => {
                 lightbox?.classList.add("hidden");
                 lightbox?.classList.remove("flex");
+                rotationDeg = 0;
+                applyRotation();
             };
 
             const showPrev = () => openAt(currentIndex - 1);
             const showNext = () => openAt(currentIndex + 1);
+            const rotateImage = () => {
+                rotationDeg = (rotationDeg + 90) % 360;
+                applyRotation();
+            };
 
             images.forEach((img, index) => {
                 img.classList.add("cursor-zoom-in");
@@ -345,6 +361,10 @@ const { Content } = await post.render();
             });
 
             closeBtn?.addEventListener("click", closeLightbox);
+            rotateBtn?.addEventListener("click", (event) => {
+                event.stopPropagation();
+                rotateImage();
+            });
             prevBtn?.addEventListener("click", (event) => {
                 event.stopPropagation();
                 showPrev();
@@ -360,6 +380,7 @@ const { Content } = await post.render();
                 if (event.key === "Escape") closeLightbox();
                 if (event.key === "ArrowLeft") showPrev();
                 if (event.key === "ArrowRight") showNext();
+                if (event.key.toLowerCase() === "r") rotateImage();
             });
         </script>
         <style>
