@@ -1,6 +1,6 @@
 # Contributing to Alienor
 
-Thank you for considering contributing to Alienor! This experience builds on the Reactive boilerplate with the duparc.studio branding, but the contribution flow remains the same. Please read through the following guidelines to make everything smooth for you and the community.
+Thank you for considering contributing to Alienor! This experience builds on the portfolio codebase with the duparc.studio branding, but the contribution flow remains the same. Please read through the following guidelines to make everything smooth for you and the community.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ Thank you for considering contributing to Alienor! This experience builds on the
 
 ### Reporting Bugs
 
-If you encounter any issues or bugs, please open a new issue in the [Issues](https://github.com/herbievine/reactive.so/issues) section. Provide as much detail as possible, including steps to reproduce the bug, and any relevant screenshots.
+If you encounter any issues or bugs, please open a new issue in the [Issues](https://github.com/dupr11-lgtm/portfolio/issues) section. Provide as much detail as possible, including steps to reproduce the bug, and any relevant screenshots.
 
 ### Suggesting Enhancements
 
@@ -49,12 +49,12 @@ We encourage you to share your knowledge with the community by writing a new blo
 
 ### Forking the Repository
 
-1. Go to the [repository](https://github.com/herbievine/reactive.so).
+1. Go to the [repository](https://github.com/dupr11-lgtm/portfolio).
 2. Click the “Fork” button in the upper right corner of the page.
 3. Clone your forked repository to your local machine:
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/reactive.so.git
+git clone https://github.com/YOUR-USERNAME/portfolio.git
 ```
 
 ### Setting Up Your Environment

@@ -86,11 +86,18 @@ const imagePositionByPost = new Map<string, Map<string, string>>([
   ["32-logements", new Map([["3.jpg", "50% 64%"]])],
   ["centre-de-recherches", new Map([["3.jpg", "50% 58%"]])],
   ["ecole-sad", new Map([["cover.jpg", "50% 64%"]])],
+  ["nakagin-capsule", new Map([["2.png", "50% 0%"]])],
+  ["stage-simon-1", new Map([["cover.png", "50% 66%"]])],
   ["stage-chantier", new Map([["2.png", "40% 36%"]])],
 ]);
 
+const imageTransformByPost = new Map<string, Map<string, string>>();
+
 const getImagePosition = (fileName: string) =>
   imagePositionByPost.get(post.slug)?.get(fileName) ?? "50% 50%";
+
+const getImageTransform = (fileName: string) =>
+  imageTransformByPost.get(post.slug)?.get(fileName) ?? "";
 
 const isFestivalPost = post.slug === "festival--structure-temporaire";
 const findFestivalImage = (index: string) =>
@@ -115,6 +122,9 @@ const isOriginalFormatImage = (fileName: string) =>
   (post.slug === "festival--structure-temporaire" && fileName === festivalMosaicLeft) ||
   (post.slug === "nakagin-capsule" && fileName === "2.png") ||
   (post.slug === "centre-de-recherches" && fileName === "3.jpg");
+
+const isTopAlignedOriginalImage = (fileName: string) =>
+  post.slug === "nakagin-capsule" && fileName === "2.png";
 
 const redStarSlugs = new Set([
   "entre-deux-corps",
@@ -145,8 +155,8 @@ const { Content } = await post.render();
 <html lang="fr">
     <head>
         <Meta
-            title="Reactive"
-            description="A blog about programming concepts and technologies"
+            title={`${post.data.title} | Aliénor du Parc`}
+            description={post.data.description}
             slug={`/static/${post.slug}.png`}
         />
     </head>
@@ -158,7 +168,7 @@ const { Content } = await post.render();
                 href="/"
                 class="inline-flex items-center"
             >
-                <img src="/favicon1.svg" alt="Logo Aliénor" class="logo-red h-14 w-14 object-contain" />
+                <img src="/favicon1.svg" alt="Logo Aliénor" class="logo-light h-14 w-14 object-contain" />
             </a>
             <div class="w-full flex flex-col space-y-6">
                 <div class="w-full flex flex-col space-y-2 pb-6 border-b border-white/20">
@@ -183,15 +193,7 @@ const { Content } = await post.render();
                                 </time>
                             </span>
                             <span>&nbsp;•&nbsp;</span>
-                            <address class="whitespace-nowrap not-italic underline">
-                                    <a
-                                        href={`${post.data.author.url}?ref=duparc.studio`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                    {post.data.author.name}
-                                </a>
-                            </address>
+                            <span class="whitespace-nowrap">{post.data.author.name}</span>
                             {
                                 post.data.contributors.length > 0 && (
                                     <>
@@ -254,8 +256,8 @@ const { Content } = await post.render();
                                 <img
                                     src={toImageUrl(image)}
                                     alt={`${post.data.title} image`}
-                                    class={`post-image post-media rounded-md cursor-zoom-in ${isOriginalFormatImage(image) ? "post-media-original" : ""}`}
-                                    style={`object-position: ${getImagePosition(image)};`}
+                                    class={`post-image post-media rounded-md cursor-zoom-in ${isOriginalFormatImage(image) ? "post-media-original" : ""} ${isTopAlignedOriginalImage(image) ? "post-media-original-top" : ""}`}
+                                    style={`object-position: ${getImagePosition(image)};${getImageTransform(image) ? ` transform: ${getImageTransform(image)};` : ""}`}
                                     loading="lazy"
                                 />
                             ))}
@@ -347,8 +349,8 @@ const { Content } = await post.render();
             });
         </script>
         <style>
-            .logo-red {
-                filter: brightness(0) saturate(100%) invert(33%) sepia(98%) saturate(2209%) hue-rotate(339deg) brightness(91%) contrast(93%);
+            .logo-light {
+                filter: brightness(0) saturate(100%) invert(96%) sepia(5%) saturate(168%) hue-rotate(176deg) brightness(95%) contrast(93%);
             }
 
             :global(.prose a) {
@@ -369,6 +371,16 @@ const { Content } = await post.render();
                 height: auto;
                 max-height: none;
                 object-fit: contain;
+            }
+
+            .post-media-original-top {
+                height: 70vh;
+                max-height: 70vh;
+                width: 100%;
+                object-fit: contain;
+                object-position: top center;
+                transform: scale(1.85) translateY(-12%);
+                transform-origin: top center;
             }
 
             .festival-half-frame {
