@@ -87,7 +87,7 @@ const thumbFilterBySlug = new Map<string, string>();
         <Meta title="Aliénor du Parc" description="Portfolio d'architecture" />
     </head>
     <body
-        class="font-body min-h-screen bg-[#2F4A6D] text-neutral-100 antialiased"
+        class="font-body min-h-screen bg-[#F9FAF7] text-[#2F4A6D] antialiased"
     >
         <header
             id="top-nav"
@@ -131,9 +131,9 @@ const thumbFilterBySlug = new Map<string, string>();
             </div>
         </header>
 
-        <main class="relative bg-[#2F4A6D]">
+        <main class="relative bg-[#F9FAF7]">
             <p
-                class="font-title fixed right-6 top-8 z-20 text-right text-lg uppercase leading-none tracking-[0.08em] text-[#E53935] md:right-12 md:text-2xl"
+                class="font-title fixed right-6 top-8 z-20 text-right text-lg uppercase leading-none tracking-[0.08em] text-[#2F4A6D] md:right-12 md:text-2xl"
             >
                 Alienor du Parc
             </p>
@@ -202,7 +202,7 @@ const thumbFilterBySlug = new Map<string, string>();
                 class="min-h-screen w-full px-6 py-24 md:px-12 md:pt-32"
             >
                 <h2
-                    class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-white md:text-6xl"
+                    class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-[#2F4A6D] md:text-6xl"
                 >
                     Profil
                 </h2>
@@ -211,11 +211,11 @@ const thumbFilterBySlug = new Map<string, string>();
                 >
                     <article id="formation-content" class="p-0">
                         <h3
-                            class="m-0 font-title text-3xl uppercase tracking-[0.05em] text-white"
+                            class="m-0 font-title text-3xl uppercase tracking-[0.05em] text-[#2F4A6D]"
                         >
                             Formation
                         </h3>
-                        <div class="mt-4 space-y-5 text-sm leading-relaxed text-neutral-100">
+                        <div class="mt-4 space-y-5 text-sm leading-relaxed text-[#2F4A6D]">
                             <p>
                                 <span class="formation-date">2022 - 2025</span><br
                                 />Licence - Ecole Speciale d'Architecture,
@@ -260,12 +260,12 @@ const thumbFilterBySlug = new Map<string, string>();
 
                     <article class="p-0">
                         <h3
-                            class="m-0 font-title text-3xl uppercase tracking-[0.05em] text-white"
+                            class="m-0 font-title text-3xl uppercase tracking-[0.05em] text-[#2F4A6D]"
                         >
                             En bref
                         </h3>
                         <p
-                            class="mt-4 text-sm leading-relaxed text-neutral-100"
+                            class="mt-4 text-sm leading-relaxed text-[#2F4A6D]"
                         >
                             Je suis actuellement étudiante en architecture,
                             passionnée par les nouvelles technologies et
@@ -285,7 +285,7 @@ const thumbFilterBySlug = new Map<string, string>();
                 class="min-h-screen w-full px-6 py-24 md:px-12 md:pt-32"
             >
                 <h2
-                    class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-white md:text-6xl"
+                    class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-[#2F4A6D] md:text-6xl"
                 >
                     Portfolio
                 </h2>
@@ -329,7 +329,7 @@ const thumbFilterBySlug = new Map<string, string>();
                 class="min-h-screen w-full px-6 py-24 md:px-12 md:pt-32"
             >
                 <h2
-                    class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-white md:text-6xl"
+                    class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-[#2F4A6D] md:text-6xl"
                 >
                     Contact
                 </h2>
@@ -425,7 +425,7 @@ const thumbFilterBySlug = new Map<string, string>();
             }
 
             .module-tab {
-                color: rgb(214 223 235);
+                color: rgb(47 74 109);
                 transition: opacity 180ms ease;
             }
 
@@ -438,7 +438,7 @@ const thumbFilterBySlug = new Map<string, string>();
 
             .nav-item:hover {
                 font-weight: 700;
-                color: rgb(255 255 255);
+                color: rgb(47 74 109);
             }
 
             .nav-logo {
@@ -454,22 +454,20 @@ const thumbFilterBySlug = new Map<string, string>();
             }
 
             .nav-logo-img {
-                filter: brightness(0) saturate(100%) invert(93%) sepia(8%)
-                    saturate(307%) hue-rotate(179deg) brightness(95%)
-                    contrast(96%);
+                filter: brightness(0) saturate(100%) invert(27%) sepia(24%) saturate(879%) hue-rotate(174deg) brightness(94%) contrast(90%);
             }
 
             .top-nav {
                 position: fixed;
                 background: linear-gradient(
                     to bottom,
-                    rgba(47, 74, 109, 1) 0%,
-                    rgba(47, 74, 109, 1) 64%,
-                    rgba(47, 74, 109, 0.9) 74%,
-                    rgba(47, 74, 109, 0.74) 82%,
-                    rgba(47, 74, 109, 0.52) 89%,
-                    rgba(47, 74, 109, 0.28) 95%,
-                    rgba(47, 74, 109, 0) 100%
+                    rgba(249, 250, 247, 1) 0%,
+                    rgba(249, 250, 247, 1) 64%,
+                    rgba(249, 250, 247, 0.9) 74%,
+                    rgba(249, 250, 247, 0.74) 82%,
+                    rgba(249, 250, 247, 0.52) 89%,
+                    rgba(249, 250, 247, 0.28) 95%,
+                    rgba(249, 250, 247, 0) 100%
                 );
                 backdrop-filter: blur(8px);
                 -webkit-backdrop-filter: blur(8px);
@@ -493,26 +491,25 @@ const thumbFilterBySlug = new Map<string, string>();
             }
 
             .project-row {
-                background-color: rgba(255, 255, 255, 0.08);
-                color: rgb(248 248 248);
+                background-color: rgba(47, 74, 109, 0.08);
+                color: rgb(47 74 109);
             }
 
             .project-row:hover {
                 background-color: rgb(229, 57, 53);
-                color: rgb(255 255 255);
+                background-color: rgb(47 74 109);
+                color: rgb(249 250 247);
             }
 
             .logo-red {
-                filter: brightness(0) saturate(100%) invert(33%) sepia(98%)
-                    saturate(2209%) hue-rotate(339deg) brightness(91%)
-                    contrast(93%);
+                filter: brightness(0) saturate(100%) invert(27%) sepia(24%) saturate(879%) hue-rotate(174deg) brightness(94%) contrast(90%);
             }
 
             .formation-date {
                 font-size: 0.68rem;
                 letter-spacing: 0.16em;
                 text-transform: uppercase;
-                color: rgba(220, 230, 242, 0.75);
+                color: rgba(47, 74, 109, 0.88);
             }
         </style>
     </body>
