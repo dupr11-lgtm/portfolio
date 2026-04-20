@@ -488,9 +488,6 @@ const { Content } = await post.render();
 
             podcastSeek?.addEventListener("input", seekFromRange);
             podcastSeek?.addEventListener("change", seekFromRange);
-            podcastSeek?.addEventListener("pointerdown", seekFromRange);
-            podcastSeek?.addEventListener("mousedown", seekFromRange);
-            podcastSeek?.addEventListener("touchstart", seekFromRange, { passive: true });
 
             podcastAudio?.addEventListener("loadedmetadata", syncPodcastUi);
             podcastAudio?.addEventListener("canplay", syncPodcastUi);
@@ -666,16 +663,18 @@ const { Content } = await post.render();
             .podcast-seek::-webkit-slider-thumb {
                 -webkit-appearance: none;
                 appearance: none;
-                width: 0;
-                height: 0;
+                width: 12px;
+                height: 12px;
+                border-radius: 999px;
                 margin-top: -4px;
                 opacity: 0;
                 border: 0;
             }
 
             .podcast-seek::-moz-range-thumb {
-                width: 0;
-                height: 0;
+                width: 12px;
+                height: 12px;
+                border-radius: 999px;
                 opacity: 0;
                 border: 0;
             }
