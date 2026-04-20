@@ -415,6 +415,14 @@ const { Content } = await post.render();
             let podcastReady = false;
             let pendingSeekRatio: number | null = null;
 
+            const applyPendingSeek = () => {
+                if (!podcastAudio) return;
+                if (pendingSeekRatio === null) return;
+                if (!Number.isFinite(podcastAudio.duration) || podcastAudio.duration <= 0) return;
+                podcastAudio.currentTime = pendingSeekRatio * podcastAudio.duration;
+                pendingSeekRatio = null;
+            };
+
             const setToggleLoading = (isLoading: boolean) => {
                 if (!podcastToggle) return;
                 if (isLoading) {
@@ -458,14 +466,19 @@ const { Content } = await post.render();
                 }
                 if (podcastCurrent) podcastCurrent.textContent = formatTime(podcastAudio.currentTime);
                 if (podcastDuration) podcastDuration.textContent = formatTime(podcastAudio.duration);
-                if (podcastToggle) podcastToggle.textContent = podcastAudio.paused ? "▶" : "❚❚";
+                if (podcastToggle && !podcastToggle.classList.contains("is-loading")) {
+                    podcastToggle.textContent = podcastAudio.paused ? "▶" : "❚❚";
+                }
                 if (podcastPanel) podcastPanel.classList.toggle("is-active", !podcastAudio.paused);
                 if (podcastStatus && !podcastAudio.paused) podcastStatus.classList.add("hidden");
             };
 
             podcastToggle?.addEventListener("click", () => {
                 if (!podcastAudio) return;
-                if (!podcastReady) return;
+                if (!podcastReady) {
+                    podcastAudio.load();
+                    return;
+                }
                 if (podcastAudio.paused) {
                     podcastAudio.play().catch(() => {
                         if (podcastStatus) {
@@ -487,6 +500,7 @@ const { Content } = await post.render();
                 const hasDuration = Number.isFinite(podcastAudio.duration) && podcastAudio.duration > 0;
                 if (!hasDuration) {
                     pendingSeekRatio = ratio;
+                    podcastAudio.load();
                     return;
                 }
 
@@ -499,23 +513,18 @@ const { Content } = await post.render();
 
             podcastAudio?.addEventListener("loadedmetadata", syncPodcastUi);
             podcastAudio?.addEventListener("loadedmetadata", () => {
-                if (!podcastAudio) return;
-                if (pendingSeekRatio === null) return;
-                if (!Number.isFinite(podcastAudio.duration) || podcastAudio.duration <= 0) return;
-                podcastAudio.currentTime = pendingSeekRatio * podcastAudio.duration;
-                pendingSeekRatio = null;
+                applyPendingSeek();
                 syncPodcastUi();
             });
             podcastAudio?.addEventListener("canplay", syncPodcastUi);
             podcastAudio?.addEventListener("canplay", () => {
-                if (!podcastAudio) return;
-                if (pendingSeekRatio === null) return;
-                if (!Number.isFinite(podcastAudio.duration) || podcastAudio.duration <= 0) return;
-                podcastAudio.currentTime = pendingSeekRatio * podcastAudio.duration;
-                pendingSeekRatio = null;
+                applyPendingSeek();
                 syncPodcastUi();
             });
-            podcastAudio?.addEventListener("waiting", () => setToggleLoading(true));
+            podcastAudio?.addEventListener("durationchange", () => {
+                applyPendingSeek();
+                syncPodcastUi();
+            });
             podcastAudio?.addEventListener("timeupdate", syncPodcastUi);
             podcastAudio?.addEventListener("play", syncPodcastUi);
             podcastAudio?.addEventListener("pause", syncPodcastUi);
