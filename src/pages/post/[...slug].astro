@@ -293,7 +293,7 @@ const { Content } = await post.render();
                 {
                     post.slug === "podcast" && podcastAudioUrl && (
                         <section id="podcast-panel" class="podcast-panel rounded-2xl border border-[#2F4A6D]/20 px-3 py-2 md:px-4 md:py-2.5">
-                            <audio id="podcast-audio" src={podcastAudioUrl}></audio>
+                            <audio id="podcast-audio" src={podcastAudioUrl} preload="metadata"></audio>
                             <div class="relative flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#2F4A6D]/70">
                                 <div class="flex min-w-0 items-center gap-2 pr-10">
                                     {
@@ -332,6 +332,9 @@ const { Content } = await post.render();
                                     <span id="podcast-current">00:00</span>
                                     <span id="podcast-duration">00:00</span>
                                 </div>
+                                <p id="podcast-status" class="mt-1 hidden text-[11px] font-semibold text-[#2F4A6D]/70">
+                                    Clique sur Play pour activer l'audio.
+                                </p>
                             </div>
                         </section>
                     )
@@ -408,6 +411,23 @@ const { Content } = await post.render();
             const podcastSeek = document.getElementById("podcast-seek") as HTMLInputElement | null;
             const podcastCurrent = document.getElementById("podcast-current");
             const podcastDuration = document.getElementById("podcast-duration");
+            const podcastStatus = document.getElementById("podcast-status");
+            let podcastReady = false;
+
+            const setToggleLoading = (isLoading: boolean) => {
+                if (!podcastToggle) return;
+                if (isLoading) {
+                    podcastToggle.textContent = "◌";
+                    podcastToggle.classList.add("is-loading");
+                    (podcastToggle as HTMLButtonElement).disabled = true;
+                } else {
+                    podcastToggle.classList.remove("is-loading");
+                    (podcastToggle as HTMLButtonElement).disabled = false;
+                    if (podcastAudio) {
+                        podcastToggle.textContent = podcastAudio.paused ? "▶" : "❚❚";
+                    }
+                }
+            };
 
             const formatTime = (seconds: number) => {
                 if (!Number.isFinite(seconds)) return "00:00";
@@ -421,37 +441,68 @@ const { Content } = await post.render();
 
             const syncPodcastUi = () => {
                 if (!podcastAudio) return;
+                const readyNow = podcastAudio.readyState >= 2;
+                if (readyNow !== podcastReady) {
+                    podcastReady = readyNow;
+                    setToggleLoading(!podcastReady);
+                }
                 const ratio =
                     podcastAudio.duration > 0
                         ? (podcastAudio.currentTime / podcastAudio.duration) * 100
                         : 0;
-                if (podcastSeek) podcastSeek.value = String(Math.round((Math.min(100, Math.max(0, ratio)) / 100) * 1000));
+                const clampedRatio = Math.min(100, Math.max(0, ratio));
+                if (podcastSeek) {
+                    podcastSeek.value = String(Math.round((clampedRatio / 100) * 1000));
+                    podcastSeek.style.setProperty("--podcast-progress", `${clampedRatio}%`);
+                }
                 if (podcastCurrent) podcastCurrent.textContent = formatTime(podcastAudio.currentTime);
                 if (podcastDuration) podcastDuration.textContent = formatTime(podcastAudio.duration);
                 if (podcastToggle) podcastToggle.textContent = podcastAudio.paused ? "▶" : "❚❚";
                 if (podcastPanel) podcastPanel.classList.toggle("is-active", !podcastAudio.paused);
+                if (podcastStatus && !podcastAudio.paused) podcastStatus.classList.add("hidden");
             };
 
             podcastToggle?.addEventListener("click", () => {
                 if (!podcastAudio) return;
+                if (!podcastReady) return;
                 if (podcastAudio.paused) {
-                    podcastAudio.play();
+                    podcastAudio.play().catch(() => {
+                        if (podcastStatus) {
+                            podcastStatus.textContent = "Lecture bloquee par le navigateur. Reclique sur Play.";
+                            podcastStatus.classList.remove("hidden");
+                        }
+                    });
                 } else {
                     podcastAudio.pause();
                 }
             });
 
-            podcastSeek?.addEventListener("input", () => {
+            const seekFromRange = () => {
                 if (!podcastAudio) return;
+                if (!podcastSeek) return;
                 const ratio = Number(podcastSeek.value) / 1000;
+                podcastSeek.style.setProperty("--podcast-progress", `${Math.min(100, Math.max(0, ratio * 100))}%`);
                 podcastAudio.currentTime = ratio * (podcastAudio.duration || 0);
                 syncPodcastUi();
-            });
+            };
+
+            podcastSeek?.addEventListener("input", seekFromRange);
+            podcastSeek?.addEventListener("change", seekFromRange);
+            podcastSeek?.addEventListener("pointerdown", seekFromRange);
+            podcastSeek?.addEventListener("mousedown", seekFromRange);
+            podcastSeek?.addEventListener("touchstart", seekFromRange, { passive: true });
 
             podcastAudio?.addEventListener("loadedmetadata", syncPodcastUi);
+            podcastAudio?.addEventListener("canplay", syncPodcastUi);
+            podcastAudio?.addEventListener("waiting", () => setToggleLoading(true));
             podcastAudio?.addEventListener("timeupdate", syncPodcastUi);
             podcastAudio?.addEventListener("play", syncPodcastUi);
             podcastAudio?.addEventListener("pause", syncPodcastUi);
+            podcastAudio?.addEventListener("play", () => {
+                if (podcastStatus) podcastStatus.classList.add("hidden");
+            });
+
+            setToggleLoading(true);
 
             const applyRotation = () => {
                 if (!lightboxImage) return;
@@ -579,6 +630,7 @@ const { Content } = await post.render();
             }
 
             .podcast-seek {
+                --podcast-progress: 0%;
                 -webkit-appearance: none;
                 appearance: none;
                 width: 100%;
@@ -589,53 +641,65 @@ const { Content } = await post.render();
 
             .podcast-seek::-webkit-slider-runnable-track {
                 height: 4px;
-                background: rgba(47, 74, 109, 0.2);
+                background: linear-gradient(
+                    to right,
+                    #2f4a6d 0%,
+                    #2f4a6d var(--podcast-progress),
+                    rgba(47, 74, 109, 0.2) var(--podcast-progress),
+                    rgba(47, 74, 109, 0.2) 100%
+                );
                 border-radius: 999px;
             }
 
             .podcast-seek::-moz-range-track {
                 height: 4px;
-                background: rgba(47, 74, 109, 0.2);
+                background: linear-gradient(
+                    to right,
+                    #2f4a6d 0%,
+                    #2f4a6d var(--podcast-progress),
+                    rgba(47, 74, 109, 0.2) var(--podcast-progress),
+                    rgba(47, 74, 109, 0.2) 100%
+                );
                 border-radius: 999px;
             }
 
             .podcast-seek::-webkit-slider-thumb {
                 -webkit-appearance: none;
                 appearance: none;
-                width: 12px;
-                height: 12px;
-                border-radius: 999px;
+                width: 0;
+                height: 0;
                 margin-top: -4px;
-                background: #2f4a6d;
+                opacity: 0;
                 border: 0;
             }
 
             .podcast-seek::-moz-range-thumb {
-                width: 12px;
-                height: 12px;
-                border-radius: 999px;
-                background: #2f4a6d;
+                width: 0;
+                height: 0;
+                opacity: 0;
                 border: 0;
             }
 
             .podcast-panel:hover .podcast-seek::-webkit-slider-runnable-track,
             .podcast-panel.is-active .podcast-seek::-webkit-slider-runnable-track {
-                background: rgba(249, 250, 247, 0.34);
+                background: linear-gradient(
+                    to right,
+                    #f9faf7 0%,
+                    #f9faf7 var(--podcast-progress),
+                    rgba(249, 250, 247, 0.34) var(--podcast-progress),
+                    rgba(249, 250, 247, 0.34) 100%
+                );
             }
 
             .podcast-panel:hover .podcast-seek::-moz-range-track,
             .podcast-panel.is-active .podcast-seek::-moz-range-track {
-                background: rgba(249, 250, 247, 0.34);
-            }
-
-            .podcast-panel:hover .podcast-seek::-webkit-slider-thumb,
-            .podcast-panel.is-active .podcast-seek::-webkit-slider-thumb {
-                background: #f9faf7;
-            }
-
-            .podcast-panel:hover .podcast-seek::-moz-range-thumb,
-            .podcast-panel.is-active .podcast-seek::-moz-range-thumb {
-                background: #f9faf7;
+                background: linear-gradient(
+                    to right,
+                    #f9faf7 0%,
+                    #f9faf7 var(--podcast-progress),
+                    rgba(249, 250, 247, 0.34) var(--podcast-progress),
+                    rgba(249, 250, 247, 0.34) 100%
+                );
             }
 
             .podcast-panel:hover #podcast-toggle {
@@ -646,6 +710,15 @@ const { Content } = await post.render();
             .podcast-panel.is-active #podcast-toggle {
                 background-color: #f9faf7;
                 color: #2f4a6d;
+            }
+
+            #podcast-toggle.is-loading {
+                animation: podcastSpin 850ms linear infinite;
+            }
+
+            @keyframes podcastSpin {
+                from { transform: translate(-50%, -50%) rotate(0deg); }
+                to { transform: translate(-50%, -50%) rotate(360deg); }
             }
 
             .podcast-track-hit {
