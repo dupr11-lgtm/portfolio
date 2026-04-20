@@ -1,0 +1,27 @@
+---
+import Meta from "@/components/meta.astro";
+---
+
+<html lang="fr">
+  <head>
+    <Meta
+      title="14 minutes et 16 heures | Aliénor du Parc"
+      description="Lecture du livre 14 minutes et 16 heures."
+    />
+  </head>
+  <body class="min-h-screen bg-[#F9FAF7] text-[#2F4A6D] antialiased">
+    <main class="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-6 py-8 md:px-10 md:py-10">
+      <a href="/post/ivresse" class="mb-4 inline-block text-sm font-semibold underline underline-offset-4">
+        Retour au projet
+      </a>
+      <h1 class="font-title mb-4 text-4xl uppercase tracking-[0.06em] md:text-5xl">14 minutes et 16 heures</h1>
+      <div class="h-[78vh] w-full overflow-hidden rounded-2xl border border-[#2F4A6D]/20">
+        <iframe
+          src="/projects/ivresse.mdx/14-minutes-et-16-heures.pdf"
+          title="14 minutes et 16 heures"
+          class="h-full w-full"
+        ></iframe>
+      </div>
+    </main>
+  </body>
+</html>
