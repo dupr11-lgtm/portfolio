@@ -63,7 +63,7 @@ const postImages = dirName
 const preferredPostCoverBySlug = new Map<string, string>([["nakagin-capsule", "cover2.jpeg"]]);
 const coverExclusionsBySlug = new Map<string, string[]>([
   ["nakagin-capsule", ["cover.jpg"]],
-  ["podcast", ["Miniature officielle.png", "Miniature officielle.jpg", "Miniature officielle.jpeg"]],
+  ["podcast", ["Miniature officielle.png", "Miniature officielle.jpg", "Miniature officielle.jpeg", "Miniatureofficielle.png", "profil.png", "profil.jpg", "profil.jpeg"]],
 ]);
 
 const preferredPostCover = preferredPostCoverBySlug.get(post.slug);
@@ -157,13 +157,18 @@ const podcastAudioFile =
     : null;
 const podcastAudioUrl = podcastAudioFile ? toImageUrl(podcastAudioFile) : null;
 const podcastThumbCandidates = [
+  "profil.png",
+  "profil.jpg",
+  "profil.jpeg",
   "Miniature officielle.png",
   "Miniature officielle.jpg",
   "Miniature officielle.jpeg",
+  "Miniatureofficielle.png",
 ];
 const podcastThumbFile =
   post.slug === "podcast" && dirName
     ? podcastThumbCandidates.find((name) => fs.existsSync(path.join(projectsRoot, dirName, name))) ||
+      postImages.find((name) => /^profil\./i.test(name)) ||
       postImages.find((name) => /miniature\s*officielle/i.test(name)) ||
       null
     : null;
@@ -293,7 +298,7 @@ const { Content } = await post.render();
                 {
                     post.slug === "podcast" && podcastAudioUrl && (
                         <section id="podcast-panel" class="podcast-panel rounded-2xl border border-[#2F4A6D]/20 px-3 py-2 md:px-4 md:py-2.5">
-                            <audio id="podcast-audio" src={podcastAudioUrl} preload="metadata"></audio>
+                            <audio id="podcast-audio" src={podcastAudioUrl} preload="auto"></audio>
                             <div class="relative flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#2F4A6D]/70">
                                 <div class="flex min-w-0 items-center gap-2 pr-10">
                                     {
@@ -313,7 +318,7 @@ const { Content } = await post.render();
                                 >
                                     ▶
                                 </button>
-                                <span class="pl-10 text-right">Aliénor Knoll &amp; Aliénor du Parc</span>
+                                <span class="pl-10 text-right leading-tight">Aliénor Knoll<br />&amp; Aliénor du Parc</span>
                             </div>
                             <div class="mt-1.5">
                                 <div class="podcast-track-hit w-full">
@@ -340,7 +345,7 @@ const { Content } = await post.render();
                     )
                 }
                 <article
-                    class="prose prose-invert prose-pre:max-h-[600px] max-w-none md:text-justify"
+                    class="prose prose-invert prose-pre:max-h-[600px] max-w-none text-justify"
                 >
                     <Content />
                 </article>
@@ -387,11 +392,11 @@ const { Content } = await post.render();
                 }
             </div>
         </main>
-        <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#F9FAF7]/95 p-6">
-            <button id="lightbox-prev" class="absolute left-5 top-1/2 -translate-y-1/2 text-5xl leading-none text-[#2F4A6D]/90" aria-label="Image precedente">&#8249;</button>
-            <button id="lightbox-close" class="absolute right-5 top-4 text-4xl leading-none text-[#2F4A6D]" aria-label="Fermer">&times;</button>
-            <button id="lightbox-rotate" class="absolute right-16 top-4 text-3xl leading-none text-[#2F4A6D]/90" aria-label="Rotation 90 degres">&#8635;</button>
-            <button id="lightbox-next" class="absolute right-5 top-1/2 -translate-y-1/2 text-5xl leading-none text-[#2F4A6D]/90" aria-label="Image suivante">&#8250;</button>
+        <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#F9FAF7]/95 p-4 md:p-6">
+            <button id="lightbox-prev" class="absolute left-2 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#F9FAF7]/85 text-4xl leading-none text-[#2F4A6D]/95 md:left-5 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-5xl" aria-label="Image precedente">&#8249;</button>
+            <button id="lightbox-close" class="absolute right-3 top-3 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#F9FAF7]/85 text-3xl leading-none text-[#2F4A6D] md:right-5 md:top-4 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-4xl" aria-label="Fermer">&times;</button>
+            <button id="lightbox-rotate" class="absolute right-14 top-3 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#F9FAF7]/85 text-2xl leading-none text-[#2F4A6D]/90 md:right-16 md:top-4 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-3xl" aria-label="Rotation 90 degres">&#8635;</button>
+            <button id="lightbox-next" class="absolute right-2 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#F9FAF7]/85 text-4xl leading-none text-[#2F4A6D]/95 md:right-5 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-5xl" aria-label="Image suivante">&#8250;</button>
             <img id="lightbox-image" src="" alt="Image agrandie" class="max-h-[92vh] max-w-[92vw] object-contain" />
         </div>
         <script>
@@ -474,7 +479,6 @@ const { Content } = await post.render();
             podcastToggle?.addEventListener("click", () => {
                 if (!podcastAudio) return;
                 if (podcastAudio.paused) {
-                    if (!metadataReady) podcastAudio.load();
                     podcastAudio.play().catch(() => {
                         if (podcastStatus) {
                             podcastStatus.textContent = "Lecture bloquee par le navigateur. Reclique sur Play.";
@@ -495,12 +499,12 @@ const { Content } = await post.render();
                 const hasDuration = Number.isFinite(podcastAudio.duration) && podcastAudio.duration > 0;
                 if (!hasDuration) {
                     pendingSeekRatio = ratio;
-                    podcastAudio.load();
                     return;
                 }
 
                 podcastAudio.currentTime = ratio * podcastAudio.duration;
                 pendingSeekRatio = null;
+                syncPodcastUi();
             };
 
             podcastSeek?.addEventListener("input", seekFromRange);
@@ -508,10 +512,6 @@ const { Content } = await post.render();
 
             podcastAudio?.addEventListener("loadedmetadata", syncPodcastUi);
             podcastAudio?.addEventListener("loadedmetadata", () => {
-                applyPendingSeek();
-                syncPodcastUi();
-            });
-            podcastAudio?.addEventListener("durationchange", () => {
                 applyPendingSeek();
                 syncPodcastUi();
             });
