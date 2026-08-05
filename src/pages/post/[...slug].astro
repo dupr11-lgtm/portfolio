@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
 import Meta from "@/components/meta.astro";
+import ThemeToggle from "@/components/theme-toggle.astro";
 import { StarIcon } from "@lucide/astro";
 import dayjs from "dayjs";
 import fs from "node:fs";
@@ -191,7 +192,7 @@ const { Content } = await post.render();
             slug={coverImage && dirName ? `/projects/${encodeURIComponent(dirName)}/${encodeURIComponent(coverImage)}` : undefined}
         />
     </head>
-    <body class="font-body bg-[#F9FAF7] text-[#2F4A6D] antialiased">
+    <body class="font-body bg-[var(--bg)] text-[var(--fg)] antialiased">
         <main
             class="w-full mx-auto md:max-w-4xl px-6 py-12 md:py-16 flex flex-col space-y-10"
         >
@@ -202,20 +203,20 @@ const { Content } = await post.render();
                 <img src="/favicon1.svg" alt="Logo Aliénor" class="logo-light h-14 w-14 object-contain" />
             </a>
             <div class="w-full flex flex-col space-y-6">
-                <div class="w-full flex flex-col space-y-2 pb-6 border-b border-[#2F4A6D]/25">
-                    <h1 class="font-title text-5xl leading-none tracking-[0.04em] text-[#2F4A6D] md:text-6xl">
+                <div class="w-full flex flex-col space-y-2 pb-6 border-b border-[var(--border-25)]">
+                    <h1 class="font-title text-5xl leading-none tracking-[0.04em] text-[var(--fg)] md:text-6xl">
                         {post.data.title}
                     </h1>
                     {
                         post.slug === "podcast" && (
-                            <p class="text-sm font-semibold uppercase tracking-[0.12em] text-[#2F4A6D]/85">
+                            <p class="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--fg-85)]">
                                 double vision : architecture abroad
                             </p>
                         )
                     }
                     {
                         post.slug === "ivresse" && (
-                            <p class="text-sm font-semibold uppercase tracking-[0.12em] text-[#E53935]">
+                            <p class="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--accent)]">
                                 <a
                                     href="/livre/ivresse"
                                     class="inline-flex items-center gap-1"
@@ -228,7 +229,7 @@ const { Content } = await post.render();
                     }
                     <div class="flex items-center justify-between">
                         <div
-                            class="flex items-center flex-wrap text-sm font-semibold text-[#2F4A6D]/80"
+                            class="flex items-center flex-wrap text-sm font-semibold text-[var(--fg-80)]"
                         >
                             <span>
                                 <time
@@ -281,7 +282,7 @@ const { Content } = await post.render();
                             }
                         </div>
                         <div class="flex items-center">
-                            <StarIcon width={18} height={18} class={isBlueFilledStarProject ? "fill-[#2F4A6D] stroke-[#2F4A6D]" : "stroke-[#2F4A6D]"} />
+                            <StarIcon width={18} height={18} class={isBlueFilledStarProject ? "fill-[var(--fg)] stroke-[var(--fg)]" : "stroke-[var(--fg)]"} />
                         </div>
                     </div>
                 </div>
@@ -297,9 +298,9 @@ const { Content } = await post.render();
                 }
                 {
                     post.slug === "podcast" && podcastAudioUrl && (
-                        <section id="podcast-panel" class="podcast-panel rounded-2xl border border-[#2F4A6D]/20 px-3 py-2 md:px-4 md:py-2.5">
+                        <section id="podcast-panel" class="podcast-panel rounded-2xl border border-[var(--border-20)] px-3 py-2 md:px-4 md:py-2.5">
                             <audio id="podcast-audio" src={podcastAudioUrl} preload="auto"></audio>
-                            <div class="relative flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#2F4A6D]/70">
+                            <div class="relative flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-[var(--fg-70)]">
                                 <div class="flex min-w-0 items-center gap-2 pr-10">
                                     {
                                         podcastThumbUrl && (
@@ -313,7 +314,7 @@ const { Content } = await post.render();
                                 </div>
                                 <button
                                     id="podcast-toggle"
-                                    class="absolute left-1/2 top-1/2 inline-flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#2F4A6D] text-[11px] leading-none text-[#F9FAF7]"
+                                    class="absolute left-1/2 top-1/2 inline-flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--panel-active-bg)] text-[11px] leading-none text-[var(--panel-active-fg)]"
                                     aria-label="Lecture / pause"
                                 >
                                     ▶
@@ -333,11 +334,11 @@ const { Content } = await post.render();
                                         aria-label="Avancer ou reculer l'audio"
                                     />
                                 </div>
-                                <div class="mt-1.5 flex items-center justify-between text-[11px] font-semibold text-[#2F4A6D]/80">
+                                <div class="mt-1.5 flex items-center justify-between text-[11px] font-semibold text-[var(--fg-80)]">
                                     <span id="podcast-current">00:00</span>
                                     <span id="podcast-duration">00:00</span>
                                 </div>
-                                <p id="podcast-status" class="mt-1 hidden text-[11px] font-semibold text-[#2F4A6D]/70">
+                                <p id="podcast-status" class="mt-1 hidden text-[11px] font-semibold text-[var(--fg-70)]">
                                     Clique sur Play pour activer l'audio.
                                 </p>
                             </div>
@@ -392,11 +393,14 @@ const { Content } = await post.render();
                 }
             </div>
         </main>
-        <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#F9FAF7]/95 p-4 md:p-6">
-            <button id="lightbox-prev" class="absolute left-2 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#F9FAF7]/85 text-4xl leading-none text-[#2F4A6D]/95 md:left-5 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-5xl" aria-label="Image precedente">&#8249;</button>
-            <button id="lightbox-close" class="absolute right-3 top-3 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#F9FAF7]/85 text-3xl leading-none text-[#2F4A6D] md:right-5 md:top-4 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-4xl" aria-label="Fermer">&times;</button>
-            <button id="lightbox-rotate" class="absolute right-14 top-3 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#F9FAF7]/85 text-2xl leading-none text-[#2F4A6D]/90 md:right-16 md:top-4 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-3xl" aria-label="Rotation 90 degres">&#8635;</button>
-            <button id="lightbox-next" class="absolute right-2 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#F9FAF7]/85 text-4xl leading-none text-[#2F4A6D]/95 md:right-5 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-5xl" aria-label="Image suivante">&#8250;</button>
+        <div class="theme-dock-fixed">
+            <ThemeToggle />
+        </div>
+        <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-[var(--bg-95)] p-4 md:p-6">
+            <button id="lightbox-prev" class="absolute left-2 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--bg-85)] text-4xl leading-none text-[var(--fg-95)] md:left-5 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-5xl" aria-label="Image precedente">&#8249;</button>
+            <button id="lightbox-close" class="absolute right-3 top-3 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--bg-85)] text-3xl leading-none text-[var(--fg)] md:right-5 md:top-4 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-4xl" aria-label="Fermer">&times;</button>
+            <button id="lightbox-rotate" class="absolute right-14 top-3 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--bg-85)] text-2xl leading-none text-[var(--fg-90)] md:right-16 md:top-4 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-3xl" aria-label="Rotation 90 degres">&#8635;</button>
+            <button id="lightbox-next" class="absolute right-2 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--bg-85)] text-4xl leading-none text-[var(--fg-95)] md:right-5 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-5xl" aria-label="Image suivante">&#8250;</button>
             <img id="lightbox-image" src="" alt="Image agrandie" class="max-h-[92vh] max-w-[92vw] object-contain" />
         </div>
         <script>
@@ -594,7 +598,7 @@ const { Content } = await post.render();
         </script>
         <style>
             .logo-light {
-                filter: brightness(0) saturate(100%) invert(27%) sepia(24%) saturate(879%) hue-rotate(174deg) brightness(94%) contrast(90%);
+                filter: var(--logo-filter);
             }
 
             :global(.prose),
@@ -604,11 +608,11 @@ const { Content } = await post.render();
             :global(.prose h2),
             :global(.prose h3),
             :global(.prose h4) {
-                color: #2f4a6d;
+                color: var(--fg);
             }
 
             :global(.prose a) {
-                color: #2f4a6d;
+                color: var(--fg);
             }
 
             .post-media,
@@ -638,13 +642,13 @@ const { Content } = await post.render();
             }
 
             .podcast-panel {
-                background-color: rgba(47, 74, 109, 0.08);
+                background-color: var(--panel-bg);
                 transition: background-color 180ms ease;
             }
 
             .podcast-panel:hover,
             .podcast-panel.is-active {
-                background-color: #2f4a6d;
+                background-color: var(--panel-active-bg);
             }
 
             .podcast-panel:hover,
@@ -655,7 +659,7 @@ const { Content } = await post.render();
             .podcast-panel.is-active #podcast-current,
             .podcast-panel.is-active #podcast-duration,
             .podcast-panel.is-active span {
-                color: #f9faf7;
+                color: var(--panel-active-fg);
             }
 
             .podcast-seek {
@@ -672,10 +676,10 @@ const { Content } = await post.render();
                 height: 4px;
                 background: linear-gradient(
                     to right,
-                    #2f4a6d 0%,
-                    #2f4a6d var(--podcast-progress),
-                    rgba(47, 74, 109, 0.2) var(--podcast-progress),
-                    rgba(47, 74, 109, 0.2) 100%
+                    var(--track-filled) 0%,
+                    var(--track-filled) var(--podcast-progress),
+                    var(--track-empty) var(--podcast-progress),
+                    var(--track-empty) 100%
                 );
                 border-radius: 999px;
             }
@@ -684,10 +688,10 @@ const { Content } = await post.render();
                 height: 4px;
                 background: linear-gradient(
                     to right,
-                    #2f4a6d 0%,
-                    #2f4a6d var(--podcast-progress),
-                    rgba(47, 74, 109, 0.2) var(--podcast-progress),
-                    rgba(47, 74, 109, 0.2) 100%
+                    var(--track-filled) 0%,
+                    var(--track-filled) var(--podcast-progress),
+                    var(--track-empty) var(--podcast-progress),
+                    var(--track-empty) 100%
                 );
                 border-radius: 999px;
             }
@@ -715,10 +719,10 @@ const { Content } = await post.render();
             .podcast-panel.is-active .podcast-seek::-webkit-slider-runnable-track {
                 background: linear-gradient(
                     to right,
-                    #f9faf7 0%,
-                    #f9faf7 var(--podcast-progress),
-                    rgba(249, 250, 247, 0.34) var(--podcast-progress),
-                    rgba(249, 250, 247, 0.34) 100%
+                    var(--track-filled-active) 0%,
+                    var(--track-filled-active) var(--podcast-progress),
+                    var(--track-empty-active) var(--podcast-progress),
+                    var(--track-empty-active) 100%
                 );
             }
 
@@ -726,21 +730,21 @@ const { Content } = await post.render();
             .podcast-panel.is-active .podcast-seek::-moz-range-track {
                 background: linear-gradient(
                     to right,
-                    #f9faf7 0%,
-                    #f9faf7 var(--podcast-progress),
-                    rgba(249, 250, 247, 0.34) var(--podcast-progress),
-                    rgba(249, 250, 247, 0.34) 100%
+                    var(--track-filled-active) 0%,
+                    var(--track-filled-active) var(--podcast-progress),
+                    var(--track-empty-active) var(--podcast-progress),
+                    var(--track-empty-active) 100%
                 );
             }
 
             .podcast-panel:hover #podcast-toggle {
-                background-color: #f9faf7;
-                color: #2f4a6d;
+                background-color: var(--panel-active-fg);
+                color: var(--panel-active-bg);
             }
 
             .podcast-panel.is-active #podcast-toggle {
-                background-color: #f9faf7;
-                color: #2f4a6d;
+                background-color: var(--panel-active-fg);
+                color: var(--panel-active-bg);
             }
 
             #podcast-toggle.is-loading {

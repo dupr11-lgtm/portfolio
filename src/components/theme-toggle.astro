@@ -1,0 +1,111 @@
+---
+import { MoonIcon, SunIcon } from "@lucide/astro";
+---
+
+<div class="theme-toggle inline-flex items-center gap-1.5">
+    <button
+        type="button"
+        class="theme-btn theme-btn-light"
+        data-theme="light"
+        aria-label="Mode clair"
+        aria-pressed="false"
+        title="Mode clair"
+    >
+        <SunIcon width={14} height={14} />
+    </button>
+    <button
+        type="button"
+        class="theme-btn theme-btn-dark"
+        data-theme="dark"
+        aria-label="Mode sombre"
+        aria-pressed="false"
+        title="Mode sombre"
+    >
+        <MoonIcon width={14} height={14} />
+    </button>
+</div>
+
+<style>
+    .theme-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.25rem;
+        color: var(--fg);
+        opacity: 0.55;
+        transition:
+            opacity 180ms ease,
+            color 180ms ease;
+    }
+
+    .theme-btn:hover {
+        opacity: 1;
+    }
+
+    .theme-btn.theme-btn-active {
+        opacity: 1;
+        color: var(--panel-active-bg);
+    }
+</style>
+
+<script>
+    if (!window.__themeToggleInit) {
+        window.__themeToggleInit = true;
+
+        const readTheme = () => {
+            try {
+                return localStorage.getItem("theme");
+            } catch {
+                return null;
+            }
+        };
+
+        const applyTheme = (theme: string) => {
+            const root = document.documentElement;
+            root.classList.toggle("theme-dark", theme === "dark");
+            root.classList.toggle("theme-light", theme === "light");
+            document
+                .querySelectorAll<HTMLButtonElement>(".theme-btn")
+                .forEach((btn) => {
+                    const active = btn.dataset.theme === theme;
+                    btn.classList.toggle("theme-btn-active", active);
+                    btn.setAttribute(
+                        "aria-pressed",
+                        active ? "true" : "false",
+                    );
+                });
+        };
+
+        const currentTheme = () => {
+            const saved = readTheme();
+            if (saved === "dark" || saved === "light") return saved;
+            return window.matchMedia(
+                "(prefers-color-scheme: dark)",
+            ).matches
+                ? "dark"
+                : "light";
+        };
+
+        document
+            .querySelectorAll<HTMLButtonElement>(".theme-btn")
+            .forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const theme = btn.dataset.theme === "dark" ? "dark" : "light";
+                    try {
+                        localStorage.setItem("theme", theme);
+                    } catch {}
+                    applyTheme(theme);
+                });
+            });
+
+        applyTheme(currentTheme());
+
+        window
+            .matchMedia("(prefers-color-scheme: dark)")
+            .addEventListener("change", (event) => {
+                if (readTheme() === null) {
+                    applyTheme(event.matches ? "dark" : "light");
+                }
+            });
+    }
+</script>

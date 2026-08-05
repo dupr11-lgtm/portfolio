@@ -8,8 +8,66 @@
   @apply font-semibold
 } */
 
+:root {
+  color-scheme: light;
+  --bg: #F9FAF7;
+  --bg-rgb: 249 250 247;
+  --bg-95: rgba(249, 250, 247, 0.95);
+  --bg-85: rgba(249, 250, 247, 0.85);
+  --fg: #2F4A6D;
+  --fg-rgb: 47 74 109;
+  --fg-95: rgba(47, 74, 109, 0.95);
+  --fg-90: rgba(47, 74, 109, 0.9);
+  --fg-88: rgba(47, 74, 109, 0.88);
+  --fg-85: rgba(47, 74, 109, 0.85);
+  --fg-80: rgba(47, 74, 109, 0.8);
+  --fg-70: rgba(47, 74, 109, 0.7);
+  --border-20: rgba(47, 74, 109, 0.2);
+  --border-25: rgba(47, 74, 109, 0.25);
+  --accent: #E53935;
+  --panel-bg: rgba(47, 74, 109, 0.08);
+  --panel-active-bg: #2F4A6D;
+  --panel-active-fg: #F9FAF7;
+  --track-empty: rgba(47, 74, 109, 0.2);
+  --track-filled: #2F4A6D;
+  --track-empty-active: rgba(249, 250, 247, 0.34);
+  --track-filled-active: #F9FAF7;
+  --logo-filter: brightness(0) saturate(100%) invert(27%) sepia(24%)
+    saturate(879%) hue-rotate(174deg) brightness(94%) contrast(90%);
+}
+
+:root.theme-dark {
+  color-scheme: dark;
+  --bg: #2F4A6D;
+  --bg-rgb: 47 74 109;
+  --bg-95: rgba(47, 74, 109, 0.95);
+  --bg-85: rgba(47, 74, 109, 0.85);
+  --fg: #F9FAF7;
+  --fg-rgb: 249 250 247;
+  --fg-95: rgba(249, 250, 247, 0.95);
+  --fg-90: rgba(249, 250, 247, 0.9);
+  --fg-88: rgba(249, 250, 247, 0.88);
+  --fg-85: rgba(249, 250, 247, 0.85);
+  --fg-80: rgba(249, 250, 247, 0.8);
+  --fg-70: rgba(249, 250, 247, 0.7);
+  --border-20: rgba(249, 250, 247, 0.2);
+  --border-25: rgba(249, 250, 247, 0.25);
+  --accent: #FF6B68;
+  --panel-bg: rgba(249, 250, 247, 0.08);
+  --panel-active-bg: #F9FAF7;
+  --panel-active-fg: #2F4A6D;
+  --track-empty: rgba(249, 250, 247, 0.2);
+  --track-filled: #F9FAF7;
+  --track-empty-active: rgba(47, 74, 109, 0.34);
+  --track-filled-active: #2F4A6D;
+  --logo-filter: brightness(0) invert(1);
+}
+
 body {
   font-family: "Inter", sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 .font-title {
@@ -18,4 +76,21 @@ body {
 
 .font-body {
   font-family: "Inter", sans-serif;
+}
+
+.theme-dock {
+  position: absolute;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  z-index: 5;
+}
+
+.theme-dock-fixed {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 40;
 }
