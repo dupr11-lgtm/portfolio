@@ -112,7 +112,8 @@ const thumbFilterBySlug = new Map<string, string>();
                     lang = /^fr/i.test(nav) ? "fr" : "en";
                 }
                 var target = lang === "fr" ? "/" : "/en";
-                if (location.pathname !== target) {
+                var path = location.pathname.replace(/\/+$/, "") || "/";
+                if (path !== target) {
                     location.replace(target);
                 }
             })();
