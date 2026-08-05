@@ -14,16 +14,25 @@ const escapeXml = (value: string) =>
 
 export async function GET() {
   const posts = await getCollection("posts");
+  const postsEn = await getCollection("postsEn");
 
   const postUrls = posts
     .map((post) => post.slug)
     .filter((slug) => !slug.endsWith(".md"))
     .map((slug) => toAbsolute(`/post/${slug}`));
 
+  const postEnUrls = postsEn
+    .map((post) => post.slug)
+    .filter((slug) => !slug.endsWith(".md"))
+    .map((slug) => toAbsolute(`/en/post/${slug}`));
+
   const urls = [
     toAbsolute("/"),
     toAbsolute("/livre/ivresse"),
+    toAbsolute("/en"),
+    toAbsolute("/en/livre/ivresse"),
     ...postUrls,
+    ...postEnUrls,
   ];
 
   const uniqueUrls = Array.from(new Set(urls));

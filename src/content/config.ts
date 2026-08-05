@@ -5,17 +5,24 @@ const person = z.object({
   url: z.string().url(),
 });
 
-const blog = defineCollection({
-  type: "content",
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    author: person,
-    contributors: person.array(),
-    tage: z.string().array(),
-    createdAt: z.coerce.date(),
-    updatedAt: z.coerce.date(),
-  }),
+const postSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  author: person,
+  contributors: person.array(),
+  tags: z.string().array(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
 });
 
-export const collections = { blog };
+const posts = defineCollection({
+  type: "content",
+  schema: postSchema,
+});
+
+const postsEn = defineCollection({
+  type: "content",
+  schema: postSchema,
+});
+
+export const collections = { posts, postsEn };

@@ -1,0 +1,590 @@
+---
+import { getCollection } from "astro:content";
+import Meta from "@/components/meta.astro";
+import ThemeToggle from "@/components/theme-toggle.astro";
+import LanguageToggle from "@/components/language-toggle.astro";
+import { useTranslations, formation, enBref, type Lang } from "@/i18n/ui";
+import dayjs from "dayjs";
+import fs from "node:fs";
+import path from "node:path";
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const posts = await getCollection(lang === "en" ? "postsEn" : "posts");
+const sortedProjects = posts.sort((a, b) =>
+    dayjs(a.data.createdAt).isAfter(dayjs(b.data.createdAt)) ? -1 : 1,
+);
+
+const projectsRoot = path.join(process.cwd(), "public", "projects");
+const imageExt = new Set([".png", ".jpg", ".jpeg", ".webp", ".svg"]);
+
+const norm = (value: string) =>
+    value
+        .normalize("NFD")
+        .replace(/\p{M}/gu, "")
+        .replace(/\.mdx?$/i, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+
+const projectDirs = fs.existsSync(projectsRoot)
+    ? fs
+          .readdirSync(projectsRoot, { withFileTypes: true })
+          .filter((d) => d.isDirectory())
+          .map((d) => d.name)
+    : [];
+
+const findProjectDir = (title: string, slug: string) => {
+    const titleKey = norm(title);
+    const slugKey = norm(slug);
+    return (
+        projectDirs.find((dir) => {
+            const dirKey = norm(dir);
+            return dirKey === titleKey || dirKey === slugKey;
+        }) ?? null
+    );
+};
+
+const coverBySlug = new Map<string, string>();
+const preferredHomeCoverBySlug = new Map<string, string>([
+    ["nakagin-capsule", "cover.jpg"],
+]);
+for (const project of sortedProjects) {
+    const dir = findProjectDir(project.data.title, project.slug);
+    if (!dir) continue;
+    const projectDirPath = path.join(projectsRoot, dir);
+    const files = fs.readdirSync(projectDirPath);
+    const preferred = preferredHomeCoverBySlug.get(project.slug);
+    const cover =
+        (preferred && files.includes(preferred) && preferred) ||
+        files.find(
+            (f) =>
+                /^cover\./i.test(f) &&
+                imageExt.has(path.extname(f).toLowerCase()),
+        );
+    if (!cover) continue;
+    const coverPath = path.join(projectDirPath, cover);
+    const version = fs.statSync(coverPath).mtimeMs.toFixed(0);
+    coverBySlug.set(
+        project.slug,
+        `/projects/${encodeURIComponent(dir)}/${encodeURIComponent(cover)}?v=${version}`,
+    );
+}
+
+const thumbPositionBySlug = new Map<string, string>([
+    ["podcast", "50% 24%"],
+    ["entre-deux-corps", "50% 80%"],
+    ["nakagin-capsule", "50% 50%"],
+    ["structure-bois", "50% 60%"],
+    ["chatel", "50% 50%"],
+    ["festival--structure-temporaire", "50% 50%"],
+    ["avenue-daumesnil", "50% 50%"],
+    ["32-logements", "50% 68%"],
+    ["ecole-sad", "50% 34%"],
+    ["stage-simon-1", "50% 82%"],
+    ["stage-chantier", "50% 56%"],
+]);
+
+const thumbScaleBySlug = new Map<string, string>();
+const thumbClipBySlug = new Map<string, string>();
+const thumbFilterBySlug = new Map<string, string>();
+---
+
+<html lang={lang}>
+    <head>
+        <!-- Language before paint: follow the system language -->
+        <script is:inline>
+            (function () {
+                var lang = null;
+                try {
+                    lang = localStorage.getItem("lang");
+                } catch (e) {}
+                if (lang !== "fr" && lang !== "en") {
+                    var nav =
+                        (navigator.languages && navigator.languages[0]) ||
+                        navigator.language ||
+                        "";
+                    lang = /^fr/i.test(nav) ? "fr" : "en";
+                }
+                var target = lang === "fr" ? "/" : "/en";
+                if (location.pathname !== target) {
+                    location.replace(target);
+                }
+            })();
+        </script>
+        <Meta
+            title={t("meta.title")}
+            description={t("meta.description")}
+            lang={lang}
+            alternates={{ fr: "/", en: "/en" }}
+        />
+    </head>
+    <body
+        class="font-body min-h-screen bg-[var(--bg)] text-[var(--fg)] antialiased"
+    >
+        <header
+            id="top-nav"
+            class="top-nav fixed left-0 right-0 top-0 z-30 hidden px-6 py-4 md:px-12"
+        >
+            <div class="relative flex items-center justify-between">
+                <a href="#home" class="nav-logo inline-flex items-center">
+                    <img
+                        src="/favicon1.svg"
+                        alt="Logo Aliénor"
+                        class="nav-logo-img h-10 w-10 object-contain md:h-12 md:w-12"
+                    />
+                </a>
+                <nav class="absolute left-1/2 -translate-x-1/2">
+                    <ul
+                        class="flex items-center gap-6 text-sm uppercase tracking-[0.2em] md:gap-10"
+                    >
+                        <li>
+                            <a
+                                class="module-tab nav-item"
+                                data-target="profil"
+                                href="#profil">{t("nav.profil")}</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                class="module-tab nav-item"
+                                data-target="portfolio"
+                                href="#portfolio">{t("nav.portfolio")}</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                class="module-tab nav-item"
+                                data-target="contact"
+                                href="#contact">{t("nav.contact")}</a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+                <div class="theme-dock">
+                    <LanguageToggle lang={lang} />
+                    <ThemeToggle />
+                </div>
+            </div>
+        </header>
+
+        <main class="relative bg-[var(--bg)]">
+            <p
+                class="font-title fixed right-6 top-8 z-20 text-right text-base uppercase leading-none tracking-[0.08em] text-[var(--fg)] md:right-12 md:text-2xl"
+            >
+                Alienor du Parc
+            </p>
+
+            <section
+                id="home"
+                data-section="home"
+                class="relative flex min-h-screen flex-col items-center justify-center px-6 pb-14 text-center"
+            >
+                <div class="relative z-10 flex flex-col items-center gap-6">
+                    <img
+                        src="/favicon1.svg"
+                        alt="Logo Aliénor"
+                        class="logo-red h-[min(72vw,24rem)] w-[min(72vw,24rem)] object-contain md:h-[42rem] md:w-[42rem]"
+                    />
+                </div>
+                <nav
+                    id="home-nav"
+                    class="home-nav absolute bottom-8 left-0 right-0 z-20 px-6 md:px-12"
+                >
+                    <div class="relative flex items-center justify-between">
+                        <a
+                            href="#home"
+                            class="nav-logo inline-flex items-center"
+                        >
+                            <img
+                                src="/favicon1.svg"
+                                alt="Logo Aliénor"
+                                class="nav-logo-img h-10 w-10 object-contain md:h-12 md:w-12"
+                            />
+                        </a>
+                        <div class="absolute left-1/2 -translate-x-1/2">
+                            <ul
+                                class="flex items-center gap-6 text-sm uppercase tracking-[0.2em] md:gap-10"
+                            >
+                                <li>
+                                    <a
+                                        class="module-tab nav-item"
+                                        data-target="profil"
+                                        href="#profil">{t("nav.profil")}</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        class="module-tab nav-item"
+                                        data-target="portfolio"
+                                        href="#portfolio">{t("nav.portfolio")}</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        class="module-tab nav-item"
+                                        data-target="contact"
+                                        href="#contact">{t("nav.contact")}</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="theme-dock">
+                            <LanguageToggle lang={lang} />
+                            <ThemeToggle />
+                        </div>
+                    </div>
+                </nav>
+            </section>
+
+            <section
+                id="profil"
+                data-section="profil"
+                class="min-h-screen w-full px-6 py-24 md:px-12 md:pt-32"
+            >
+                <h2
+                    class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-[var(--fg)] md:text-6xl"
+                >
+                    {t("section.profil")}
+                </h2>
+                <div
+                    class="grid gap-8 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-start"
+                >
+                    <article id="formation-content" class="p-0">
+                        <h3
+                            class="m-0 font-title text-3xl uppercase tracking-[0.05em] text-[var(--fg)]"
+                        >
+                            {t("section.formation")}
+                        </h3>
+                        <div
+                            class="mt-4 space-y-5 text-sm leading-relaxed text-[var(--fg)]"
+                        >
+                            {
+                                formation[lang].map((entry) => (
+                                    <p>
+                                        <span class="formation-date"
+                                            >{entry.dates}</span
+                                        ><br />
+                                        {
+                                            entry.lines.map((line, index) => (
+                                                <>
+                                                    {index > 0 && <br />}
+                                                    {line}
+                                                </>
+                                            ))
+                                        }
+                                    </p>
+                                ))
+                            }
+                        </div>
+                    </article>
+
+                    <div class="flex items-start justify-center">
+                        <img
+                            id="profil-photo"
+                            src="/194135c7-391d-4556-9044-1ccea4404889.png"
+                            alt={t("profil.photoAlt")}
+                            class="w-full max-w-[300px] rounded-2xl object-cover md:w-[300px]"
+                        />
+                    </div>
+
+                    <article class="p-0">
+                        <h3
+                            class="m-0 font-title text-3xl uppercase tracking-[0.05em] text-[var(--fg)]"
+                        >
+                            {t("section.enBref")}
+                        </h3>
+                        <p
+                            class="mt-4 text-sm leading-relaxed text-[var(--fg)]"
+                            set:html={enBref[lang]}
+                        ></p>
+                    </article>
+                </div>
+            </section>
+
+            <section
+                id="portfolio"
+                data-section="portfolio"
+                class="min-h-screen w-full px-6 py-24 md:px-12 md:pt-32"
+            >
+                <h2
+                    class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-[var(--fg)] md:text-6xl"
+                >
+                    {t("section.portfolio")}
+                </h2>
+                <div class="space-y-4">
+                    {
+                        sortedProjects.map((project) => (
+                            (() => {
+                                const projectCover = coverBySlug.get(project.slug);
+                                const hideMobileCover = project.slug === "ivresse" && !projectCover;
+                                return (
+                            <a
+                                href={`/${lang === "en" ? "en/" : ""}post/${project.slug}`}
+                                class="project-row group grid grid-cols-1 items-stretch gap-0 overflow-hidden rounded-2xl transition-colors duration-200 lg:grid-cols-[38%_62%]"
+                            >
+                                <div class={`relative aspect-square w-full lg:aspect-[16/5] lg:h-full lg:w-full ${hideMobileCover ? "hidden lg:block" : ""}`}>
+                                    {
+                                        projectCover ? (
+                                            <img
+                                                src={projectCover}
+                                                alt={project.data.title}
+                                                class="h-full w-full object-cover"
+                                                style={`object-position: ${thumbPositionBySlug.get(project.slug) ?? "50% 50%"}; transform: scale(${thumbScaleBySlug.get(project.slug) ?? "1"}); transform-origin: center; clip-path: ${thumbClipBySlug.get(project.slug) ?? "inset(0 0 0 0)"}; filter: ${thumbFilterBySlug.get(project.slug) ?? "none"};`}
+                                            />
+                                        ) : (
+                                            <div class="h-full w-full" aria-hidden="true"></div>
+                                        )
+                                    }
+                                </div>
+                                <div class="flex h-full flex-col justify-center px-4 py-3 md:px-6 md:py-3">
+                                    <p class="text-xs uppercase tracking-[0.16em] opacity-75">
+                                        {dayjs(project.data.createdAt).format(
+                                            "MM/YYYY",
+                                        )}
+                                    </p>
+                                    <h3 class="font-title mt-1 text-2xl leading-tight md:text-3xl">
+                                        {project.data.title}
+                                    </h3>
+                                </div>
+                            </a>
+                                );
+                            })()
+                        ))
+                    }
+                </div>
+            </section>
+
+            <section
+                id="contact"
+                data-section="contact"
+                class="min-h-screen w-full px-6 py-24 md:px-12 md:pt-32"
+            >
+                <h2
+                    class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-[var(--fg)] md:text-6xl"
+                >
+                    {t("section.contact")}
+                </h2>
+                <div class="p-8 text-center">
+                    <p class="text-lg">
+                        {t("contact.emailLabel")} <a
+                            href="mailto:alienor@duparc.studio"
+                            class="font-semibold underline underline-offset-4"
+                            >alienor@duparc.studio</a
+                        >
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <script>
+            const topNav = document.getElementById("top-nav");
+            const homeNav = document.getElementById("home-nav");
+            const homeSection = document.getElementById("home");
+            const tabs =
+                document.querySelectorAll<HTMLAnchorElement>(".module-tab");
+            const contentSections = document.querySelectorAll<HTMLElement>(
+                "#profil, #portfolio, #contact",
+            );
+
+            const updateActiveTab = (currentId) => {
+                tabs.forEach((tab) => {
+                    const isActive = tab.dataset.target === currentId;
+                    tab.classList.toggle("font-bold", isActive);
+                    tab.classList.toggle("opacity-60", !isActive);
+                });
+            };
+
+            const updateTopNavVisibility = () => {
+                if (!topNav || !homeNav) return;
+                const rect = homeNav.getBoundingClientRect();
+                const dockLine = 10;
+                const showTop = rect.top <= dockLine;
+                topNav.classList.toggle("hidden", !showTop);
+                homeNav.classList.toggle("invisible", showTop);
+            };
+
+            const updateSectionFromScroll = () => {
+                const marker = window.innerHeight * 0.45;
+                let currentId = "";
+
+                contentSections.forEach((section) => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= marker && rect.bottom > marker) {
+                        currentId = section.id;
+                    }
+                });
+
+                updateActiveTab(currentId);
+            };
+
+            window.addEventListener("scroll", updateSectionFromScroll, {
+                passive: true,
+            });
+            window.addEventListener("resize", updateSectionFromScroll);
+            window.addEventListener("scroll", updateTopNavVisibility, {
+                passive: true,
+            });
+            window.addEventListener("resize", updateTopNavVisibility);
+            updateSectionFromScroll();
+            updateTopNavVisibility();
+
+            const formationContent =
+                document.getElementById("formation-content");
+            const profilPhoto = document.getElementById("profil-photo");
+
+            const alignProfilPhotoToFormation = () => {
+                if (!formationContent || !profilPhoto) return;
+                if (window.innerWidth < 768) {
+                    profilPhoto.style.height = "auto";
+                    return;
+                }
+                profilPhoto.style.height = `${formationContent.getBoundingClientRect().height}px`;
+            };
+
+            alignProfilPhotoToFormation();
+            window.addEventListener("resize", alignProfilPhotoToFormation);
+            if (formationContent) {
+                new ResizeObserver(alignProfilPhotoToFormation).observe(
+                    formationContent,
+                );
+            }
+        </script>
+
+        <style>
+            html {
+                scroll-behavior: smooth;
+            }
+
+            .module-tab {
+                color: var(--fg);
+                transition: opacity 180ms ease;
+            }
+
+            .nav-item {
+                transition:
+                    opacity 180ms ease,
+                    font-weight 180ms ease,
+                    color 180ms ease;
+            }
+
+            .nav-item:hover {
+                font-weight: 700;
+                color: var(--fg);
+            }
+
+            .nav-logo {
+                transition:
+                    opacity 180ms ease,
+                    transform 180ms ease;
+                opacity: 0.86;
+            }
+
+            .nav-logo:hover {
+                opacity: 1;
+                transform: translateY(-1px);
+            }
+
+            .nav-logo-img {
+                filter: var(--logo-filter);
+            }
+
+            .top-nav {
+                position: fixed;
+                background: linear-gradient(
+                    to bottom,
+                    rgb(var(--bg-rgb) / 1) 0%,
+                    rgb(var(--bg-rgb) / 1) 64%,
+                    rgb(var(--bg-rgb) / 0.9) 74%,
+                    rgb(var(--bg-rgb) / 0.74) 82%,
+                    rgb(var(--bg-rgb) / 0.52) 89%,
+                    rgb(var(--bg-rgb) / 0.28) 95%,
+                    rgb(var(--bg-rgb) / 0) 100%
+                );
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                min-height: 48px;
+            }
+
+            .top-nav::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: -34px;
+                background-image: radial-gradient(
+                    rgba(255, 255, 255, 0.025) 0.7px,
+                    transparent 0.7px
+                );
+                background-size: 3px 3px;
+                opacity: 0.35;
+                pointer-events: none;
+            }
+
+            .project-row {
+                background-color: var(--panel-bg);
+                color: var(--fg);
+            }
+
+            .project-row:hover {
+                background-color: var(--panel-active-bg);
+                color: var(--panel-active-fg);
+            }
+
+            .logo-red {
+                filter: var(--logo-filter);
+            }
+
+            .formation-date {
+                font-size: 0.68rem;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                color: var(--fg-88);
+            }
+
+            @media (max-width: 767px) {
+                #home,
+                #profil,
+                #portfolio,
+                #contact {
+                    min-height: 100svh;
+                }
+
+                #home-nav {
+                    bottom: max(0.75rem, env(safe-area-inset-bottom));
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                }
+
+                #home-nav .relative,
+                #top-nav .relative {
+                    justify-content: center;
+                }
+
+                #home-nav .nav-logo,
+                #top-nav .nav-logo {
+                    display: none;
+                }
+
+                #home-nav .absolute,
+                #top-nav nav {
+                    position: static;
+                    transform: none;
+                }
+
+                #home-nav ul,
+                #top-nav ul {
+                    gap: 1rem;
+                    font-size: 0.68rem;
+                    letter-spacing: 0.14em;
+                }
+            }
+        </style>
+    </body>
+</html>

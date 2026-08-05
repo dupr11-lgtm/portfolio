@@ -4,21 +4,21 @@ import ThemeToggle from "@/components/theme-toggle.astro";
 import LanguageToggle from "@/components/language-toggle.astro";
 import { useTranslations } from "@/i18n/ui";
 
-const t = useTranslations("fr");
+const t = useTranslations("en");
 ---
 
-<html lang="fr">
+<html lang="en">
   <head>
     <Meta
       title="14 minutes et 16 heures | Aliénor du Parc"
       description={t("livre.description")}
-      lang="fr"
+      lang="en"
       alternates={{ fr: "/livre/ivresse", en: "/en/livre/ivresse" }}
     />
   </head>
   <body class="min-h-screen bg-[var(--bg)] text-[var(--fg)] antialiased">
     <main class="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-6 py-8 md:px-10 md:py-10">
-      <a href="/post/ivresse" class="mb-4 inline-block text-sm font-semibold underline underline-offset-4">
+      <a href="/en/post/ivresse" class="mb-4 inline-block text-sm font-semibold underline underline-offset-4">
         {t("livre.back")}
       </a>
       <h1 class="font-title mb-4 text-4xl uppercase tracking-[0.06em] md:text-5xl">14 minutes et 16 heures</h1>
@@ -31,7 +31,7 @@ const t = useTranslations("fr");
       </div>
     </main>
     <div class="theme-dock-fixed">
-      <LanguageToggle lang="fr" />
+      <LanguageToggle lang="en" />
       <ThemeToggle />
     </div>
   </body>

@@ -85,6 +85,7 @@ body {
   transform: translateY(-50%);
   display: flex;
   align-items: center;
+  gap: 0.75rem;
   z-index: 5;
 }
 
@@ -93,4 +94,7 @@ body {
   right: 1.25rem;
   bottom: 1.25rem;
   z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }

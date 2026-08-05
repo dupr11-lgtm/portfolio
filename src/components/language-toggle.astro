@@ -1,0 +1,75 @@
+---
+import type { Lang } from "@/i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const path = Astro.url.pathname;
+
+const frHref =
+    path === "/" ? "/" : path.replace(/^\/en/, "") || "/";
+const enHref = path.startsWith("/en") ? path : `/en${path}`;
+---
+
+<div class="lang-toggle inline-flex items-center gap-1.5">
+    <a
+        href={frHref}
+        data-lang="fr"
+        class={`lang-btn ${lang === "fr" ? "lang-btn-active" : ""}`}
+        aria-label="Français"
+        title="Français"
+    >fr</a>
+    <a
+        href={enHref}
+        data-lang="en"
+        class={`lang-btn ${lang === "en" ? "lang-btn-active" : ""}`}
+        aria-label="English"
+        title="English"
+    >en</a>
+</div>
+
+<style>
+    .lang-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.25rem;
+        font-size: 0.72rem;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: 0.08em;
+        color: var(--fg);
+        opacity: 0.55;
+        text-decoration: none;
+        transition:
+            opacity 180ms ease,
+            color 180ms ease;
+    }
+
+    .lang-btn:hover {
+        opacity: 1;
+    }
+
+    .lang-btn.lang-btn-active {
+        opacity: 1;
+        color: var(--panel-active-bg);
+    }
+</style>
+
+<script>
+    document
+        .querySelectorAll<HTMLAnchorElement>(".lang-btn")
+        .forEach((btn) => {
+            btn.addEventListener("click", () => {
+                try {
+                    localStorage.setItem(
+                        "lang",
+                        btn.dataset.lang === "fr" ? "fr" : "en",
+                    );
+                } catch (e) {}
+            });
+        });
+</script>

@@ -1,16 +1,21 @@
 ---
 import "../styles/globals.css";
+import type { Lang } from "@/i18n/ui";
 
 interface Props {
   title: string;
   description: string;
   slug?: string;
+  lang: Lang;
+  alternates?: { fr: string; en: string };
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const defaultShareImage = new URL("/social-preview-v3.png?v=3", Astro.url);
 
-const { title, description, slug } = Astro.props;
+const { title, description, slug, lang, alternates } = Astro.props;
+const locale = lang === "fr" ? "fr_FR" : "en_US";
+const otherLocale = lang === "fr" ? "en_US" : "fr_FR";
 ---
 
 <!-- Global Metadata -->
@@ -49,6 +54,17 @@ const { title, description, slug } = Astro.props;
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
+<!-- Alternate languages -->
+{
+    alternates && (
+        <>
+            <link rel="alternate" hreflang="fr" href={new URL(alternates.fr, Astro.site)} />
+            <link rel="alternate" hreflang="en" href={new URL(alternates.en, Astro.site)} />
+            <link rel="alternate" hreflang="x-default" href={new URL(alternates.fr, Astro.site)} />
+        </>
+    )
+}
+
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
@@ -59,6 +75,8 @@ const { title, description, slug } = Astro.props;
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
+<meta property="og:locale" content={locale} />
+<meta property="og:locale:alternate" content={otherLocale} />
 <meta property="og:image" content={slug ? new URL(slug, Astro.url) : defaultShareImage} />
 <meta property="og:image:secure_url" content={slug ? new URL(slug, Astro.url) : defaultShareImage} />
 <meta property="og:image:type" content="image/png" />
