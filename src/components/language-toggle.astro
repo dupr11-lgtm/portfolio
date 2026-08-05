@@ -11,7 +11,11 @@ const path = Astro.url.pathname;
 
 const frHref =
     path === "/" ? "/" : path.replace(/^\/en/, "") || "/";
-const enHref = path.startsWith("/en") ? path : `/en${path}`;
+const enHref = path.startsWith("/en")
+    ? path
+    : path === "/"
+      ? "/en"
+      : `/en${path}`;
 ---
 
 <div class="lang-toggle inline-flex items-center gap-1.5">
