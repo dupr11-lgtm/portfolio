@@ -97,9 +97,11 @@ const thumbFilterBySlug = new Map<string, string>();
 
 <html lang={lang}>
     <head>
-        <!-- Language before paint: follow the system language -->
+        <!-- Language before paint: follow the system language from the root only -->
         <script is:inline>
             (function () {
+                var path = location.pathname.replace(/\/+$/, "") || "/";
+                if (path === "/en") return;
                 var lang = null;
                 try {
                     lang = localStorage.getItem("lang");
@@ -111,10 +113,8 @@ const thumbFilterBySlug = new Map<string, string>();
                         "";
                     lang = /^fr/i.test(nav) ? "fr" : "en";
                 }
-                var target = lang === "fr" ? "/" : "/en";
-                var path = location.pathname.replace(/\/+$/, "") || "/";
-                if (path !== target) {
-                    location.replace(target);
+                if (lang === "en") {
+                    location.replace("/en");
                 }
             })();
         </script>
