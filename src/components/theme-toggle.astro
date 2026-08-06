@@ -74,6 +74,7 @@ import { MoonIcon, SunIcon } from "@lucide/astro";
                         active ? "true" : "false",
                     );
                 });
+            window.__applyFavicon?.(theme);
         };
 
         const currentTheme = () => {
