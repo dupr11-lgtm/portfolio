@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import Meta from "@/components/meta.astro";
 import ThemeToggle from "@/components/theme-toggle.astro";
 import LanguageToggle from "@/components/language-toggle.astro";
+import Starburst from "@/components/starburst.astro";
 import { useTranslations, type Lang } from "@/i18n/ui";
 import { StarIcon } from "@lucide/astro";
 import fs from "node:fs";
@@ -159,7 +160,6 @@ const podcastThumbFile =
         : null;
 const podcastThumbUrl = podcastThumbFile ? toImageUrl(podcastThumbFile) : null;
 
-const popColors = ["yellow", "pink", "cyan", "red"] as const;
 const metaTags = post.data.description
     .replace(/\.$/, "")
     .split(" - ")
@@ -193,20 +193,21 @@ const { Content } = await post.render();
                 <img src="/favicon1.svg" alt="Logo Aliénor" class="logo-light h-10 w-10 object-contain md:h-12 md:w-12" />
             </a>
             <div class="w-full flex flex-col space-y-10">
-                <div class="w-full flex flex-col space-y-6 pb-4">
-                    <h1 class="font-title max-w-5xl text-5xl leading-[0.9] text-[var(--fg)] md:text-8xl">
+                <div class="relative w-full flex flex-col space-y-6 pb-4">
+                    <Starburst class="burst-spin pointer-events-none absolute -right-10 -top-16 z-0 h-40 w-40 md:-right-16 md:h-72 md:w-72" />
+                    <h1 class="font-title relative z-10 text-[15vw] leading-[0.8] text-[var(--fg)] md:text-[8.5rem]">
                         {post.data.title}
                     </h1>
                     {
                         post.slug === "podcast" && (
-                            <p class="font-script text-3xl text-[var(--fg-85)] md:text-4xl">
+                            <p class="font-wide relative z-10 text-sm text-[var(--red)] md:text-base">
                                 Double Vision : Architecture Abroad
                             </p>
                         )
                     }
                     {
                         post.slug === "ivresse" && (
-                            <p class="font-script text-3xl text-[var(--accent)] md:text-4xl">
+                            <p class="font-wide relative z-10 text-sm text-[var(--accent)] md:text-base">
                                 <a
                                     href={lang === "en" ? "/en/livre/ivresse" : "/livre/ivresse"}
                                     class="inline-flex items-center gap-1"
@@ -221,9 +222,12 @@ const { Content } = await post.render();
                         <div
                             class="flex items-center flex-wrap gap-y-2 text-sm text-[var(--fg-80)] md:text-base"
                         >
-                            <span class="flex flex-wrap items-center gap-2">
+                            <span class="grid grid-cols-2 gap-x-8 gap-y-3 md:flex md:flex-wrap md:gap-x-12">
                                 {metaTags.map((tag, index) => (
-                                    <span class={`sticker sticker-${popColors[index % popColors.length]} ${index % 2 ? "rotate-1" : "-rotate-1"}`}>{tag}</span>
+                                    <span class="flex flex-col gap-1">
+                                        <span class="font-wide text-[0.6rem] text-[var(--red)]">{String(index + 1).padStart(2, "0")}</span>
+                                        <span class="font-wide text-[0.7rem] leading-tight md:text-xs">{tag}</span>
+                                    </span>
                                 ))}
                             </span>
                             {
@@ -271,14 +275,14 @@ const { Content } = await post.render();
                         <img
                             src={toImageUrl(coverImage)}
                             alt={`${post.data.title} ${t("post.coverAlt")}`}
-                            class="post-image post-media rounded-[1.75rem] cursor-zoom-in"
+                            class="post-image post-media rounded-[1.5rem] cursor-zoom-in"
                             style={`object-position: ${getImagePosition(coverImage)};`}
                         />
                     )
                 }
                 {
                     post.slug === "podcast" && podcastAudioUrl && (
-                        <section id="podcast-panel" class="podcast-panel rounded-[1.75rem] border border-[var(--border-20)] px-3 py-2 md:px-4 md:py-2.5">
+                        <section id="podcast-panel" class="podcast-panel rounded-[1.5rem] border border-[var(--border-20)] px-3 py-2 md:px-4 md:py-2.5">
                             <audio id="podcast-audio" src={podcastAudioUrl} preload="auto"></audio>
                             <div class="relative flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-[var(--fg-70)]">
                                 <div class="flex min-w-0 items-center gap-2 pr-10">
@@ -343,7 +347,7 @@ const { Content } = await post.render();
                                 <img
                                     src={toImageUrl(image)}
                                     alt={`${post.data.title} image`}
-                                    class={`post-image post-media rounded-[1.75rem] cursor-zoom-in ${isOriginalFormatImage(image) ? "post-media-original" : ""} ${isTopAlignedOriginalImage(image) ? "post-media-original-top" : ""}`}
+                                    class={`post-image post-media rounded-[1.5rem] cursor-zoom-in ${isOriginalFormatImage(image) ? "post-media-original" : ""} ${isTopAlignedOriginalImage(image) ? "post-media-original-top" : ""}`}
                                     style={`object-position: ${getImagePosition(image)};${getImageTransform(image) ? ` transform: ${getImageTransform(image)};` : ""}`}
                                     loading="lazy"
                                 />
@@ -354,7 +358,7 @@ const { Content } = await post.render();
                 {
                     hasFestivalMosaic && (
                         <section class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                            <div class="festival-half-frame rounded-[1.75rem]">
+                            <div class="festival-half-frame rounded-[1.5rem]">
                                 <img
                                     src={toImageUrl(festivalMosaicLeft ?? "")}
                                     alt={`${post.data.title} image`}
@@ -364,7 +368,7 @@ const { Content } = await post.render();
                             </div>
                             <div class="grid grid-cols-1 gap-4">
                                 {festivalMosaicRight.map((image) => (
-                                    <div class="festival-half-frame rounded-[1.75rem]">
+                                    <div class="festival-half-frame rounded-[1.5rem]">
                                         <img
                                             src={toImageUrl(image)}
                                             alt={`${post.data.title} image`}
@@ -772,7 +776,23 @@ const { Content } = await post.render();
             }
 
             :global(.prose img) {
-                border-radius: 1.75rem;
+                border-radius: 1.5rem;
+            }
+
+            .burst-spin {
+                animation: burstSpin 40s linear infinite;
+            }
+
+            @keyframes burstSpin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .burst-spin {
+                    animation: none;
+                }
             }
 
             :global(.post-body) {
@@ -781,11 +801,13 @@ const { Content } = await post.render();
             }
 
             :global(.post-body h2) {
-                font-family: "Bricolage Grotesque", "Inter", sans-serif;
-                font-weight: 800;
-                font-size: 2rem;
-                line-height: 1;
-                letter-spacing: -0.03em;
+                font-family: "Archivo", "Inter", sans-serif;
+                font-weight: 900;
+                font-stretch: 62%;
+                text-transform: uppercase;
+                font-size: 3rem;
+                line-height: 0.85;
+                letter-spacing: -0.01em;
                 margin-top: 2.5em;
                 margin-bottom: 0.75em;
             }

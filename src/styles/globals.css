@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Inter:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -10,66 +10,65 @@
 
 :root {
   color-scheme: light;
-  --bg: #F9FAF7;
-  --bg-rgb: 249 250 247;
-  --bg-95: rgba(249, 250, 247, 0.95);
-  --bg-85: rgba(249, 250, 247, 0.85);
-  --fg: #2F4A6D;
-  --fg-rgb: 47 74 109;
-  --fg-95: rgba(47, 74, 109, 0.95);
-  --fg-90: rgba(47, 74, 109, 0.9);
-  --fg-88: rgba(47, 74, 109, 0.88);
-  --fg-85: rgba(47, 74, 109, 0.85);
-  --fg-80: rgba(47, 74, 109, 0.8);
-  --fg-70: rgba(47, 74, 109, 0.7);
-  --border-20: rgba(47, 74, 109, 0.2);
-  --border-25: rgba(47, 74, 109, 0.25);
-  --accent: #E53935;
-  --panel-bg: rgba(47, 74, 109, 0.08);
-  --panel-active-bg: #2F4A6D;
-  --panel-active-fg: #F9FAF7;
-  --track-empty: rgba(47, 74, 109, 0.2);
-  --track-filled: #2F4A6D;
-  --track-empty-active: rgba(249, 250, 247, 0.34);
-  --track-filled-active: #F9FAF7;
-  --pop-red: #E53935;
-  --pop-yellow: #EFEA4F;
-  --pop-pink: #FF4FA3;
-  --pop-cyan: #A6EDE6;
-  --pop-ink: #2F4A6D;
-  --logo-filter: brightness(0) saturate(100%) invert(27%) sepia(24%)
-    saturate(879%) hue-rotate(174deg) brightness(94%) contrast(90%);
+  --bg: #F1EFE8;
+  --bg-rgb: 241 239 232;
+  --bg-95: rgba(241, 239, 232, 0.95);
+  --bg-85: rgba(241, 239, 232, 0.85);
+  --fg: #111111;
+  --fg-rgb: 17 17 17;
+  --fg-95: rgba(17, 17, 17, 0.95);
+  --fg-90: rgba(17, 17, 17, 0.9);
+  --fg-88: rgba(17, 17, 17, 0.88);
+  --fg-85: rgba(17, 17, 17, 0.85);
+  --fg-80: rgba(17, 17, 17, 0.8);
+  --fg-70: rgba(17, 17, 17, 0.7);
+  --border-20: rgba(17, 17, 17, 0.2);
+  --border-25: rgba(17, 17, 17, 0.25);
+  --accent: #E8321E;
+  --acid: #EDE12A;
+  --red: #E8321E;
+  --lime: #B8D430;
+  --ink: #111111;
+  --paper: #F1EFE8;
+  --panel-bg: rgba(17, 17, 17, 0.07);
+  --panel-active-bg: #111111;
+  --panel-active-fg: #EDE12A;
+  --track-empty: rgba(17, 17, 17, 0.2);
+  --track-filled: #111111;
+  --track-empty-active: rgba(237, 225, 42, 0.34);
+  --track-filled-active: #EDE12A;
+  --logo-filter: brightness(0);
 }
 
 :root.theme-dark {
   color-scheme: dark;
-  --bg: #2F4A6D;
-  --bg-rgb: 47 74 109;
-  --bg-95: rgba(47, 74, 109, 0.95);
-  --bg-85: rgba(47, 74, 109, 0.85);
-  --fg: #F9FAF7;
-  --fg-rgb: 249 250 247;
-  --fg-95: rgba(249, 250, 247, 0.95);
-  --fg-90: rgba(249, 250, 247, 0.9);
-  --fg-88: rgba(249, 250, 247, 0.88);
-  --fg-85: rgba(249, 250, 247, 0.85);
-  --fg-80: rgba(249, 250, 247, 0.8);
-  --fg-70: rgba(249, 250, 247, 0.7);
-  --border-20: rgba(249, 250, 247, 0.2);
-  --border-25: rgba(249, 250, 247, 0.25);
-  --accent: #FF6B68;
-  --panel-bg: rgba(249, 250, 247, 0.08);
-  --panel-active-bg: #F9FAF7;
-  --panel-active-fg: #2F4A6D;
-  --track-empty: rgba(249, 250, 247, 0.2);
-  --track-filled: #F9FAF7;
-  --track-empty-active: rgba(47, 74, 109, 0.34);
-  --track-filled-active: #2F4A6D;
-  --pop-red: #FF5A52;
-  --pop-yellow: #EFEA4F;
-  --pop-pink: #FF6FB5;
-  --pop-cyan: #A6EDE6;
-  --pop-ink: #2F4A6D;
+  --bg: #0F0F0F;
+  --bg-rgb: 15 15 15;
+  --bg-95: rgba(15, 15, 15, 0.95);
+  --bg-85: rgba(15, 15, 15, 0.85);
+  --fg: #F1EFE8;
+  --fg-rgb: 241 239 232;
+  --fg-95: rgba(241, 239, 232, 0.95);
+  --fg-90: rgba(241, 239, 232, 0.9);
+  --fg-88: rgba(241, 239, 232, 0.88);
+  --fg-85: rgba(241, 239, 232, 0.85);
+  --fg-80: rgba(241, 239, 232, 0.8);
+  --fg-70: rgba(241, 239, 232, 0.7);
+  --border-20: rgba(241, 239, 232, 0.2);
+  --border-25: rgba(241, 239, 232, 0.25);
+  --accent: #FF4A33;
+  --acid: #EDE12A;
+  --red: #FF4A33;
+  --lime: #B8D430;
+  --ink: #111111;
+  --paper: #F1EFE8;
+  --panel-bg: rgba(241, 239, 232, 0.08);
+  --panel-active-bg: #EDE12A;
+  --panel-active-fg: #111111;
+  --track-empty: rgba(241, 239, 232, 0.2);
+  --track-filled: #F1EFE8;
+  --track-empty-active: rgba(17, 17, 17, 0.3);
+  --track-filled-active: #111111;
   --logo-filter: brightness(0) invert(1);
 }
 
@@ -81,18 +80,49 @@ body {
 }
 
 .font-title {
-  font-family: "Bricolage Grotesque", "Inter", sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  font-variation-settings: "opsz" 96;
-}
-
-.font-script {
-  font-family: "Instrument Serif", serif;
-  font-style: italic;
-  font-weight: 400;
+  font-family: "Archivo", "Inter", sans-serif;
+  font-weight: 900;
+  font-stretch: 62%;
+  text-transform: uppercase;
   letter-spacing: -0.01em;
 }
+
+.font-wide {
+  font-family: "Archivo", "Inter", sans-serif;
+  font-weight: 800;
+  font-stretch: 125%;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+/* Photo en bichromie tramée : noir sur une couleur, trame par-dessus */
+.duo {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.duo img {
+  filter: grayscale(1) contrast(1.35) brightness(1.05);
+  mix-blend-mode: multiply;
+  transition: filter 400ms ease, transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.duo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(17, 17, 17, 0.42) 0.9px, transparent 1.3px);
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  transition: opacity 400ms ease;
+}
+
+.duo-acid { background: var(--acid); }
+.duo-red { background: var(--red); }
+.duo-lime { background: var(--lime); }
+.duo-paper { background: var(--paper); }
 
 .font-body {
   font-family: "Inter", sans-serif;
@@ -119,19 +149,3 @@ body {
   gap: 0.75rem;
 }
 
-.sticker {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-  border-radius: 999px;
-  padding: 0.35em 0.9em;
-  font-weight: 600;
-  line-height: 1.1;
-  color: var(--pop-ink);
-  max-width: 100%;
-}
-
-.sticker-red { background: var(--pop-red); color: #F9FAF7; }
-.sticker-yellow { background: var(--pop-yellow); }
-.sticker-pink { background: var(--pop-pink); color: #F9FAF7; }
-.sticker-cyan { background: var(--pop-cyan); }

@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import Meta from "@/components/meta.astro";
 import ThemeToggle from "@/components/theme-toggle.astro";
 import LanguageToggle from "@/components/language-toggle.astro";
+import Starburst from "@/components/starburst.astro";
 import { useTranslations, formation, enBref, type Lang } from "@/i18n/ui";
 import dayjs from "dayjs";
 import fs from "node:fs";
@@ -76,7 +77,7 @@ for (const project of sortedProjects) {
     );
 }
 
-const popColors = ["yellow", "pink", "cyan", "red"] as const;
+const posterColors = ["acid", "red", "paper", "lime"] as const;
 ---
 
 <html lang={lang}>
@@ -125,7 +126,7 @@ const popColors = ["yellow", "pink", "cyan", "red"] as const;
                     />
                 </a>
                 <nav class="absolute left-1/2 -translate-x-1/2">
-                    <ul class="nav-pills flex items-center gap-1 text-sm font-semibold md:gap-2">
+                    <ul class="flex items-center gap-1 font-wide text-[0.65rem] md:gap-2 md:text-xs">
                         <li>
                             <a
                                 class="module-tab nav-item"
@@ -160,41 +161,32 @@ const popColors = ["yellow", "pink", "cyan", "red"] as const;
             <section
                 id="home"
                 data-section="home"
-                class="relative flex min-h-[92svh] flex-col justify-center px-5 pb-28 pt-20 md:px-12"
+                class="poster-hero relative flex min-h-[100svh] flex-col px-4 pb-28 pt-5 md:px-8"
             >
-                <svg
-                    class="sparkle sparkle-spin pointer-events-none absolute right-[6%] top-[12%] h-28 w-28 md:h-52 md:w-52"
-                    viewBox="0 0 100 100"
-                    aria-hidden="true"
-                >
-                    <path d="M50 0C54 34 66 46 100 50C66 54 54 66 50 100C46 66 34 54 0 50C34 46 46 34 50 0Z" fill="var(--pop-red)" />
-                </svg>
-                <svg
-                    class="sparkle pointer-events-none absolute bottom-[26%] right-[22%] hidden h-14 w-14 md:block"
-                    viewBox="0 0 100 100"
-                    aria-hidden="true"
-                >
-                    <path d="M50 0C54 34 66 46 100 50C66 54 54 66 50 100C46 66 34 54 0 50C34 46 46 34 50 0Z" fill="var(--pop-pink)" />
-                </svg>
-                <div class="relative z-10 flex flex-col gap-6">
+                <div class="relative z-10 flex items-start justify-between gap-6 font-wide text-[0.65rem] leading-tight md:text-xs">
+                    <p>{t("meta.description")}<br />{t("hero.tagline")}</p>
+                    <p class="text-right">duparc.studio<br />2021-2025</p>
+                </div>
+                <div class="relative flex flex-1 flex-col justify-center">
+                    <Starburst style="--burst-y: -50%" class="burst-spin pointer-events-none absolute left-[38%] top-1/2 z-0 h-[62vw] w-[62vw] -translate-y-1/2 md:left-[42%] md:h-[44vw] md:w-[44vw]" />
+                    <h1 class="font-title relative z-10 text-[27vw] leading-[0.8] md:text-[21vw]">
+                        <span class="block">Aliénor</span>
+                        <span class="block pl-[9vw]">du Parc</span>
+                    </h1>
+                </div>
+                <div class="relative z-10 mb-4 flex items-end justify-between gap-6">
                     <img
                         src="/favicon1.svg"
                         alt="Logo Aliénor"
-                        class="logo-red h-16 w-16 object-contain md:h-20 md:w-20"
+                        class="logo-red h-14 w-14 object-contain md:h-20 md:w-20"
                     />
-                    <h1 class="font-title text-[19vw] leading-[0.82] text-[var(--fg)] md:text-[12vw]">
-                        Aliénor<br />
-                        <span class="font-script text-[0.9em] leading-none">du</span> Parc
-                    </h1>
-                    <div class="mt-2 flex flex-wrap items-center gap-3 text-sm md:text-lg">
-                        <span class="sticker sticker-yellow -rotate-3">{t("hero.tagline")}</span>
-                        <span class="sticker sticker-pink rotate-2">{sortedProjects.length} {t("hero.projects")}</span>
-                        <span class="sticker sticker-cyan -rotate-1">FR · EN</span>
-                    </div>
+                    <p class="font-title text-right text-7xl leading-[0.8] text-[var(--red)] md:text-[10rem]">
+                        {String(sortedProjects.length).padStart(2, "0")}<span class="font-wide ml-2 align-top text-xs text-[var(--ink)] md:text-sm">{t("hero.projects")}</span>
+                    </p>
                 </div>
                 <nav
                     id="home-nav"
-                    class="home-nav absolute bottom-8 left-0 right-0 z-20 px-5 md:px-12"
+                    class="home-nav absolute bottom-6 left-0 right-0 z-20 px-4 md:px-8"
                 >
                     <div class="relative flex items-center justify-between">
                         <a
@@ -204,11 +196,11 @@ const popColors = ["yellow", "pink", "cyan", "red"] as const;
                             <img
                                 src="/favicon1.svg"
                                 alt="Logo Aliénor"
-                                class="nav-logo-img h-10 w-10 object-contain md:h-12 md:w-12"
+                                class="nav-logo-img h-9 w-9 object-contain md:h-10 md:w-10"
                             />
                         </a>
                         <div class="absolute left-1/2 -translate-x-1/2">
-                            <ul class="nav-pills flex items-center gap-1 text-sm font-semibold md:gap-2">
+                            <ul class="flex items-center gap-1 font-wide text-[0.65rem] md:gap-2 md:text-xs">
                                 <li>
                                     <a
                                         class="module-tab nav-item"
@@ -243,54 +235,55 @@ const popColors = ["yellow", "pink", "cyan", "red"] as const;
             <section
                 id="portfolio"
                 data-section="portfolio"
-                class="w-full px-5 py-20 md:px-12 md:py-28"
+                class="w-full px-4 py-20 md:px-8 md:py-28"
             >
-                <div class="mb-12 flex flex-wrap items-end gap-4">
-                    <h2 class="font-title text-6xl leading-[0.85] text-[var(--fg)] md:text-9xl">
-                        {t("section.portfolio")}
-                    </h2>
-                    <span class="sticker sticker-red mb-2 rotate-3 text-sm md:text-base">2021 → 2025</span>
-                </div>
-                <div class="columns-1 gap-5 sm:columns-2 lg:columns-3">
+                <h2 class="font-title mb-10 flex items-start text-[19vw] leading-[0.78] text-[var(--fg)] md:text-[16vw]">
+                    {t("section.portfolio")}
+                    <span class="font-wide ml-3 mt-[1.2vw] text-sm text-[var(--red)] md:text-xl">({sortedProjects.length})</span>
+                </h2>
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {
                         sortedProjects.map((project, index) => {
                             const projectCover = coverBySlug.get(project.slug);
-                            const color = popColors[index % popColors.length];
+                            const color = posterColors[index % posterColors.length];
                             return (
                                 <a
                                     href={`/${lang === "en" ? "en/" : ""}post/${project.slug}`}
-                                    class="project-card group mb-8 block break-inside-avoid"
+                                    class={`poster-card poster-${color} group relative flex flex-col overflow-hidden rounded-[1.5rem] p-3`}
                                 >
-                                    {projectCover ? (
-                                        <div class="overflow-hidden rounded-[1.75rem]">
+                                    <div class={`duo duo-${color} relative aspect-[4/3] w-full overflow-hidden rounded-[1rem]`}>
+                                        {projectCover ? (
                                             <img
                                                 src={projectCover}
                                                 alt={project.data.title}
                                                 loading="lazy"
-                                                class="project-card-img block h-auto w-full"
+                                                class="h-full w-full object-cover"
                                             />
-                                        </div>
-                                    ) : (
-                                        <div class={`flex aspect-[4/5] w-full flex-col items-center justify-center gap-5 rounded-[1.75rem] px-8 text-center sticker-${color}`}>
-                                            <img
-                                                src="/favicon1.svg"
-                                                alt=""
-                                                aria-hidden="true"
-                                                class="h-16 w-16 object-contain"
-                                                style="filter: brightness(0) saturate(100%) invert(27%) sepia(24%) saturate(879%) hue-rotate(174deg) brightness(94%) contrast(90%);"
-                                            />
-                                            <p class="font-script text-5xl leading-[0.95] text-[var(--pop-ink)]">
-                                                14 minutes et 16 heures
+                                        ) : (
+                                            <p class="font-title flex h-full items-center justify-center px-6 text-center text-6xl leading-[0.85]">
+                                                14 min<br />16 h
                                             </p>
+                                        )}
+                                        {index % 4 === 0 && (
+                                            <Starburst
+                                                class="burst-card pointer-events-none absolute -right-8 -top-8 z-10 h-32 w-32"
+                                                fill={color === "red" ? "var(--acid)" : "var(--red)"}
+                                            />
+                                        )}
+                                    </div>
+                                    <div class="flex flex-1 flex-col justify-between gap-6 px-1 pb-1 pt-4">
+                                        <div class="flex items-start justify-between gap-4 font-wide text-[0.65rem]">
+                                            <span>{String(index + 1).padStart(2, "0")}</span>
+                                            <span class="text-right">{project.data.description.replace(/\.$/, "")}</span>
                                         </div>
-                                    )}
-                                    <div class="mt-3 flex items-start justify-between gap-4 px-1">
-                                        <h3 class="font-title text-xl leading-[1.05] md:text-2xl">
-                                            {project.data.title}
-                                        </h3>
-                                        <span class={`sticker sticker-${color} shrink-0 text-xs tabular-nums`}>
-                                            {dayjs(project.data.createdAt).format("YYYY")}
-                                        </span>
+                                        <div class="flex items-end justify-between gap-3">
+                                            <h3 class="font-title text-4xl leading-[0.85] md:text-5xl">
+                                                {project.data.title}
+                                            </h3>
+                                            <span class="font-title shrink-0 text-3xl leading-[0.8] md:text-4xl">
+                                                {dayjs(project.data.createdAt).format("YY")}
+                                            </span>
+                                        </div>
                                     </div>
                                 </a>
                             );
@@ -302,20 +295,20 @@ const popColors = ["yellow", "pink", "cyan", "red"] as const;
             <section
                 id="profil"
                 data-section="profil"
-                class="w-full px-5 py-20 md:px-12 md:py-28"
+                class="w-full px-4 py-20 md:px-8 md:py-28"
             >
-                <h2 class="font-title mb-12 text-6xl leading-[0.85] text-[var(--fg)] md:text-9xl">
+                <h2 class="font-title mb-12 text-[22vw] leading-[0.78] text-[var(--fg)] md:text-[16vw]">
                     {t("section.profil")}
                 </h2>
                 <div
                     class="grid gap-10 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-start md:gap-12"
                 >
                     <article id="formation-content" class="p-0">
-                        <h3 class="m-0 font-title text-3xl text-[var(--fg)]">
+                        <h3 class="m-0 font-wide text-sm text-[var(--fg)]">
                             {t("section.formation")}
                         </h3>
                         <div
-                            class="mt-5 space-y-5 text-sm leading-relaxed text-[var(--fg)]"
+                            class="mt-5 space-y-5 text-sm leading-snug text-[var(--fg)]"
                         >
                             {
                                 formation[lang].map((entry) => (
@@ -338,23 +331,26 @@ const popColors = ["yellow", "pink", "cyan", "red"] as const;
                     </article>
 
                     <div class="relative flex items-start justify-center">
-                        <img
-                            id="profil-photo"
-                            src="/194135c7-391d-4556-9044-1ccea4404889.png"
-                            alt={t("profil.photoAlt")}
-                            class="w-full max-w-[300px] rounded-[2rem] object-cover md:w-[300px]"
+                        <div class="duo duo-red w-full max-w-[320px] overflow-hidden rounded-[1.5rem] md:w-[320px]">
+                            <img
+                                id="profil-photo"
+                                src="/194135c7-391d-4556-9044-1ccea4404889.png"
+                                alt={t("profil.photoAlt")}
+                                class="block w-full object-cover"
+                            />
+                        </div>
+                        <Starburst
+                            class="burst-spin pointer-events-none absolute -bottom-10 -right-6 h-28 w-28 md:-right-12"
+                            fill="var(--acid)"
                         />
-                        <span class="sticker sticker-yellow absolute -bottom-4 left-1/2 -translate-x-1/2 -rotate-6 text-sm md:text-base">
-                            Aliénor ✺
-                        </span>
                     </div>
 
                     <article class="p-0">
-                        <h3 class="m-0 font-title text-3xl text-[var(--fg)]">
+                        <h3 class="m-0 font-wide text-sm text-[var(--fg)]">
                             {t("section.enBref")}
                         </h3>
                         <p
-                            class="mt-5 text-sm leading-relaxed text-[var(--fg)]"
+                            class="mt-5 text-sm leading-snug text-[var(--fg)]"
                             set:html={enBref[lang]}
                         ></p>
                     </article>
@@ -364,23 +360,20 @@ const popColors = ["yellow", "pink", "cyan", "red"] as const;
             <section
                 id="contact"
                 data-section="contact"
-                class="w-full px-5 py-20 md:px-12 md:py-28"
+                class="w-full px-4 pb-8 pt-20 md:px-8 md:pt-28"
             >
-                <div class="contact-card relative overflow-hidden rounded-[2.5rem] px-6 py-14 md:px-14 md:py-24">
-                    <svg
-                        class="sparkle-spin pointer-events-none absolute -right-6 -top-6 h-32 w-32 md:h-56 md:w-56"
-                        viewBox="0 0 100 100"
-                        aria-hidden="true"
-                    >
-                        <path d="M50 0C54 34 66 46 100 50C66 54 54 66 50 100C46 66 34 54 0 50C34 46 46 34 50 0Z" fill="var(--pop-red)" />
-                    </svg>
-                    <h2 class="font-title relative text-6xl leading-[0.85] md:text-9xl">
+                <div class="contact-card relative overflow-hidden rounded-[2rem] px-5 pb-8 pt-6 md:px-10 md:pb-12 md:pt-10">
+                    <Starburst
+                        class="burst-spin pointer-events-none absolute -right-16 -top-16 h-64 w-64 md:h-[28rem] md:w-[28rem]"
+                        fill="var(--acid)"
+                    />
+                    <h2 class="font-title relative text-[24vw] leading-[0.78] md:text-[17vw]">
                         {t("section.contact")}
                     </h2>
                     <a
                         href="mailto:alienor@duparc.studio"
-                        class="contact-link font-script relative mt-8 inline-block break-all text-4xl md:text-7xl"
-                        >alienor@duparc.studio</a
+                        class="contact-link font-wide relative mt-8 inline-block break-all text-lg md:text-4xl"
+                        >alienor@duparc.studio ↗</a
                     >
                 </div>
             </section>
@@ -485,6 +478,10 @@ const popColors = ["yellow", "pink", "cyan", "red"] as const;
                 color: var(--bg);
             }
 
+            .poster-hero .nav-item.is-active {
+                color: var(--acid);
+            }
+
             .nav-logo {
                 transition:
                     opacity 180ms ease,
@@ -534,56 +531,80 @@ const popColors = ["yellow", "pink", "cyan", "red"] as const;
                 pointer-events: none;
             }
 
-            .project-card {
-                color: var(--fg);
-                transition: transform 260ms cubic-bezier(0.3, 1.4, 0.5, 1);
+            .poster-hero {
+                --fg: #111111;
+                --fg-70: rgba(17, 17, 17, 0.7);
+                --fg-80: rgba(17, 17, 17, 0.8);
+                --panel-bg: rgba(17, 17, 17, 0.1);
+                --logo-filter: brightness(0);
+                background: var(--acid);
+                color: var(--ink);
             }
 
-            .project-card:nth-child(odd):hover {
-                transform: translateY(-6px) rotate(-1.2deg);
+            .poster-card {
+                color: var(--ink);
+                transition: transform 300ms cubic-bezier(0.3, 1.5, 0.5, 1);
             }
 
-            .project-card:nth-child(even):hover {
-                transform: translateY(-6px) rotate(1.2deg);
+            .poster-acid { background: var(--acid); }
+            .poster-red { background: var(--red); }
+            .poster-paper { background: #E4E1D6; }
+            .poster-lime { background: var(--lime); }
+
+            .poster-card:hover {
+                transform: rotate(-1.5deg) scale(1.01);
             }
 
-            .project-card-img {
-                transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+            .poster-card:nth-child(even):hover {
+                transform: rotate(1.5deg) scale(1.01);
             }
 
-            .project-card:hover .project-card-img {
+            .poster-card:hover .duo img {
+                filter: none;
+                mix-blend-mode: normal;
                 transform: scale(1.04);
             }
 
+            .poster-card:hover .duo::after {
+                opacity: 0;
+            }
+
+            .burst-card {
+                transition: transform 500ms cubic-bezier(0.3, 1.5, 0.5, 1);
+            }
+
+            .poster-card:hover .burst-card {
+                transform: rotate(35deg) scale(1.15);
+            }
+
             .contact-card {
-                background: var(--pop-yellow);
-                color: var(--pop-ink);
+                background: var(--red);
+                color: var(--ink);
             }
 
             .contact-link {
-                color: var(--pop-ink);
                 text-decoration: underline;
                 text-decoration-thickness: 2px;
-                text-underline-offset: 0.12em;
+                text-underline-offset: 0.18em;
                 transition: color 180ms ease;
             }
 
             .contact-link:hover {
-                color: var(--pop-red);
+                color: var(--paper);
             }
 
-            .sparkle-spin {
-                animation: sparkleSpin 18s linear infinite;
+            .burst-spin {
+                animation: burstSpin 40s linear infinite;
             }
 
-            @keyframes sparkleSpin {
+            @keyframes burstSpin {
                 to {
-                    transform: rotate(360deg);
+                    transform: translateY(var(--burst-y, 0)) rotate(360deg);
                 }
             }
 
             @media (prefers-reduced-motion: reduce) {
-                .sparkle-spin {
+                .burst-spin {
                     animation: none;
                 }
             }
@@ -593,10 +614,12 @@ const popColors = ["yellow", "pink", "cyan", "red"] as const;
             }
 
             .formation-date {
-                font-size: 0.68rem;
-                letter-spacing: 0.16em;
+                font-family: "Archivo", "Inter", sans-serif;
+                font-weight: 800;
+                font-stretch: 125%;
+                font-size: 0.65rem;
                 text-transform: uppercase;
-                color: var(--fg-88);
+                color: var(--red);
             }
 
             @media (max-width: 767px) {
@@ -635,8 +658,13 @@ const popColors = ["yellow", "pink", "cyan", "red"] as const;
 
                 #home-nav ul,
                 #top-nav ul {
-                    gap: 0.125rem;
-                    font-size: 0.8rem;
+                    gap: 0;
+                    font-size: 0.58rem;
+                }
+
+                #home-nav .nav-item,
+                #top-nav .nav-item {
+                    padding: 0.4rem 0.5rem;
                 }
             }
         </style>
