@@ -21,10 +21,10 @@ const otherLocale = lang === "fr" ? "en_US" : "fr_FR";
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" href="/favicon.ico" sizes="any" />
-<link rel="icon" type="image/png" href="/favicon2.png" />
-<link rel="icon" type="image/svg+xml" href="/favicon-blue.svg" data-theme-fav />
-<link rel="apple-touch-icon" href="/favicon2.png" />
+<link rel="icon" href="/favicon.ico?v=5" sizes="any" />
+<link rel="icon" type="image/png" href="/favicon-riso.png" />
+<link rel="icon" type="image/svg+xml" href="/favicon-riso.svg" />
+<link rel="apple-touch-icon" href="/favicon-riso.png" />
 <meta name="generator" content={Astro.generator} />
 <link rel="sitemap" href="/sitemap.xml" />
 
@@ -43,14 +43,8 @@ const otherLocale = lang === "fr" ? "en_US" : "fr_FR";
                     : "light";
         }
         document.documentElement.classList.add("theme-" + theme);
-        window.__applyFavicon = function (t) {
-            var fav = document.querySelector('link[rel="icon"][data-theme-fav]');
-            if (fav) {
-                fav.href =
-                    t === "dark" ? "/favicon-white.svg" : "/favicon-blue.svg";
-            }
-        };
-        window.__applyFavicon(theme);
+        // L'icône a son propre fond violet : elle est la même en clair et en sombre
+        window.__applyFavicon = function () {};
     })();
 </script>
 
