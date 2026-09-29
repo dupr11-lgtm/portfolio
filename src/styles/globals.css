@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -71,7 +71,9 @@ body {
 }
 
 .font-title {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Inter Tight", "Inter", sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.025em;
 }
 
 .font-body {

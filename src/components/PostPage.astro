@@ -5,7 +5,6 @@ import ThemeToggle from "@/components/theme-toggle.astro";
 import LanguageToggle from "@/components/language-toggle.astro";
 import { useTranslations, type Lang } from "@/i18n/ui";
 import { StarIcon } from "@lucide/astro";
-import dayjs from "dayjs";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -178,29 +177,29 @@ const { Content } = await post.render();
     </head>
     <body class="font-body bg-[var(--bg)] text-[var(--fg)] antialiased">
         <main
-            class="w-full mx-auto md:max-w-4xl px-6 py-12 md:py-16 flex flex-col space-y-10"
+            class="w-full mx-auto max-w-6xl px-6 py-10 md:px-12 md:py-14 flex flex-col space-y-12"
         >
             <a
                 href={lang === "en" ? "/en" : "/"}
                 class="inline-flex items-center"
             >
-                <img src="/favicon1.svg" alt="Logo Aliénor" class="logo-light h-14 w-14 object-contain" />
+                <img src="/favicon1.svg" alt="Logo Aliénor" class="logo-light h-10 w-10 object-contain md:h-12 md:w-12" />
             </a>
-            <div class="w-full flex flex-col space-y-6">
-                <div class="w-full flex flex-col space-y-2 pb-6 border-b border-[var(--border-25)]">
-                    <h1 class="font-title text-5xl leading-none tracking-[0.04em] text-[var(--fg)] md:text-6xl">
+            <div class="w-full flex flex-col space-y-10">
+                <div class="w-full flex flex-col space-y-5 pb-8 border-b border-[var(--border-25)]">
+                    <h1 class="font-title max-w-4xl text-4xl leading-[1.02] text-[var(--fg)] md:text-7xl">
                         {post.data.title}
                     </h1>
                     {
                         post.slug === "podcast" && (
-                            <p class="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--fg-85)]">
-                                double vision : architecture abroad
+                            <p class="text-base font-medium text-[var(--fg-85)] md:text-lg">
+                                Double Vision : Architecture Abroad
                             </p>
                         )
                     }
                     {
                         post.slug === "ivresse" && (
-                            <p class="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--accent)]">
+                            <p class="text-base font-medium text-[var(--accent)] md:text-lg">
                                 <a
                                     href={lang === "en" ? "/en/livre/ivresse" : "/livre/ivresse"}
                                     class="inline-flex items-center gap-1"
@@ -213,23 +212,9 @@ const { Content } = await post.render();
                     }
                     <div class="flex items-center justify-between">
                         <div
-                            class="flex items-center flex-wrap text-sm font-semibold text-[var(--fg-80)]"
+                            class="flex items-center flex-wrap text-sm text-[var(--fg-80)] md:text-base"
                         >
-                            <span>
-                                <time
-                                    datetime={dayjs(post.data.createdAt).format(
-                                        "YYYY-MM-DD",
-                                    )}
-                                >
-                                    {
-                                        dayjs(post.data.createdAt).format(
-                                            "DD/MM/YYYY",
-                                        )
-                                    }
-                                </time>
-                            </span>
-                            <span>&nbsp;•&nbsp;</span>
-                            <span class="whitespace-nowrap">{post.data.author.name}</span>
+                            <span>{post.data.description.replace(/\.$/, "")}</span>
                             {
                                 post.data.contributors.length > 0 && (
                                     <>
@@ -275,7 +260,7 @@ const { Content } = await post.render();
                         <img
                             src={toImageUrl(coverImage)}
                             alt={`${post.data.title} ${t("post.coverAlt")}`}
-                            class="post-image post-media rounded-md cursor-zoom-in"
+                            class="post-image post-media rounded-sm cursor-zoom-in"
                             style={`object-position: ${getImagePosition(coverImage)};`}
                         />
                     )
@@ -336,7 +321,7 @@ const { Content } = await post.render();
                     )
                 }
                 <article
-                    class="prose prose-invert prose-pre:max-h-[600px] max-w-none text-justify hyphens-auto"
+                    class="post-body prose prose-invert prose-pre:max-h-[600px] max-w-2xl"
                 >
                     <Content />
                 </article>
@@ -347,7 +332,7 @@ const { Content } = await post.render();
                                 <img
                                     src={toImageUrl(image)}
                                     alt={`${post.data.title} image`}
-                                    class={`post-image post-media rounded-md cursor-zoom-in ${isOriginalFormatImage(image) ? "post-media-original" : ""} ${isTopAlignedOriginalImage(image) ? "post-media-original-top" : ""}`}
+                                    class={`post-image post-media rounded-sm cursor-zoom-in ${isOriginalFormatImage(image) ? "post-media-original" : ""} ${isTopAlignedOriginalImage(image) ? "post-media-original-top" : ""}`}
                                     style={`object-position: ${getImagePosition(image)};${getImageTransform(image) ? ` transform: ${getImageTransform(image)};` : ""}`}
                                     loading="lazy"
                                 />
@@ -358,7 +343,7 @@ const { Content } = await post.render();
                 {
                     hasFestivalMosaic && (
                         <section class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                            <div class="festival-half-frame rounded-md">
+                            <div class="festival-half-frame rounded-sm">
                                 <img
                                     src={toImageUrl(festivalMosaicLeft ?? "")}
                                     alt={`${post.data.title} image`}
@@ -368,7 +353,7 @@ const { Content } = await post.render();
                             </div>
                             <div class="grid grid-cols-1 gap-4">
                                 {festivalMosaicRight.map((image) => (
-                                    <div class="festival-half-frame rounded-md">
+                                    <div class="festival-half-frame rounded-sm">
                                         <img
                                             src={toImageUrl(image)}
                                             alt={`${post.data.title} image`}
@@ -776,7 +761,25 @@ const { Content } = await post.render();
             }
 
             :global(.prose img) {
-                border-radius: 0.375rem;
+                border-radius: 0.125rem;
+            }
+
+            :global(.post-body) {
+                font-size: 1.0625rem;
+                line-height: 1.75;
+            }
+
+            :global(.post-body h2) {
+                font-family: "Inter Tight", "Inter", sans-serif;
+                font-weight: 600;
+                font-size: 1.5rem;
+                letter-spacing: -0.02em;
+                margin-top: 2.5em;
+                margin-bottom: 0.75em;
+            }
+
+            :global(.post-body > h2:first-child) {
+                margin-top: 0;
             }
         </style>
     </body>

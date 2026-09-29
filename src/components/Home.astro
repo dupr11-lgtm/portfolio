@@ -89,10 +89,6 @@ const thumbPositionBySlug = new Map<string, string>([
     ["stage-simon-1", "50% 82%"],
     ["stage-chantier", "50% 56%"],
 ]);
-
-const thumbScaleBySlug = new Map<string, string>();
-const thumbClipBySlug = new Map<string, string>();
-const thumbFilterBySlug = new Map<string, string>();
 ---
 
 <html lang={lang}>
@@ -142,20 +138,20 @@ const thumbFilterBySlug = new Map<string, string>();
                 </a>
                 <nav class="absolute left-1/2 -translate-x-1/2">
                     <ul
-                        class="flex items-center gap-6 text-sm uppercase tracking-[0.2em] md:gap-10"
+                        class="flex items-center gap-6 text-sm md:gap-10"
                     >
-                        <li>
-                            <a
-                                class="module-tab nav-item"
-                                data-target="profil"
-                                href="#profil">{t("nav.profil")}</a
-                            >
-                        </li>
                         <li>
                             <a
                                 class="module-tab nav-item"
                                 data-target="portfolio"
                                 href="#portfolio">{t("nav.portfolio")}</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                class="module-tab nav-item"
+                                data-target="profil"
+                                href="#profil">{t("nav.profil")}</a
                             >
                         </li>
                         <li>
@@ -175,23 +171,25 @@ const thumbFilterBySlug = new Map<string, string>();
         </header>
 
         <main class="relative bg-[var(--bg)]">
-            <p
-                class="font-title fixed right-6 top-8 z-20 text-right text-base uppercase leading-none tracking-[0.08em] text-[var(--fg)] md:right-12 md:text-2xl"
-            >
-                Aliénor du Parc
-            </p>
-
             <section
                 id="home"
                 data-section="home"
-                class="relative flex min-h-screen flex-col items-center justify-center px-6 pb-14 text-center"
+                class="relative flex min-h-[82svh] flex-col justify-center px-6 pb-28 pt-24 md:px-12"
             >
-                <div class="relative z-10 flex flex-col items-center gap-6">
+                <div class="relative z-10 flex max-w-5xl flex-col gap-8">
                     <img
                         src="/favicon1.svg"
                         alt="Logo Aliénor"
-                        class="logo-red h-[min(72vw,24rem)] w-[min(72vw,24rem)] object-contain md:h-[42rem] md:w-[42rem]"
+                        class="logo-red h-20 w-20 object-contain md:h-24 md:w-24"
                     />
+                    <div>
+                        <h1 class="font-title text-6xl leading-[0.95] text-[var(--fg)] md:text-8xl lg:text-9xl">
+                            Aliénor du Parc
+                        </h1>
+                        <p class="mt-5 text-base text-[var(--fg-80)] md:text-xl">
+                            {t("hero.tagline")}
+                        </p>
+                    </div>
                 </div>
                 <nav
                     id="home-nav"
@@ -210,20 +208,20 @@ const thumbFilterBySlug = new Map<string, string>();
                         </a>
                         <div class="absolute left-1/2 -translate-x-1/2">
                             <ul
-                                class="flex items-center gap-6 text-sm uppercase tracking-[0.2em] md:gap-10"
+                                class="flex items-center gap-6 text-sm md:gap-10"
                             >
-                                <li>
-                                    <a
-                                        class="module-tab nav-item"
-                                        data-target="profil"
-                                        href="#profil">{t("nav.profil")}</a
-                                    >
-                                </li>
                                 <li>
                                     <a
                                         class="module-tab nav-item"
                                         data-target="portfolio"
                                         href="#portfolio">{t("nav.portfolio")}</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        class="module-tab nav-item"
+                                        data-target="profil"
+                                        href="#profil">{t("nav.profil")}</a
                                     >
                                 </li>
                                 <li>
@@ -244,26 +242,74 @@ const thumbFilterBySlug = new Map<string, string>();
             </section>
 
             <section
+                id="portfolio"
+                data-section="portfolio"
+                class="w-full border-t border-[var(--border-20)] px-6 py-20 md:px-12 md:py-28"
+            >
+                <h2 class="section-title font-title mb-12 text-4xl text-[var(--fg)] md:text-6xl">
+                    {t("section.portfolio")}
+                </h2>
+                <div class="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2">
+                    {
+                        sortedProjects.map((project) => {
+                            const projectCover = coverBySlug.get(project.slug);
+                            return (
+                                <a
+                                    href={`/${lang === "en" ? "en/" : ""}post/${project.slug}`}
+                                    class="project-card group flex flex-col gap-4"
+                                >
+                                    <div class="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-[var(--panel-bg)]">
+                                        {projectCover ? (
+                                            <img
+                                                src={projectCover}
+                                                alt={project.data.title}
+                                                loading="lazy"
+                                                class="project-card-img h-full w-full object-cover"
+                                                style={`object-position: ${thumbPositionBySlug.get(project.slug) ?? "50% 50%"};`}
+                                            />
+                                        ) : (
+                                            <div class="flex h-full w-full items-center justify-center">
+                                                <img
+                                                    src="/favicon1.svg"
+                                                    alt=""
+                                                    aria-hidden="true"
+                                                    class="logo-red h-16 w-16 object-contain opacity-60"
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div class="flex items-baseline justify-between gap-6">
+                                        <h3 class="font-title text-xl leading-snug md:text-2xl">
+                                            <span class="project-card-title">{project.data.title}</span>
+                                        </h3>
+                                        <p class="shrink-0 text-sm tabular-nums text-[var(--fg-70)]">
+                                            {dayjs(project.data.createdAt).format("YYYY")}
+                                        </p>
+                                    </div>
+                                </a>
+                            );
+                        })
+                    }
+                </div>
+            </section>
+
+            <section
                 id="profil"
                 data-section="profil"
-                class="min-h-screen w-full px-6 py-24 md:px-12 md:pt-32"
+                class="w-full border-t border-[var(--border-20)] px-6 py-20 md:px-12 md:py-28"
             >
-                <h2
-                    class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-[var(--fg)] md:text-6xl"
-                >
+                <h2 class="section-title font-title mb-12 text-4xl text-[var(--fg)] md:text-6xl">
                     {t("section.profil")}
                 </h2>
                 <div
-                    class="grid gap-8 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-start"
+                    class="grid gap-10 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-start md:gap-12"
                 >
                     <article id="formation-content" class="p-0">
-                        <h3
-                            class="m-0 font-title text-3xl uppercase tracking-[0.05em] text-[var(--fg)]"
-                        >
+                        <h3 class="m-0 font-title text-2xl text-[var(--fg)]">
                             {t("section.formation")}
                         </h3>
                         <div
-                            class="mt-4 space-y-5 text-sm leading-relaxed text-[var(--fg)]"
+                            class="mt-5 space-y-5 text-sm leading-relaxed text-[var(--fg)]"
                         >
                             {
                                 formation[lang].map((entry) => (
@@ -290,18 +336,16 @@ const thumbFilterBySlug = new Map<string, string>();
                             id="profil-photo"
                             src="/194135c7-391d-4556-9044-1ccea4404889.png"
                             alt={t("profil.photoAlt")}
-                            class="w-full max-w-[300px] rounded-2xl object-cover md:w-[300px]"
+                            class="w-full max-w-[300px] rounded-sm object-cover md:w-[300px]"
                         />
                     </div>
 
                     <article class="p-0">
-                        <h3
-                            class="m-0 font-title text-3xl uppercase tracking-[0.05em] text-[var(--fg)]"
-                        >
+                        <h3 class="m-0 font-title text-2xl text-[var(--fg)]">
                             {t("section.enBref")}
                         </h3>
                         <p
-                            class="mt-4 text-sm leading-relaxed text-[var(--fg)]"
+                            class="mt-5 text-sm leading-relaxed text-[var(--fg)]"
                             set:html={enBref[lang]}
                         ></p>
                     </article>
@@ -309,77 +353,18 @@ const thumbFilterBySlug = new Map<string, string>();
             </section>
 
             <section
-                id="portfolio"
-                data-section="portfolio"
-                class="min-h-screen w-full px-6 py-24 md:px-12 md:pt-32"
-            >
-                <h2
-                    class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-[var(--fg)] md:text-6xl"
-                >
-                    {t("section.portfolio")}
-                </h2>
-                <div class="space-y-4">
-                    {
-                        sortedProjects.map((project) => (
-                            (() => {
-                                const projectCover = coverBySlug.get(project.slug);
-                                const hideMobileCover = project.slug === "ivresse" && !projectCover;
-                                return (
-                            <a
-                                href={`/${lang === "en" ? "en/" : ""}post/${project.slug}`}
-                                class="project-row group grid grid-cols-1 items-stretch gap-0 overflow-hidden rounded-2xl transition-colors duration-200 lg:grid-cols-[38%_62%]"
-                            >
-                                <div class={`relative aspect-square w-full lg:aspect-[16/5] lg:h-full lg:w-full ${hideMobileCover ? "hidden lg:block" : ""}`}>
-                                    {
-                                        projectCover ? (
-                                            <img
-                                                src={projectCover}
-                                                alt={project.data.title}
-                                                class="h-full w-full object-cover"
-                                                style={`object-position: ${thumbPositionBySlug.get(project.slug) ?? "50% 50%"}; transform: scale(${thumbScaleBySlug.get(project.slug) ?? "1"}); transform-origin: center; clip-path: ${thumbClipBySlug.get(project.slug) ?? "inset(0 0 0 0)"}; filter: ${thumbFilterBySlug.get(project.slug) ?? "none"};`}
-                                            />
-                                        ) : (
-                                            <div class="h-full w-full" aria-hidden="true"></div>
-                                        )
-                                    }
-                                </div>
-                                <div class="flex h-full flex-col justify-center px-4 py-3 md:px-6 md:py-3">
-                                    <p class="text-xs uppercase tracking-[0.16em] opacity-75">
-                                        {dayjs(project.data.createdAt).format(
-                                            "MM/YYYY",
-                                        )}
-                                    </p>
-                                    <h3 class="font-title mt-1 text-2xl leading-tight md:text-3xl">
-                                        {project.data.title}
-                                    </h3>
-                                </div>
-                            </a>
-                                );
-                            })()
-                        ))
-                    }
-                </div>
-            </section>
-
-            <section
                 id="contact"
                 data-section="contact"
-                class="min-h-screen w-full px-6 py-24 md:px-12 md:pt-32"
+                class="flex min-h-[60svh] w-full flex-col border-t border-[var(--border-20)] px-6 py-20 md:px-12 md:py-28"
             >
-                <h2
-                    class="font-title mb-10 text-center text-5xl uppercase tracking-[0.08em] text-[var(--fg)] md:text-6xl"
-                >
+                <h2 class="section-title font-title mb-12 text-4xl text-[var(--fg)] md:text-6xl">
                     {t("section.contact")}
                 </h2>
-                <div class="p-8 text-center">
-                    <p class="text-lg">
-                        {t("contact.emailLabel")} <a
-                            href="mailto:alienor@duparc.studio"
-                            class="font-semibold underline underline-offset-4"
-                            >alienor@duparc.studio</a
-                        >
-                    </p>
-                </div>
+                <a
+                    href="mailto:alienor@duparc.studio"
+                    class="contact-link font-title w-fit break-all text-3xl md:text-6xl"
+                    >alienor@duparc.studio</a
+                >
             </section>
         </main>
 
@@ -390,7 +375,7 @@ const thumbFilterBySlug = new Map<string, string>();
             const tabs =
                 document.querySelectorAll<HTMLAnchorElement>(".module-tab");
             const contentSections = document.querySelectorAll<HTMLElement>(
-                "#profil, #portfolio, #contact",
+                "#portfolio, #profil, #contact",
             );
 
             const updateActiveTab = (currentId) => {
@@ -528,14 +513,40 @@ const thumbFilterBySlug = new Map<string, string>();
                 pointer-events: none;
             }
 
-            .project-row {
-                background-color: var(--panel-bg);
+            .project-card {
                 color: var(--fg);
             }
 
-            .project-row:hover {
-                background-color: var(--panel-active-bg);
-                color: var(--panel-active-fg);
+            .project-card-img {
+                transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+            }
+
+            .project-card:hover .project-card-img {
+                transform: scale(1.03);
+            }
+
+            .project-card-title {
+                background-image: linear-gradient(currentColor, currentColor);
+                background-size: 0% 1px;
+                background-repeat: no-repeat;
+                background-position: 0 100%;
+                transition: background-size 300ms ease;
+            }
+
+            .project-card:hover .project-card-title {
+                background-size: 100% 1px;
+            }
+
+            .contact-link {
+                color: var(--fg);
+                text-decoration: underline;
+                text-decoration-thickness: 1px;
+                text-underline-offset: 0.18em;
+                transition: opacity 180ms ease;
+            }
+
+            .contact-link:hover {
+                opacity: 0.7;
             }
 
             .logo-red {
@@ -550,11 +561,8 @@ const thumbFilterBySlug = new Map<string, string>();
             }
 
             @media (max-width: 767px) {
-                #home,
-                #profil,
-                #portfolio,
-                #contact {
-                    min-height: 100svh;
+                #home {
+                    min-height: 88svh;
                 }
 
                 #home-nav {
@@ -565,7 +573,14 @@ const thumbFilterBySlug = new Map<string, string>();
 
                 #home-nav .relative,
                 #top-nav .relative {
-                    justify-content: center;
+                    justify-content: space-between;
+                }
+
+                #home-nav .theme-dock,
+                #top-nav .theme-dock {
+                    position: static;
+                    transform: none;
+                    gap: 0.5rem;
                 }
 
                 #home-nav .nav-logo,
@@ -581,9 +596,8 @@ const thumbFilterBySlug = new Map<string, string>();
 
                 #home-nav ul,
                 #top-nav ul {
-                    gap: 1rem;
-                    font-size: 0.68rem;
-                    letter-spacing: 0.14em;
+                    gap: 1.25rem;
+                    font-size: 0.8rem;
                 }
             }
         </style>
