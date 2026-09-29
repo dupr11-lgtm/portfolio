@@ -19,7 +19,7 @@ export const ui = {
     "section.enBref": "En bref",
     "section.portfolio": "Portfolio",
     "section.contact": "Contact",
-    "profil.photoAlt": "Photo de profil d'Alienor",
+    "profil.photoAlt": "Photo de profil d’Aliénor",
     "contact.emailLabel": "email :",
     "post.with": "avec",
     "post.and": "et",
@@ -28,13 +28,13 @@ export const ui = {
     "post.podcast.seek": "Avancer ou reculer l'audio",
     "post.podcast.status": "Clique sur Play pour activer l'audio.",
     "post.podcast.blocked":
-      "Lecture bloquee par le navigateur. Reclique sur Play.",
+      "Lecture bloquée par le navigateur. Reclique sur Play.",
     "post.podcast.error":
       "Audio indisponible pour le moment. Recharge la page.",
     "post.podcast.artwork": "Miniature officielle",
-    "post.lightbox.prev": "Image precedente",
+    "post.lightbox.prev": "Image précédente",
     "post.lightbox.close": "Fermer",
-    "post.lightbox.rotate": "Rotation 90 degres",
+    "post.lightbox.rotate": "Rotation 90 degrés",
     "post.lightbox.next": "Image suivante",
     "post.lightbox.image": "Image agrandie",
     "post.imageAlt": "Image",
@@ -52,7 +52,7 @@ export const ui = {
     "section.enBref": "In short",
     "section.portfolio": "Portfolio",
     "section.contact": "Contact",
-    "profil.photoAlt": "Profile photo of Alienor",
+    "profil.photoAlt": "Profile photo of Aliénor",
     "contact.emailLabel": "email:",
     "post.with": "with",
     "post.and": "and",
@@ -82,7 +82,7 @@ const formationFr = [
     lines: ["Licence - École Spéciale d'Architecture, Paris"],
   },
   {
-    dates: "Octobre 2024 - Fevrier 2025",
+    dates: "Octobre 2024 - Février 2025",
     lines: ["Erasmus - State Academy of Fine Arts, Stuttgart"],
   },
   {
@@ -92,7 +92,7 @@ const formationFr = [
   {
     dates: "2020 - 2021",
     lines: [
-      "Baccalauréat - Lycee Saint-Jacques-de-Compostelle, Dax",
+      "Baccalauréat - Lycée Saint-Jacques-de-Compostelle, Dax",
       "Spécialités Histoire-Géographie-Géopolitique-Sciences politiques, Mathématiques",
     ],
   },
