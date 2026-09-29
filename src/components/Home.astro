@@ -4,6 +4,7 @@ import Meta from "@/components/meta.astro";
 import ThemeToggle from "@/components/theme-toggle.astro";
 import LanguageToggle from "@/components/language-toggle.astro";
 import Starburst from "@/components/starburst.astro";
+import Logo from "@/components/logo.astro";
 import DuotoneFilters from "@/components/duotone-filters.astro";
 import { themeForProject, duoFilter } from "@/components/poster-themes";
 import { useTranslations, formation, enBref, type Lang } from "@/i18n/ui";
@@ -79,16 +80,6 @@ for (const project of sortedProjects) {
     );
 }
 
-const marqueeWords = [
-    "Architecture",
-    "Bruxelles",
-    "Paris",
-    "Stuttgart",
-    "Porto",
-    "Montserrat",
-    "Châtellerault",
-    "Tokyo",
-];
 ---
 
 <html lang={lang}>
@@ -131,8 +122,7 @@ const marqueeWords = [
         >
             <div class="relative flex items-center justify-between">
                 <a href="#home" class="nav-logo inline-flex items-center">
-                    <Starburst fill="currentColor" class="nav-logo-mark h-10 w-10 md:h-12 md:w-12" />
-                    <span class="sr-only">Aliénor du Parc</span>
+                    <Logo withName />
                 </a>
                 <nav class="absolute left-1/2 -translate-x-1/2">
                     <ul class="flex items-center gap-1 font-wide text-[0.65rem] md:gap-2 md:text-xs">
@@ -170,7 +160,7 @@ const marqueeWords = [
             <section
                 id="home"
                 data-section="home"
-                class="poster-hero relative flex min-h-[100svh] flex-col px-4 pb-28 pt-5 md:px-8"
+                class="poster-hero sticky top-0 z-0 flex min-h-[100svh] flex-col px-4 pb-28 pt-5 md:px-8"
             >
                 <div class="relative z-10 flex items-start justify-between gap-6 font-wide text-[0.65rem] leading-tight md:text-xs">
                     <p>{t("meta.description")}<br />{t("hero.tagline")}</p>
@@ -187,8 +177,7 @@ const marqueeWords = [
                         <span class="block pl-[9vw]">du Parc</span>
                     </h1>
                 </div>
-                <div class="relative z-10 mb-4 flex items-end justify-between gap-6">
-                    <a href="#portfolio" class="font-wide text-[0.65rem] md:text-xs">↓ {t("section.portfolio")}</a>
+                <div class="relative z-10 mb-4 flex items-end justify-end gap-6">
                     <p class="font-title text-right text-7xl leading-[0.8] text-[var(--acid)] md:text-[10rem]">
                         {String(sortedProjects.length).padStart(2, "0")}<span class="font-wide ml-2 align-top text-xs text-[var(--ink)] md:text-sm">{t("hero.projects")}</span>
                     </p>
@@ -202,8 +191,7 @@ const marqueeWords = [
                             href="#home"
                             class="nav-logo inline-flex items-center"
                         >
-                            <Starburst fill="currentColor" class="nav-logo-mark h-9 w-9 md:h-10 md:w-10" />
-                            <span class="sr-only">Aliénor du Parc</span>
+                            <Logo withName />
                         </a>
                         <div class="absolute left-1/2 -translate-x-1/2">
                             <ul class="flex items-center gap-1 font-wide text-[0.65rem] md:gap-2 md:text-xs">
@@ -238,19 +226,7 @@ const marqueeWords = [
                 </nav>
             </section>
 
-            <div class="marquee border-y-2 border-[var(--ink)] bg-[var(--blue)] py-3 text-[var(--acid)]" aria-hidden="true">
-                <div class="marquee-track font-title text-5xl leading-none md:text-7xl">
-                    {[0, 1].map(() =>
-                        marqueeWords.map((word) => (
-                            <span class="flex items-center">
-                                <span class="px-5">{word}</span>
-                                <Starburst fill="var(--pink)" class="h-10 w-10 shrink-0 md:h-14 md:w-14" />
-                            </span>
-                        )),
-                    )}
-                </div>
-            </div>
-
+            <div id="sheet" class="sheet relative z-10 rounded-t-[2.5rem] bg-[var(--bg)] md:rounded-t-[3.5rem]">
             <section
                 id="portfolio"
                 data-section="portfolio"
@@ -417,6 +393,7 @@ const marqueeWords = [
                     >
                 </div>
             </section>
+            </div>
         </main>
 
         <script>
@@ -436,11 +413,12 @@ const marqueeWords = [
                 });
             };
 
+            const sheet = document.getElementById("sheet");
+
             const updateTopNavVisibility = () => {
-                if (!topNav || !homeNav) return;
-                const rect = homeNav.getBoundingClientRect();
-                const dockLine = 10;
-                const showTop = rect.top <= dockLine;
+                if (!topNav || !homeNav || !sheet) return;
+                // La barre du haut apparaît quand la feuille de contenu recouvre l'accueil
+                const showTop = sheet.getBoundingClientRect().top <= 72;
                 topNav.classList.toggle("hidden", !showTop);
                 homeNav.classList.toggle("invisible", showTop);
             };
@@ -538,13 +516,6 @@ const marqueeWords = [
                 color: var(--fg);
             }
 
-            .nav-logo-mark {
-                transition: transform 500ms cubic-bezier(0.3, 1.5, 0.5, 1);
-            }
-
-            .nav-logo:hover .nav-logo-mark {
-                transform: rotate(40deg);
-            }
 
             .top-nav {
                 position: fixed;
@@ -587,6 +558,33 @@ const marqueeWords = [
                 --logo-filter: brightness(0);
                 background: var(--violet);
                 color: var(--ink);
+            }
+
+            .sheet {
+                box-shadow: 0 -24px 60px rgb(0 0 0 / 0.18);
+            }
+
+            @supports (animation-timeline: scroll()) {
+                #home {
+                    transform-origin: 50% 0;
+                    animation: heroRecede linear both;
+                    animation-timeline: scroll(root);
+                    animation-range: 0 100svh;
+                }
+
+                @keyframes heroRecede {
+                    to {
+                        transform: scale(0.88);
+                        border-radius: 3rem;
+                        filter: brightness(0.7) saturate(1.3);
+                    }
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                #home {
+                    animation: none;
+                }
             }
 
             .poster-card {

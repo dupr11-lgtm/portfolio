@@ -4,6 +4,7 @@ import Meta from "@/components/meta.astro";
 import ThemeToggle from "@/components/theme-toggle.astro";
 import LanguageToggle from "@/components/language-toggle.astro";
 import Starburst from "@/components/starburst.astro";
+import Logo from "@/components/logo.astro";
 import DuotoneFilters from "@/components/duotone-filters.astro";
 import { themeForProject, duoFilter } from "@/components/poster-themes";
 import dayjs from "dayjs";
@@ -218,9 +219,8 @@ const { Content } = await post.render();
                     <Starburst fill={theme.burst} class="burst-spin pointer-events-none absolute -right-16 -top-20 z-0 h-64 w-64 md:-right-24 md:-top-28 md:h-[30rem] md:w-[30rem]" />
                     <Starburst fill={theme.fg} class="burst-spin-rev pointer-events-none absolute bottom-24 right-[30%] z-0 hidden h-16 w-16 md:block" />
                     <div class="relative z-10 flex items-start justify-between gap-6">
-                        <a href={lang === "en" ? "/en" : "/"} class="post-home inline-flex items-center gap-3">
-                            <Starburst fill="currentColor" class="post-logo-mark h-10 w-10 md:h-12 md:w-12" />
-                            <span class="font-wide text-[0.65rem] md:text-xs">Aliénor du Parc</span>
+                        <a href={lang === "en" ? "/en" : "/"} class="inline-flex items-center">
+                            <Logo withName />
                         </a>
                         <p class="font-wide text-right text-[0.65rem] leading-tight md:text-xs">
                             {String(Math.max(0, projectIndex) + 1).padStart(2, "0")} / {String(allPosts.length).padStart(2, "0")}
@@ -275,7 +275,11 @@ const { Content } = await post.render();
                 }
                 {
                     post.slug === "podcast" && podcastAudioUrl && (
-                        <section id="podcast-panel" class="podcast-panel rounded-[1.5rem] border border-[var(--border-20)] px-3 py-2 md:px-4 md:py-2.5">
+                        <section
+                            id="podcast-panel"
+                            class="podcast-panel rounded-[1.5rem] px-3 py-2 md:px-4 md:py-2.5"
+                            style={`--panel-bg: ${theme.bg}; --panel-active-bg: ${theme.fg}; --panel-active-fg: ${theme.bg}; --fg-70: ${theme.fg}; --fg-80: ${theme.fg}; --track-empty: rgb(0 0 0 / 0.22); --track-filled: ${theme.fg}; --track-empty-active: rgb(255 255 255 / 0.3); --track-filled-active: ${theme.bg}; color: ${theme.fg};`}
+                        >
                             <audio id="podcast-audio" src={podcastAudioUrl} preload="auto"></audio>
                             <div class="relative flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-[var(--fg-70)]">
                                 <div class="flex min-w-0 items-center gap-2 pr-10">
@@ -284,7 +288,8 @@ const { Content } = await post.render();
                                             <img
                                                 src={podcastThumbUrl}
                                                 alt={t("post.podcast.artwork")}
-                                                class="h-7 w-7 rounded object-cover"
+                                                class="h-7 w-7 rounded-md object-cover"
+                                                style="filter: var(--duo);"
                                             />
                                         )
                                     }
@@ -600,19 +605,12 @@ const { Content } = await post.render();
             });
         </script>
         <style>
-            .post-logo-mark {
-                transition: transform 500ms cubic-bezier(0.3, 1.5, 0.5, 1);
-            }
 
-            /* Images dans les couleurs de la carte du projet, vraies couleurs au survol */
+
+            /* Images toujours dans les couleurs de la carte du projet */
             .post-image,
             :global(.prose img) {
                 filter: var(--duo);
-                transition: filter 400ms ease;
-            }
-
-            .post-home:hover .post-logo-mark {
-                transform: rotate(40deg);
             }
 
             :global(.post-body) {
