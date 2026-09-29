@@ -21,8 +21,13 @@ export const themeForProject = (slug: string, index: number): PosterTheme =>
     posterThemes.find((theme) => theme.name === themeBySlug[slug]) ??
     posterThemes[index % posterThemes.length];
 
+// gamma < 1 éclaircit les ombres (utile pour les photos très sombres)
 export const extraDuotones = [
-    { name: "photo", dark: "#2336FF", light: "#FF8AD8" },
+    { name: "photo", dark: "#2336FF", light: "#FF8AD8", gamma: 1 },
+    { name: "black-post", dark: "#111111", light: "#EDE12A", gamma: 0.4 },
 ] as const;
+
+// Sur les pages projet, la carte noire garde des images lisibles : noir et jaune, ombres éclaircies
+export const postDuoFor = (theme: PosterTheme) => (theme.name === "black" ? "black-post" : theme.name);
 
 export const duoFilter = (name: string) => `url(#duo-${name})`;

@@ -14,14 +14,15 @@ const houseSvg = fs.readFileSync(path.join(process.cwd(), "public", "favicon1.sv
 const housePath = houseSvg.match(/ d="([^"]+)"/)?.[1] ?? "";
 ---
 
-<span class={`logo-lockup inline-flex items-center gap-2.5 ${className}`}>
-    <svg class="logo-house h-11 w-auto shrink-0 md:h-12" viewBox="80 80 900 1290" aria-hidden="true">
+<span class={`logo-lockup inline-flex items-center gap-3 ${className}`}>
+    <svg class="logo-house h-14 w-auto shrink-0 overflow-visible md:h-16" viewBox="80 80 900 1290" aria-hidden="true">
+        <path class="logo-house-riso2" d={housePath} fill-rule="evenodd"></path>
         <path class="logo-house-riso" d={housePath} fill-rule="evenodd"></path>
-        <path d={housePath} fill-rule="evenodd" fill="currentColor"></path>
+        <path class="logo-house-main" d={housePath} fill-rule="evenodd"></path>
     </svg>
     {
         withName ? (
-            <span class="font-wide text-[0.6rem] leading-[1.15] md:text-[0.7rem]">
+            <span class="font-title text-2xl leading-[0.82] md:text-3xl">
                 Aliénor
                 <br />
                 du Parc
@@ -33,13 +34,49 @@ const housePath = houseSvg.match(/ d="([^"]+)"/)?.[1] ?? "";
 </span>
 
 <style>
+    .logo-house-main {
+        fill: var(--logo-fill, currentColor);
+    }
+
     .logo-house-riso {
-        fill: var(--logo-riso, var(--red));
-        transform: translate(46px, 30px);
-        transition: transform 300ms cubic-bezier(0.3, 1.5, 0.5, 1);
+        fill: var(--logo-riso, var(--pink));
+        transform: translate(70px, 44px);
+    }
+
+    .logo-house-riso2 {
+        fill: var(--logo-riso2, var(--acid));
+        transform: translate(-56px, 60px);
+    }
+
+    .logo-house-riso,
+    .logo-house-riso2 {
+        transition: transform 350ms cubic-bezier(0.3, 1.6, 0.5, 1);
     }
 
     :global(a:hover) .logo-house-riso {
-        transform: translate(90px, 60px);
+        transform: translate(130px, 20px);
+    }
+
+    :global(a:hover) .logo-house-riso2 {
+        transform: translate(-110px, 90px);
+    }
+
+    :global(a:hover) .logo-house {
+        animation: logoWobble 500ms ease;
+    }
+
+    @keyframes logoWobble {
+        30% {
+            transform: rotate(-6deg);
+        }
+        65% {
+            transform: rotate(4deg);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        :global(a:hover) .logo-house {
+            animation: none;
+        }
     }
 </style>
