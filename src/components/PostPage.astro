@@ -159,6 +159,13 @@ const podcastThumbFile =
         : null;
 const podcastThumbUrl = podcastThumbFile ? toImageUrl(podcastThumbFile) : null;
 
+const popColors = ["yellow", "pink", "cyan", "red"] as const;
+const metaTags = post.data.description
+    .replace(/\.$/, "")
+    .split(" - ")
+    .map((part) => part.trim())
+    .filter(Boolean);
+
 const frPath = `/post/${post.slug}`;
 const enPath = `/en/post/${post.slug}`;
 
@@ -186,20 +193,20 @@ const { Content } = await post.render();
                 <img src="/favicon1.svg" alt="Logo Aliénor" class="logo-light h-10 w-10 object-contain md:h-12 md:w-12" />
             </a>
             <div class="w-full flex flex-col space-y-10">
-                <div class="w-full flex flex-col space-y-5 pb-8 border-b border-[var(--border-25)]">
-                    <h1 class="font-title max-w-4xl text-4xl leading-[1.02] text-[var(--fg)] md:text-7xl">
+                <div class="w-full flex flex-col space-y-6 pb-4">
+                    <h1 class="font-title max-w-5xl text-5xl leading-[0.9] text-[var(--fg)] md:text-8xl">
                         {post.data.title}
                     </h1>
                     {
                         post.slug === "podcast" && (
-                            <p class="text-base font-medium text-[var(--fg-85)] md:text-lg">
+                            <p class="font-script text-3xl text-[var(--fg-85)] md:text-4xl">
                                 Double Vision : Architecture Abroad
                             </p>
                         )
                     }
                     {
                         post.slug === "ivresse" && (
-                            <p class="text-base font-medium text-[var(--accent)] md:text-lg">
+                            <p class="font-script text-3xl text-[var(--accent)] md:text-4xl">
                                 <a
                                     href={lang === "en" ? "/en/livre/ivresse" : "/livre/ivresse"}
                                     class="inline-flex items-center gap-1"
@@ -212,9 +219,13 @@ const { Content } = await post.render();
                     }
                     <div class="flex items-center justify-between">
                         <div
-                            class="flex items-center flex-wrap text-sm text-[var(--fg-80)] md:text-base"
+                            class="flex items-center flex-wrap gap-y-2 text-sm text-[var(--fg-80)] md:text-base"
                         >
-                            <span>{post.data.description.replace(/\.$/, "")}</span>
+                            <span class="flex flex-wrap items-center gap-2">
+                                {metaTags.map((tag, index) => (
+                                    <span class={`sticker sticker-${popColors[index % popColors.length]} ${index % 2 ? "rotate-1" : "-rotate-1"}`}>{tag}</span>
+                                ))}
+                            </span>
                             {
                                 post.data.contributors.length > 0 && (
                                     <>
@@ -260,14 +271,14 @@ const { Content } = await post.render();
                         <img
                             src={toImageUrl(coverImage)}
                             alt={`${post.data.title} ${t("post.coverAlt")}`}
-                            class="post-image post-media rounded-sm cursor-zoom-in"
+                            class="post-image post-media rounded-[1.75rem] cursor-zoom-in"
                             style={`object-position: ${getImagePosition(coverImage)};`}
                         />
                     )
                 }
                 {
                     post.slug === "podcast" && podcastAudioUrl && (
-                        <section id="podcast-panel" class="podcast-panel rounded-2xl border border-[var(--border-20)] px-3 py-2 md:px-4 md:py-2.5">
+                        <section id="podcast-panel" class="podcast-panel rounded-[1.75rem] border border-[var(--border-20)] px-3 py-2 md:px-4 md:py-2.5">
                             <audio id="podcast-audio" src={podcastAudioUrl} preload="auto"></audio>
                             <div class="relative flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-[var(--fg-70)]">
                                 <div class="flex min-w-0 items-center gap-2 pr-10">
@@ -332,7 +343,7 @@ const { Content } = await post.render();
                                 <img
                                     src={toImageUrl(image)}
                                     alt={`${post.data.title} image`}
-                                    class={`post-image post-media rounded-sm cursor-zoom-in ${isOriginalFormatImage(image) ? "post-media-original" : ""} ${isTopAlignedOriginalImage(image) ? "post-media-original-top" : ""}`}
+                                    class={`post-image post-media rounded-[1.75rem] cursor-zoom-in ${isOriginalFormatImage(image) ? "post-media-original" : ""} ${isTopAlignedOriginalImage(image) ? "post-media-original-top" : ""}`}
                                     style={`object-position: ${getImagePosition(image)};${getImageTransform(image) ? ` transform: ${getImageTransform(image)};` : ""}`}
                                     loading="lazy"
                                 />
@@ -343,7 +354,7 @@ const { Content } = await post.render();
                 {
                     hasFestivalMosaic && (
                         <section class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                            <div class="festival-half-frame rounded-sm">
+                            <div class="festival-half-frame rounded-[1.75rem]">
                                 <img
                                     src={toImageUrl(festivalMosaicLeft ?? "")}
                                     alt={`${post.data.title} image`}
@@ -353,7 +364,7 @@ const { Content } = await post.render();
                             </div>
                             <div class="grid grid-cols-1 gap-4">
                                 {festivalMosaicRight.map((image) => (
-                                    <div class="festival-half-frame rounded-sm">
+                                    <div class="festival-half-frame rounded-[1.75rem]">
                                         <img
                                             src={toImageUrl(image)}
                                             alt={`${post.data.title} image`}
@@ -761,7 +772,7 @@ const { Content } = await post.render();
             }
 
             :global(.prose img) {
-                border-radius: 0.125rem;
+                border-radius: 1.75rem;
             }
 
             :global(.post-body) {
@@ -770,10 +781,11 @@ const { Content } = await post.render();
             }
 
             :global(.post-body h2) {
-                font-family: "Inter Tight", "Inter", sans-serif;
-                font-weight: 600;
-                font-size: 1.5rem;
-                letter-spacing: -0.02em;
+                font-family: "Bricolage Grotesque", "Inter", sans-serif;
+                font-weight: 800;
+                font-size: 2rem;
+                line-height: 1;
+                letter-spacing: -0.03em;
                 margin-top: 2.5em;
                 margin-bottom: 0.75em;
             }

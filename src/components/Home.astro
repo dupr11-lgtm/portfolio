@@ -76,19 +76,7 @@ for (const project of sortedProjects) {
     );
 }
 
-const thumbPositionBySlug = new Map<string, string>([
-    ["podcast", "50% 24%"],
-    ["entre-deux-corps", "50% 80%"],
-    ["nakagin-capsule", "50% 50%"],
-    ["structure-bois", "50% 60%"],
-    ["chatel", "50% 50%"],
-    ["festival--structure-temporaire", "50% 50%"],
-    ["avenue-daumesnil", "50% 50%"],
-    ["32-logements", "50% 68%"],
-    ["ecole-sad", "50% 34%"],
-    ["stage-simon-1", "50% 82%"],
-    ["stage-chantier", "50% 56%"],
-]);
+const popColors = ["yellow", "pink", "cyan", "red"] as const;
 ---
 
 <html lang={lang}>
@@ -137,9 +125,7 @@ const thumbPositionBySlug = new Map<string, string>([
                     />
                 </a>
                 <nav class="absolute left-1/2 -translate-x-1/2">
-                    <ul
-                        class="flex items-center gap-6 text-sm md:gap-10"
-                    >
+                    <ul class="nav-pills flex items-center gap-1 text-sm font-semibold md:gap-2">
                         <li>
                             <a
                                 class="module-tab nav-item"
@@ -170,30 +156,45 @@ const thumbPositionBySlug = new Map<string, string>([
             </div>
         </header>
 
-        <main class="relative bg-[var(--bg)]">
+        <main class="relative overflow-x-clip bg-[var(--bg)]">
             <section
                 id="home"
                 data-section="home"
-                class="relative flex min-h-[82svh] flex-col justify-center px-6 pb-28 pt-24 md:px-12"
+                class="relative flex min-h-[92svh] flex-col justify-center px-5 pb-28 pt-20 md:px-12"
             >
-                <div class="relative z-10 flex max-w-5xl flex-col gap-8">
+                <svg
+                    class="sparkle sparkle-spin pointer-events-none absolute right-[6%] top-[12%] h-28 w-28 md:h-52 md:w-52"
+                    viewBox="0 0 100 100"
+                    aria-hidden="true"
+                >
+                    <path d="M50 0C54 34 66 46 100 50C66 54 54 66 50 100C46 66 34 54 0 50C34 46 46 34 50 0Z" fill="var(--pop-red)" />
+                </svg>
+                <svg
+                    class="sparkle pointer-events-none absolute bottom-[26%] right-[22%] hidden h-14 w-14 md:block"
+                    viewBox="0 0 100 100"
+                    aria-hidden="true"
+                >
+                    <path d="M50 0C54 34 66 46 100 50C66 54 54 66 50 100C46 66 34 54 0 50C34 46 46 34 50 0Z" fill="var(--pop-pink)" />
+                </svg>
+                <div class="relative z-10 flex flex-col gap-6">
                     <img
                         src="/favicon1.svg"
                         alt="Logo Aliénor"
-                        class="logo-red h-20 w-20 object-contain md:h-24 md:w-24"
+                        class="logo-red h-16 w-16 object-contain md:h-20 md:w-20"
                     />
-                    <div>
-                        <h1 class="font-title text-6xl leading-[0.95] text-[var(--fg)] md:text-8xl lg:text-9xl">
-                            Aliénor du Parc
-                        </h1>
-                        <p class="mt-5 text-base text-[var(--fg-80)] md:text-xl">
-                            {t("hero.tagline")}
-                        </p>
+                    <h1 class="font-title text-[19vw] leading-[0.82] text-[var(--fg)] md:text-[12vw]">
+                        Aliénor<br />
+                        <span class="font-script text-[0.9em] leading-none">du</span> Parc
+                    </h1>
+                    <div class="mt-2 flex flex-wrap items-center gap-3 text-sm md:text-lg">
+                        <span class="sticker sticker-yellow -rotate-3">{t("hero.tagline")}</span>
+                        <span class="sticker sticker-pink rotate-2">{sortedProjects.length} {t("hero.projects")}</span>
+                        <span class="sticker sticker-cyan -rotate-1">FR · EN</span>
                     </div>
                 </div>
                 <nav
                     id="home-nav"
-                    class="home-nav absolute bottom-8 left-0 right-0 z-20 px-6 md:px-12"
+                    class="home-nav absolute bottom-8 left-0 right-0 z-20 px-5 md:px-12"
                 >
                     <div class="relative flex items-center justify-between">
                         <a
@@ -207,9 +208,7 @@ const thumbPositionBySlug = new Map<string, string>([
                             />
                         </a>
                         <div class="absolute left-1/2 -translate-x-1/2">
-                            <ul
-                                class="flex items-center gap-6 text-sm md:gap-10"
-                            >
+                            <ul class="nav-pills flex items-center gap-1 text-sm font-semibold md:gap-2">
                                 <li>
                                     <a
                                         class="module-tab nav-item"
@@ -244,47 +243,54 @@ const thumbPositionBySlug = new Map<string, string>([
             <section
                 id="portfolio"
                 data-section="portfolio"
-                class="w-full border-t border-[var(--border-20)] px-6 py-20 md:px-12 md:py-28"
+                class="w-full px-5 py-20 md:px-12 md:py-28"
             >
-                <h2 class="section-title font-title mb-12 text-4xl text-[var(--fg)] md:text-6xl">
-                    {t("section.portfolio")}
-                </h2>
-                <div class="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2">
+                <div class="mb-12 flex flex-wrap items-end gap-4">
+                    <h2 class="font-title text-6xl leading-[0.85] text-[var(--fg)] md:text-9xl">
+                        {t("section.portfolio")}
+                    </h2>
+                    <span class="sticker sticker-red mb-2 rotate-3 text-sm md:text-base">2021 → 2025</span>
+                </div>
+                <div class="columns-1 gap-5 sm:columns-2 lg:columns-3">
                     {
-                        sortedProjects.map((project) => {
+                        sortedProjects.map((project, index) => {
                             const projectCover = coverBySlug.get(project.slug);
+                            const color = popColors[index % popColors.length];
                             return (
                                 <a
                                     href={`/${lang === "en" ? "en/" : ""}post/${project.slug}`}
-                                    class="project-card group flex flex-col gap-4"
+                                    class="project-card group mb-8 block break-inside-avoid"
                                 >
-                                    <div class="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-[var(--panel-bg)]">
-                                        {projectCover ? (
+                                    {projectCover ? (
+                                        <div class="overflow-hidden rounded-[1.75rem]">
                                             <img
                                                 src={projectCover}
                                                 alt={project.data.title}
                                                 loading="lazy"
-                                                class="project-card-img h-full w-full object-cover"
-                                                style={`object-position: ${thumbPositionBySlug.get(project.slug) ?? "50% 50%"};`}
+                                                class="project-card-img block h-auto w-full"
                                             />
-                                        ) : (
-                                            <div class="flex h-full w-full items-center justify-center">
-                                                <img
-                                                    src="/favicon1.svg"
-                                                    alt=""
-                                                    aria-hidden="true"
-                                                    class="logo-red h-16 w-16 object-contain opacity-60"
-                                                />
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div class="flex items-baseline justify-between gap-6">
-                                        <h3 class="font-title text-xl leading-snug md:text-2xl">
-                                            <span class="project-card-title">{project.data.title}</span>
+                                        </div>
+                                    ) : (
+                                        <div class={`flex aspect-[4/5] w-full flex-col items-center justify-center gap-5 rounded-[1.75rem] px-8 text-center sticker-${color}`}>
+                                            <img
+                                                src="/favicon1.svg"
+                                                alt=""
+                                                aria-hidden="true"
+                                                class="h-16 w-16 object-contain"
+                                                style="filter: brightness(0) saturate(100%) invert(27%) sepia(24%) saturate(879%) hue-rotate(174deg) brightness(94%) contrast(90%);"
+                                            />
+                                            <p class="font-script text-5xl leading-[0.95] text-[var(--pop-ink)]">
+                                                14 minutes et 16 heures
+                                            </p>
+                                        </div>
+                                    )}
+                                    <div class="mt-3 flex items-start justify-between gap-4 px-1">
+                                        <h3 class="font-title text-xl leading-[1.05] md:text-2xl">
+                                            {project.data.title}
                                         </h3>
-                                        <p class="shrink-0 text-sm tabular-nums text-[var(--fg-70)]">
+                                        <span class={`sticker sticker-${color} shrink-0 text-xs tabular-nums`}>
                                             {dayjs(project.data.createdAt).format("YYYY")}
-                                        </p>
+                                        </span>
                                     </div>
                                 </a>
                             );
@@ -296,16 +302,16 @@ const thumbPositionBySlug = new Map<string, string>([
             <section
                 id="profil"
                 data-section="profil"
-                class="w-full border-t border-[var(--border-20)] px-6 py-20 md:px-12 md:py-28"
+                class="w-full px-5 py-20 md:px-12 md:py-28"
             >
-                <h2 class="section-title font-title mb-12 text-4xl text-[var(--fg)] md:text-6xl">
+                <h2 class="font-title mb-12 text-6xl leading-[0.85] text-[var(--fg)] md:text-9xl">
                     {t("section.profil")}
                 </h2>
                 <div
                     class="grid gap-10 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-start md:gap-12"
                 >
                     <article id="formation-content" class="p-0">
-                        <h3 class="m-0 font-title text-2xl text-[var(--fg)]">
+                        <h3 class="m-0 font-title text-3xl text-[var(--fg)]">
                             {t("section.formation")}
                         </h3>
                         <div
@@ -331,17 +337,20 @@ const thumbPositionBySlug = new Map<string, string>([
                         </div>
                     </article>
 
-                    <div class="flex items-start justify-center">
+                    <div class="relative flex items-start justify-center">
                         <img
                             id="profil-photo"
                             src="/194135c7-391d-4556-9044-1ccea4404889.png"
                             alt={t("profil.photoAlt")}
-                            class="w-full max-w-[300px] rounded-sm object-cover md:w-[300px]"
+                            class="w-full max-w-[300px] rounded-[2rem] object-cover md:w-[300px]"
                         />
+                        <span class="sticker sticker-yellow absolute -bottom-4 left-1/2 -translate-x-1/2 -rotate-6 text-sm md:text-base">
+                            Aliénor ✺
+                        </span>
                     </div>
 
                     <article class="p-0">
-                        <h3 class="m-0 font-title text-2xl text-[var(--fg)]">
+                        <h3 class="m-0 font-title text-3xl text-[var(--fg)]">
                             {t("section.enBref")}
                         </h3>
                         <p
@@ -355,16 +364,25 @@ const thumbPositionBySlug = new Map<string, string>([
             <section
                 id="contact"
                 data-section="contact"
-                class="flex min-h-[60svh] w-full flex-col border-t border-[var(--border-20)] px-6 py-20 md:px-12 md:py-28"
+                class="w-full px-5 py-20 md:px-12 md:py-28"
             >
-                <h2 class="section-title font-title mb-12 text-4xl text-[var(--fg)] md:text-6xl">
-                    {t("section.contact")}
-                </h2>
-                <a
-                    href="mailto:alienor@duparc.studio"
-                    class="contact-link font-title w-fit break-all text-3xl md:text-6xl"
-                    >alienor@duparc.studio</a
-                >
+                <div class="contact-card relative overflow-hidden rounded-[2.5rem] px-6 py-14 md:px-14 md:py-24">
+                    <svg
+                        class="sparkle-spin pointer-events-none absolute -right-6 -top-6 h-32 w-32 md:h-56 md:w-56"
+                        viewBox="0 0 100 100"
+                        aria-hidden="true"
+                    >
+                        <path d="M50 0C54 34 66 46 100 50C66 54 54 66 50 100C46 66 34 54 0 50C34 46 46 34 50 0Z" fill="var(--pop-red)" />
+                    </svg>
+                    <h2 class="font-title relative text-6xl leading-[0.85] md:text-9xl">
+                        {t("section.contact")}
+                    </h2>
+                    <a
+                        href="mailto:alienor@duparc.studio"
+                        class="contact-link font-script relative mt-8 inline-block break-all text-4xl md:text-7xl"
+                        >alienor@duparc.studio</a
+                    >
+                </div>
             </section>
         </main>
 
@@ -381,8 +399,7 @@ const thumbPositionBySlug = new Map<string, string>([
             const updateActiveTab = (currentId) => {
                 tabs.forEach((tab) => {
                     const isActive = tab.dataset.target === currentId;
-                    tab.classList.toggle("font-bold", isActive);
-                    tab.classList.toggle("opacity-60", !isActive);
+                    tab.classList.toggle("is-active", isActive);
                 });
             };
 
@@ -447,21 +464,25 @@ const thumbPositionBySlug = new Map<string, string>([
                 scroll-behavior: smooth;
             }
 
-            .module-tab {
-                color: var(--fg);
-                transition: opacity 180ms ease;
-            }
-
             .nav-item {
+                display: inline-block;
+                border-radius: 999px;
+                padding: 0.45rem 0.95rem;
+                color: var(--fg);
                 transition:
-                    opacity 180ms ease,
-                    font-weight 180ms ease,
-                    color 180ms ease;
+                    background-color 180ms ease,
+                    color 180ms ease,
+                    transform 180ms ease;
             }
 
             .nav-item:hover {
-                font-weight: 700;
-                color: var(--fg);
+                background-color: var(--panel-bg);
+                transform: rotate(-2deg);
+            }
+
+            .nav-item.is-active {
+                background-color: var(--fg);
+                color: var(--bg);
             }
 
             .nav-logo {
@@ -515,6 +536,15 @@ const thumbPositionBySlug = new Map<string, string>([
 
             .project-card {
                 color: var(--fg);
+                transition: transform 260ms cubic-bezier(0.3, 1.4, 0.5, 1);
+            }
+
+            .project-card:nth-child(odd):hover {
+                transform: translateY(-6px) rotate(-1.2deg);
+            }
+
+            .project-card:nth-child(even):hover {
+                transform: translateY(-6px) rotate(1.2deg);
             }
 
             .project-card-img {
@@ -522,31 +552,40 @@ const thumbPositionBySlug = new Map<string, string>([
             }
 
             .project-card:hover .project-card-img {
-                transform: scale(1.03);
+                transform: scale(1.04);
             }
 
-            .project-card-title {
-                background-image: linear-gradient(currentColor, currentColor);
-                background-size: 0% 1px;
-                background-repeat: no-repeat;
-                background-position: 0 100%;
-                transition: background-size 300ms ease;
-            }
-
-            .project-card:hover .project-card-title {
-                background-size: 100% 1px;
+            .contact-card {
+                background: var(--pop-yellow);
+                color: var(--pop-ink);
             }
 
             .contact-link {
-                color: var(--fg);
+                color: var(--pop-ink);
                 text-decoration: underline;
-                text-decoration-thickness: 1px;
-                text-underline-offset: 0.18em;
-                transition: opacity 180ms ease;
+                text-decoration-thickness: 2px;
+                text-underline-offset: 0.12em;
+                transition: color 180ms ease;
             }
 
             .contact-link:hover {
-                opacity: 0.7;
+                color: var(--pop-red);
+            }
+
+            .sparkle-spin {
+                animation: sparkleSpin 18s linear infinite;
+            }
+
+            @keyframes sparkleSpin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .sparkle-spin {
+                    animation: none;
+                }
             }
 
             .logo-red {
@@ -562,7 +601,7 @@ const thumbPositionBySlug = new Map<string, string>([
 
             @media (max-width: 767px) {
                 #home {
-                    min-height: 88svh;
+                    min-height: 78svh;
                 }
 
                 #home-nav {
@@ -596,7 +635,7 @@ const thumbPositionBySlug = new Map<string, string>([
 
                 #home-nav ul,
                 #top-nav ul {
-                    gap: 1.25rem;
+                    gap: 0.125rem;
                     font-size: 0.8rem;
                 }
             }
