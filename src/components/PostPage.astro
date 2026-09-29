@@ -1,9 +1,12 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import Meta from "@/components/meta.astro";
 import ThemeToggle from "@/components/theme-toggle.astro";
 import LanguageToggle from "@/components/language-toggle.astro";
 import Starburst from "@/components/starburst.astro";
+import DuotoneFilters from "@/components/duotone-filters.astro";
+import { themeForProject, duoFilter } from "@/components/poster-themes";
+import dayjs from "dayjs";
 import { useTranslations, type Lang } from "@/i18n/ui";
 import { StarIcon } from "@lucide/astro";
 import fs from "node:fs";
@@ -166,6 +169,13 @@ const metaTags = post.data.description
     .map((part) => part.trim())
     .filter(Boolean);
 
+// Même couleur que la carte du projet sur l'accueil
+const allPosts = await getCollection(lang === "en" ? "postsEn" : "posts");
+const projectIndex = allPosts
+    .sort((a, b) => (dayjs(a.data.createdAt).isAfter(dayjs(b.data.createdAt)) ? -1 : 1))
+    .findIndex((entry) => entry.slug === post.slug);
+const theme = themeForProject(post.slug, Math.max(0, projectIndex));
+
 const frPath = `/post/${post.slug}`;
 const enPath = `/en/post/${post.slug}`;
 
@@ -182,7 +192,11 @@ const { Content } = await post.render();
             alternates={{ fr: frPath, en: enPath }}
         />
     </head>
-    <body class="font-body bg-[var(--bg)] text-[var(--fg)] antialiased">
+    <body
+        class="font-body bg-[var(--bg)] text-[var(--fg)] antialiased"
+        style={`--duo: ${duoFilter(theme.name)};`}
+    >
+        <DuotoneFilters />
         <main
             class="w-full mx-auto max-w-6xl px-6 py-10 md:px-12 md:py-14 flex flex-col space-y-12"
         >
@@ -190,7 +204,8 @@ const { Content } = await post.render();
                 href={lang === "en" ? "/en" : "/"}
                 class="inline-flex items-center"
             >
-                <img src="/favicon1.svg" alt="Logo Aliénor" class="logo-light h-10 w-10 object-contain md:h-12 md:w-12" />
+                <Starburst fill="currentColor" class="post-logo-mark h-10 w-10 md:h-12 md:w-12" />
+                <span class="sr-only">Aliénor du Parc</span>
             </a>
             <div class="w-full flex flex-col space-y-10">
                 <div class="relative w-full flex flex-col space-y-6 pb-4">
@@ -589,8 +604,25 @@ const { Content } = await post.render();
             });
         </script>
         <style>
-            .logo-light {
-                filter: var(--logo-filter);
+            .post-logo-mark {
+                color: var(--fg);
+                transition: transform 500ms cubic-bezier(0.3, 1.5, 0.5, 1);
+            }
+
+            a:hover > .post-logo-mark {
+                transform: rotate(40deg);
+            }
+
+            /* Images dans les couleurs de la carte du projet, vraies couleurs au survol */
+            .post-image,
+            :global(.prose img) {
+                filter: var(--duo);
+                transition: filter 400ms ease;
+            }
+
+            .post-image:hover,
+            :global(.prose img:hover) {
+                filter: none;
             }
 
             :global(.prose),
