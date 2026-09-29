@@ -124,6 +124,34 @@ body {
   transition: opacity 400ms ease;
 }
 
+/* Décalage d'impression façon risographie */
+.riso {
+  text-shadow: 0.045em 0.04em 0 var(--riso, var(--pink));
+}
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  animation: marquee var(--marquee-speed, 40s) linear infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
 .font-body {
   font-family: "Inter", sans-serif;
 }

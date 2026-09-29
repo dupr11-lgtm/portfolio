@@ -41,6 +41,8 @@ export const ui = {
     "post.lightbox.image": "Image agrandie",
     "post.imageAlt": "Image",
     "livre.back": "Retour au projet",
+    "post.next": "Projet suivant",
+    "marquee.contact": "Écris-moi",
     "livre.description": "Lecture du livre 14 minutes et 16 heures.",
   },
   en: {
@@ -74,6 +76,8 @@ export const ui = {
     "post.lightbox.image": "Enlarged image",
     "post.imageAlt": "Image",
     "livre.back": "Back to project",
+    "post.next": "Next project",
+    "marquee.contact": "Write to me",
     "livre.description": "Reading of the book 14 minutes and 16 hours.",
   },
 } as const;
