@@ -21,7 +21,7 @@ export const ui = {
     "section.contact": "Contact",
     "profil.photoAlt": "Photo de profil d’Aliénor",
     "contact.emailLabel": "email :",
-    "hero.tagline": "Étudiante en architecture · Paris",
+    "hero.tagline": "Master d’architecture · ULB Bruxelles",
     "hero.projects": "projets",
     "post.with": "avec",
     "post.and": "et",
@@ -56,7 +56,7 @@ export const ui = {
     "section.contact": "Contact",
     "profil.photoAlt": "Profile photo of Aliénor",
     "contact.emailLabel": "email:",
-    "hero.tagline": "Architecture student · Paris",
+    "hero.tagline": "Master’s in architecture · ULB Brussels",
     "hero.projects": "projects",
     "post.with": "with",
     "post.and": "and",
@@ -81,6 +81,10 @@ export const ui = {
 export type UiKey = keyof (typeof ui)["fr"];
 
 const formationFr = [
+  {
+    dates: "2025 - aujourd’hui",
+    lines: ["Master - Faculté d’Architecture La Cambre Horta, ULB, Bruxelles"],
+  },
   {
     dates: "2022 - 2025",
     lines: ["Licence - École Spéciale d'Architecture, Paris"],
@@ -110,6 +114,10 @@ const formationFr = [
 ];
 
 const formationEn = [
+  {
+    dates: "2025 - present",
+    lines: ["Master's - Faculty of Architecture La Cambre Horta, ULB, Brussels"],
+  },
   {
     dates: "2022 - 2025",
     lines: ["Bachelor - École Spéciale d'Architecture, Paris"],
@@ -144,10 +152,10 @@ export const formation: Record<Lang, { dates: string; lines: string[] }[]> = {
 };
 
 const enBrefFr =
-  "Je suis actuellement étudiante en architecture, passionnée par les nouvelles technologies et l'intelligence artificielle.<br /><br />Si je ne suis pas sur Midjourney ou en train de discuter avec ChatGPT, je suis sûrement en train d'écrire un nouvel épisode de podcast ou de préparer mon prochain marathon.";
+  "Je suis actuellement étudiante en master d'architecture à l'ULB, à Bruxelles, passionnée par les nouvelles technologies et l'intelligence artificielle.<br /><br />Si je ne suis pas sur Midjourney ou en train de discuter avec ChatGPT, je suis sûrement en train d'écrire un nouvel épisode de podcast ou de préparer mon prochain marathon.";
 
 const enBrefEn =
-  "I am currently an architecture student, passionate about new technologies and artificial intelligence.<br /><br />When I'm not on Midjourney or chatting with ChatGPT, I'm probably writing a new podcast episode or training for my next marathon.";
+  "I am currently a master's student in architecture at ULB in Brussels, passionate about new technologies and artificial intelligence.<br /><br />When I'm not on Midjourney or chatting with ChatGPT, I'm probably writing a new podcast episode or training for my next marathon.";
 
 export const enBref: Record<Lang, string> = {
   fr: enBrefFr,

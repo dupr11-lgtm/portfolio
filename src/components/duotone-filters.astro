@@ -1,0 +1,36 @@
+---
+import { posterThemes, extraDuotones } from "@/components/poster-themes";
+
+const hex = (value: string) => {
+    const n = Number.parseInt(value.slice(1), 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((c) => (c / 255).toFixed(3));
+};
+
+const duotones = [...posterThemes, ...extraDuotones].map(({ name, dark, light }) => {
+    const d = hex(dark);
+    const l = hex(light);
+    return { name, r: `${d[0]} ${l[0]}`, g: `${d[1]} ${l[1]}`, b: `${d[2]} ${l[2]}` };
+});
+---
+
+<svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+    <defs>
+        {
+            duotones.map(({ name, r, g, b }) => (
+                <filter id={`duo-${name}`} color-interpolation-filters="sRGB">
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="linear" slope="1.35" intercept="-0.15" />
+                        <feFuncG type="linear" slope="1.35" intercept="-0.15" />
+                        <feFuncB type="linear" slope="1.35" intercept="-0.15" />
+                    </feComponentTransfer>
+                    <feComponentTransfer>
+                        <feFuncR type="table" tableValues={r} />
+                        <feFuncG type="table" tableValues={g} />
+                        <feFuncB type="table" tableValues={b} />
+                    </feComponentTransfer>
+                </filter>
+            ))
+        }
+    </defs>
+</svg>

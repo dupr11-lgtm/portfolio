@@ -4,6 +4,8 @@ import Meta from "@/components/meta.astro";
 import ThemeToggle from "@/components/theme-toggle.astro";
 import LanguageToggle from "@/components/language-toggle.astro";
 import Starburst from "@/components/starburst.astro";
+import DuotoneFilters from "@/components/duotone-filters.astro";
+import { posterThemes, duoFilter } from "@/components/poster-themes";
 import { useTranslations, formation, enBref, type Lang } from "@/i18n/ui";
 import dayjs from "dayjs";
 import fs from "node:fs";
@@ -77,7 +79,6 @@ for (const project of sortedProjects) {
     );
 }
 
-const posterColors = ["acid", "red", "paper", "lime"] as const;
 ---
 
 <html lang={lang}>
@@ -113,6 +114,7 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
     <body
         class="font-body min-h-screen bg-[var(--bg)] text-[var(--fg)] antialiased"
     >
+        <DuotoneFilters />
         <header
             id="top-nav"
             class="top-nav fixed left-0 right-0 top-0 z-30 hidden px-6 py-4 md:px-12"
@@ -168,8 +170,12 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
                     <p class="text-right">duparc.studio<br />2021-2025</p>
                 </div>
                 <div class="relative flex flex-1 flex-col justify-center">
-                    <Starburst style="--burst-y: -50%" class="burst-spin pointer-events-none absolute left-[38%] top-1/2 z-0 h-[62vw] w-[62vw] -translate-y-1/2 md:left-[42%] md:h-[44vw] md:w-[44vw]" />
-                    <h1 class="font-title relative z-10 text-[27vw] leading-[0.8] md:text-[21vw]">
+                    <Starburst
+                        fill="var(--pink)"
+                        class="burst-spin-rev pointer-events-none absolute left-[4%] top-[6%] z-0 h-[26vw] w-[26vw] md:left-[70%] md:top-[64%] md:h-[16vw] md:w-[16vw]"
+                    />
+                    <Starburst fill="var(--acid)" style="--burst-y: -50%" class="burst-spin pointer-events-none absolute left-[38%] top-1/2 z-0 h-[62vw] w-[62vw] -translate-y-1/2 md:left-[42%] md:h-[44vw] md:w-[44vw]" />
+                    <h1 class="font-title relative z-10 text-[27vw] leading-[0.8] text-[var(--blue)] md:text-[21vw]">
                         <span class="block">Aliénor</span>
                         <span class="block pl-[9vw]">du Parc</span>
                     </h1>
@@ -180,7 +186,7 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
                         alt="Logo Aliénor"
                         class="logo-red h-14 w-14 object-contain md:h-20 md:w-20"
                     />
-                    <p class="font-title text-right text-7xl leading-[0.8] text-[var(--red)] md:text-[10rem]">
+                    <p class="font-title text-right text-7xl leading-[0.8] text-[var(--acid)] md:text-[10rem]">
                         {String(sortedProjects.length).padStart(2, "0")}<span class="font-wide ml-2 align-top text-xs text-[var(--ink)] md:text-sm">{t("hero.projects")}</span>
                     </p>
                 </div>
@@ -239,19 +245,23 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
             >
                 <h2 class="font-title mb-10 flex items-start text-[19vw] leading-[0.78] text-[var(--fg)] md:text-[16vw]">
                     {t("section.portfolio")}
-                    <span class="font-wide ml-3 mt-[1.2vw] text-sm text-[var(--red)] md:text-xl">({sortedProjects.length})</span>
+                    <span class="font-wide ml-3 mt-[1.2vw] text-sm text-[var(--violet)] md:text-xl">({sortedProjects.length})</span>
                 </h2>
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {
                         sortedProjects.map((project, index) => {
                             const projectCover = coverBySlug.get(project.slug);
-                            const color = posterColors[index % posterColors.length];
+                            const theme = posterThemes[index % posterThemes.length];
                             return (
                                 <a
                                     href={`/${lang === "en" ? "en/" : ""}post/${project.slug}`}
-                                    class={`poster-card poster-${color} group relative flex flex-col overflow-hidden rounded-[1.5rem] p-3`}
+                                    class="poster-card group relative flex flex-col overflow-hidden rounded-[1.5rem] p-3"
+                                    style={`background: ${theme.bg}; color: ${theme.fg};`}
                                 >
-                                    <div class={`duo duo-${color} relative aspect-[4/3] w-full overflow-hidden rounded-[1rem]`}>
+                                    <div
+                                        class="duo relative aspect-[4/3] w-full overflow-hidden rounded-[1rem]"
+                                        style={`--duo: ${duoFilter(theme.name)}; background: ${theme.dark};`}
+                                    >
                                         {projectCover ? (
                                             <img
                                                 src={projectCover}
@@ -260,14 +270,17 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
                                                 class="h-full w-full object-cover"
                                             />
                                         ) : (
-                                            <p class="font-title flex h-full items-center justify-center px-6 text-center text-6xl leading-[0.85]">
+                                            <p
+                                                class="font-title flex h-full items-center justify-center px-6 text-center text-7xl leading-[0.85]"
+                                                style={`color: ${theme.light};`}
+                                            >
                                                 14 min<br />16 h
                                             </p>
                                         )}
-                                        {index % 4 === 0 && (
+                                        {index % 3 === 0 && (
                                             <Starburst
                                                 class="burst-card pointer-events-none absolute -right-8 -top-8 z-10 h-32 w-32"
-                                                fill={color === "red" ? "var(--acid)" : "var(--red)"}
+                                                fill={theme.burst}
                                             />
                                         )}
                                     </div>
@@ -331,7 +344,7 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
                     </article>
 
                     <div class="relative flex items-start justify-center">
-                        <div class="duo duo-red w-full max-w-[320px] overflow-hidden rounded-[1.5rem] md:w-[320px]">
+                        <div class="duo w-full max-w-[320px] overflow-hidden rounded-[1.5rem] md:w-[320px]" style={`--duo: ${duoFilter("photo")};`}>
                             <img
                                 id="profil-photo"
                                 src="/194135c7-391d-4556-9044-1ccea4404889.png"
@@ -365,7 +378,7 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
                 <div class="contact-card relative overflow-hidden rounded-[2rem] px-5 pb-8 pt-6 md:px-10 md:pb-12 md:pt-10">
                     <Starburst
                         class="burst-spin pointer-events-none absolute -right-16 -top-16 h-64 w-64 md:h-[28rem] md:w-[28rem]"
-                        fill="var(--acid)"
+                        fill="var(--violet)"
                     />
                     <h2 class="font-title relative text-[24vw] leading-[0.78] md:text-[17vw]">
                         {t("section.contact")}
@@ -537,7 +550,7 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
                 --fg-80: rgba(17, 17, 17, 0.8);
                 --panel-bg: rgba(17, 17, 17, 0.1);
                 --logo-filter: brightness(0);
-                background: var(--acid);
+                background: var(--violet);
                 color: var(--ink);
             }
 
@@ -545,11 +558,6 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
                 color: var(--ink);
                 transition: transform 300ms cubic-bezier(0.3, 1.5, 0.5, 1);
             }
-
-            .poster-acid { background: var(--acid); }
-            .poster-red { background: var(--red); }
-            .poster-paper { background: #E4E1D6; }
-            .poster-lime { background: var(--lime); }
 
             .poster-card:hover {
                 transform: rotate(-1.5deg) scale(1.01);
@@ -578,8 +586,8 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
             }
 
             .contact-card {
-                background: var(--red);
-                color: var(--ink);
+                background: var(--blue);
+                color: var(--pink);
             }
 
             .contact-link {
@@ -590,11 +598,15 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
             }
 
             .contact-link:hover {
-                color: var(--paper);
+                color: var(--acid);
             }
 
             .burst-spin {
                 animation: burstSpin 40s linear infinite;
+            }
+
+            .burst-spin-rev {
+                animation: burstSpin 28s linear infinite reverse;
             }
 
             @keyframes burstSpin {
@@ -604,7 +616,8 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
             }
 
             @media (prefers-reduced-motion: reduce) {
-                .burst-spin {
+                .burst-spin,
+                .burst-spin-rev {
                     animation: none;
                 }
             }
@@ -619,7 +632,7 @@ const posterColors = ["acid", "red", "paper", "lime"] as const;
                 font-stretch: 125%;
                 font-size: 0.65rem;
                 text-transform: uppercase;
-                color: var(--red);
+                color: var(--violet);
             }
 
             @media (max-width: 767px) {

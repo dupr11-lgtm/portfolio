@@ -194,13 +194,14 @@ const { Content } = await post.render();
             </a>
             <div class="w-full flex flex-col space-y-10">
                 <div class="relative w-full flex flex-col space-y-6 pb-4">
-                    <Starburst class="burst-spin pointer-events-none absolute -right-10 -top-16 z-0 h-40 w-40 md:-right-16 md:h-72 md:w-72" />
-                    <h1 class="font-title relative z-10 text-[15vw] leading-[0.8] text-[var(--fg)] md:text-[8.5rem]">
+                    <Starburst fill="var(--violet)" class="burst-spin pointer-events-none absolute -right-10 -top-16 z-0 h-40 w-40 md:-right-16 md:h-72 md:w-72" />
+                    <Starburst fill="var(--acid)" class="burst-spin-rev pointer-events-none absolute right-[18%] top-24 z-0 hidden h-24 w-24 md:block" />
+                    <h1 class="font-title relative z-10 text-[15vw] leading-[0.8] text-[var(--blue)] md:text-[8.5rem]">
                         {post.data.title}
                     </h1>
                     {
                         post.slug === "podcast" && (
-                            <p class="font-wide relative z-10 text-sm text-[var(--red)] md:text-base">
+                            <p class="font-wide relative z-10 text-sm text-[var(--violet)] md:text-base">
                                 Double Vision : Architecture Abroad
                             </p>
                         )
@@ -225,7 +226,7 @@ const { Content } = await post.render();
                             <span class="grid grid-cols-2 gap-x-8 gap-y-3 md:flex md:flex-wrap md:gap-x-12">
                                 {metaTags.map((tag, index) => (
                                     <span class="flex flex-col gap-1">
-                                        <span class="font-wide text-[0.6rem] text-[var(--red)]">{String(index + 1).padStart(2, "0")}</span>
+                                        <span class="font-wide text-[0.6rem] text-[var(--violet)]">{String(index + 1).padStart(2, "0")}</span>
                                         <span class="font-wide text-[0.7rem] leading-tight md:text-xs">{tag}</span>
                                     </span>
                                 ))}
@@ -783,6 +784,10 @@ const { Content } = await post.render();
                 animation: burstSpin 40s linear infinite;
             }
 
+            .burst-spin-rev {
+                animation: burstSpin 28s linear infinite reverse;
+            }
+
             @keyframes burstSpin {
                 to {
                     transform: rotate(360deg);
@@ -790,7 +795,8 @@ const { Content } = await post.render();
             }
 
             @media (prefers-reduced-motion: reduce) {
-                .burst-spin {
+                .burst-spin,
+                .burst-spin-rev {
                     animation: none;
                 }
             }
