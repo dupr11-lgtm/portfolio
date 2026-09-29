@@ -162,22 +162,24 @@ for (const project of sortedProjects) {
                 data-section="home"
                 class="poster-hero sticky top-0 z-0 flex min-h-[100svh] flex-col px-4 pb-28 pt-5 md:px-8"
             >
-                <div class="relative z-10 flex items-start justify-between gap-6 font-wide text-[0.65rem] leading-tight md:text-xs">
+                <div class="hero-fade relative z-10 flex items-start justify-between gap-6 font-wide text-[0.65rem] leading-tight md:text-xs">
                     <p>{t("meta.description")}<br />{t("hero.tagline")}</p>
                     <p class="text-right">duparc.studio<br />2021-2025</p>
                 </div>
                 <div class="relative flex flex-1 flex-col justify-center">
-                    <Starburst
-                        fill="var(--pink)"
-                        class="burst-spin-rev pointer-events-none absolute left-[4%] top-[6%] z-0 h-[26vw] w-[26vw] md:left-[70%] md:top-[64%] md:h-[16vw] md:w-[16vw]"
-                    />
-                    <Starburst fill="var(--acid)" style="--burst-y: -50%" class="burst-spin pointer-events-none absolute left-[38%] top-1/2 z-0 h-[62vw] w-[62vw] -translate-y-1/2 md:left-[42%] md:h-[44vw] md:w-[44vw]" />
-                    <h1 class="font-title riso relative z-10 text-[27vw] leading-[0.8] text-[var(--blue)] md:text-[21vw]" style="--riso: var(--pink);">
+                    <div class="hero-burst pointer-events-none absolute inset-0 z-0">
+                        <Starburst
+                            fill="var(--pink)"
+                            class="burst-spin-rev absolute left-[4%] top-[6%] h-[26vw] w-[26vw] md:left-[70%] md:top-[64%] md:h-[16vw] md:w-[16vw]"
+                        />
+                        <Starburst fill="var(--acid)" style="--burst-y: -50%" class="burst-spin absolute left-[38%] top-1/2 h-[62vw] w-[62vw] -translate-y-1/2 md:left-[42%] md:h-[44vw] md:w-[44vw]" />
+                    </div>
+                    <h1 class="hero-title font-title riso relative z-10 text-[27vw] leading-[0.8] text-[var(--blue)] md:text-[21vw]" style="--riso: var(--ink);">
                         <span class="block">Aliénor</span>
                         <span class="block pl-[9vw]">du Parc</span>
                     </h1>
                 </div>
-                <div class="relative z-10 mb-4 flex items-end justify-end gap-6">
+                <div class="hero-fade relative z-10 mb-4 flex items-end justify-end gap-6">
                     <p class="font-title text-right text-7xl leading-[0.8] text-[var(--acid)] md:text-[10rem]">
                         {String(sortedProjects.length).padStart(2, "0")}<span class="font-wide ml-2 align-top text-xs text-[var(--ink)] md:text-sm">{t("hero.projects")}</span>
                     </p>
@@ -279,7 +281,7 @@ for (const project of sortedProjects) {
                                             <span class="text-right">{project.data.description.replace(/\.$/, "")}</span>
                                         </div>
                                         <div class="flex items-end justify-between gap-3">
-                                            <h3 class="font-title riso text-4xl leading-[0.85] md:text-5xl" style={`--riso: ${theme.burst};`}>
+                                            <h3 class="font-title riso text-4xl leading-[0.85] md:text-5xl" style={`--riso: ${theme.riso};`}>
                                                 {project.data.title}
                                             </h3>
                                             <span class="font-title shrink-0 text-3xl leading-[0.8] md:text-4xl">
@@ -359,19 +361,6 @@ for (const project of sortedProjects) {
                 </div>
             </section>
 
-
-            <div class="marquee mt-4 bg-[var(--pink)] py-3 text-[var(--ink)]" style="--marquee-speed: 25s;" aria-hidden="true">
-                <div class="marquee-track font-title text-4xl leading-none md:text-6xl">
-                    {Array.from({ length: 12 }).map(() => (
-                        <span class="flex items-center">
-                            <span class="px-5">{t("marquee.contact")}</span>
-                            <Starburst fill="var(--blue)" class="h-8 w-8 shrink-0 md:h-12 md:w-12" />
-                            <span class="px-5">alienor@duparc.studio</span>
-                            <Starburst fill="var(--acid)" class="h-8 w-8 shrink-0 md:h-12 md:w-12" />
-                        </span>
-                    ))}
-                </div>
-            </div>
 
             <section
                 id="contact"
@@ -561,28 +550,71 @@ for (const project of sortedProjects) {
             }
 
             .sheet {
-                box-shadow: 0 -24px 60px rgb(0 0 0 / 0.18);
+                box-shadow: 0 -30px 80px rgb(0 0 0 / 0.12);
             }
 
+            /* Transition : le nom fonce vers l'écran, les étoiles s'emballent, puis la feuille des projets monte */
             @supports (animation-timeline: scroll()) {
-                #home {
-                    transform-origin: 50% 0;
-                    animation: heroRecede linear both;
+                .hero-title {
+                    transform-origin: 45% 55%;
+                    animation: heroZoom linear both;
+                    animation-timeline: scroll(root);
+                    animation-range: 0 85svh;
+                }
+
+                .hero-burst {
+                    animation: heroBurst linear both;
                     animation-timeline: scroll(root);
                     animation-range: 0 100svh;
                 }
 
-                @keyframes heroRecede {
+                .hero-fade {
+                    animation: heroFade linear both;
+                    animation-timeline: scroll(root);
+                    animation-range: 0 40svh;
+                }
+
+                .poster-card {
+                    animation: cardIn linear both;
+                    animation-timeline: view();
+                    animation-range: entry 0% entry 70%;
+                }
+
+                @keyframes heroZoom {
                     to {
-                        transform: scale(0.88);
-                        border-radius: 3rem;
-                        filter: brightness(0.7) saturate(1.3);
+                        transform: scale(3.2);
+                        opacity: 0;
+                        filter: blur(6px);
+                    }
+                }
+
+                @keyframes heroBurst {
+                    to {
+                        transform: rotate(120deg) scale(2.2);
+                        opacity: 0.4;
+                    }
+                }
+
+                @keyframes heroFade {
+                    to {
+                        opacity: 0;
+                        transform: translateY(-2rem);
+                    }
+                }
+
+                @keyframes cardIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(80px) scale(0.94);
                     }
                 }
             }
 
             @media (prefers-reduced-motion: reduce) {
-                #home {
+                .hero-title,
+                .hero-burst,
+                .hero-fade,
+                .poster-card {
                     animation: none;
                 }
             }
