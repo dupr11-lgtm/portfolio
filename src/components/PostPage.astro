@@ -399,7 +399,7 @@ const { Content } = await post.render();
             <button id="lightbox-close" class="absolute right-3 top-3 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--bg-85)] text-3xl leading-none text-[var(--fg)] md:right-5 md:top-4 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-4xl" aria-label={t("post.lightbox.close")}>&times;</button>
             <button id="lightbox-rotate" class="absolute right-14 top-3 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--bg-85)] text-2xl leading-none text-[var(--fg-90)] md:right-16 md:top-4 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-3xl" aria-label={t("post.lightbox.rotate")}>&#8635;</button>
             <button id="lightbox-next" class="absolute right-2 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--bg-85)] text-4xl leading-none text-[var(--fg-95)] md:right-5 md:h-auto md:w-auto md:rounded-none md:bg-transparent md:text-5xl" aria-label={t("post.lightbox.next")}>&#8250;</button>
-            <img id="lightbox-image" src="" alt={t("post.lightbox.image")} class="max-h-[92vh] max-w-[92vw] object-contain" style="filter: var(--duo);" />
+            <img id="lightbox-image" alt={t("post.lightbox.image")} class="max-h-[92vh] max-w-[92vw] object-contain" style="filter: var(--duo);" />
         </div>
         <script>
             const images = Array.from(document.querySelectorAll<HTMLImageElement>(".post-image, article img"));

@@ -1,20 +1,78 @@
 ---
 import Meta from "@/components/meta.astro";
+import Logo from "@/components/logo.astro";
+import Starburst from "@/components/starburst.astro";
 ---
 
-<html lang="en">
-	<head>
-		<Meta title="Aliénor du Parc - 404" description="Page introuvable" />
-	</head>
-  <body class="bg-[var(--bg)] text-[var(--fg)] antialiased">
-    <main class="w-full mx-auto md:max-w-2xl px-6 py-12 flex flex-col space-y-12">
-      <a href="/" class="w-min text-md font-semibold text-[var(--fg)]">
-			duparc.studio
-		</a>
-      <div class="w-full flex flex-col space-y-4">
-        <p>Sorry, we couldn't find the content you were looking for :(</p>
-				<a href="/">Go back home</a>
-      </div>
-    </main>
-  </body>
+<html lang="fr">
+    <head>
+        <Meta title="404 | Aliénor du Parc" description="Page introuvable / Page not found" lang="fr" />
+    </head>
+    <body class="font-body bg-[var(--bg)] text-[var(--fg)] antialiased">
+        <main class="flex min-h-[100svh] flex-col p-3 md:p-5">
+            <section class="lost relative flex flex-1 flex-col justify-between overflow-hidden rounded-[1.75rem] px-5 py-5 md:rounded-[2.5rem] md:px-10 md:py-8">
+                <Starburst fill="var(--acid)" class="lost-burst pointer-events-none absolute -right-24 top-1/2 h-[90vw] w-[90vw] -translate-y-1/2 md:h-[48vw] md:w-[48vw]" />
+                <a href="/" class="relative z-10 inline-flex w-fit">
+                    <Logo withName />
+                </a>
+                <h1 class="font-title riso relative z-10 text-[42vw] leading-[0.8] md:text-[30vw]">404</h1>
+                <div class="relative z-10 flex flex-wrap items-end justify-between gap-6">
+                    <p class="font-wide text-xs leading-snug md:text-sm">
+                        Page introuvable
+                        <br />
+                        Page not found
+                    </p>
+                    <div class="flex flex-wrap gap-2 font-wide text-xs md:text-sm">
+                        <a href="/" class="lost-btn">Accueil</a>
+                        <a href="/en" class="lost-btn">Home</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <style>
+            .lost {
+                --logo-fill: var(--blue);
+                --logo-riso: var(--pink);
+                --logo-riso2: var(--acid);
+                --riso: var(--pink);
+                background: var(--violet);
+                color: var(--ink);
+            }
+
+            .lost h1 {
+                color: var(--blue);
+            }
+
+            .lost-btn {
+                border-radius: 999px;
+                background: var(--ink);
+                color: var(--acid);
+                padding: 0.6rem 1.1rem;
+                transition: transform 200ms ease;
+            }
+
+            .lost-btn:hover {
+                transform: translateY(-2px);
+            }
+
+            .lost-burst {
+                animation: lostSpin 40s linear infinite;
+            }
+
+            @keyframes lostSpin {
+                from {
+                    transform: translateY(-50%) rotate(0deg);
+                }
+                to {
+                    transform: translateY(-50%) rotate(360deg);
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .lost-burst {
+                    animation: none;
+                }
+            }
+        </style>
+    </body>
 </html>

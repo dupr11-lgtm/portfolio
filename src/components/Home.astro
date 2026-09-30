@@ -423,6 +423,12 @@ for (const project of sortedProjects) {
                     }
                 });
 
+                // Tout en bas, la dernière section (contact) est trop courte pour atteindre le repère
+                const atBottom =
+                    window.scrollY + window.innerHeight >=
+                    document.documentElement.scrollHeight - 4;
+                if (atBottom) currentId = "contact";
+
                 updateActiveTab(currentId);
             };
 
