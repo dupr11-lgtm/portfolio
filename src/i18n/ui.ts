@@ -86,7 +86,7 @@ export type UiKey = keyof (typeof ui)["fr"];
 
 const formationFr = [
   {
-    dates: "2025 - aujourd’hui",
+    dates: "2026 - aujourd’hui",
     lines: ["Master - Faculté d’Architecture La Cambre Horta, ULB, Bruxelles"],
   },
   {
@@ -119,7 +119,7 @@ const formationFr = [
 
 const formationEn = [
   {
-    dates: "2025 - present",
+    dates: "2026 - present",
     lines: ["Master's - Faculty of Architecture La Cambre Horta, ULB, Brussels"],
   },
   {
