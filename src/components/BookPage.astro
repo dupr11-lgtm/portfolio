@@ -1,0 +1,285 @@
+---
+import { getCollection } from "astro:content";
+import dayjs from "dayjs";
+import Meta from "@/components/meta.astro";
+import Logo from "@/components/logo.astro";
+import Starburst from "@/components/starburst.astro";
+import ThemeToggle from "@/components/theme-toggle.astro";
+import LanguageToggle from "@/components/language-toggle.astro";
+import { useTranslations, type Lang } from "@/i18n/ui";
+import { themeForProject } from "@/components/poster-themes";
+import { livreIvresse as book } from "@/data/livre-ivresse";
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const prefix = lang === "en" ? "/en" : "";
+const pdfUrl = "/projects/ivresse.mdx/14-minutes-et-16-heures.pdf";
+
+// Même couleur que la carte du projet Ivresse sur l'accueil
+const posts = await getCollection(lang === "en" ? "postsEn" : "posts");
+const index = posts
+    .sort((a, b) => (dayjs(a.data.createdAt).isAfter(dayjs(b.data.createdAt)) ? -1 : 1))
+    .findIndex((entry) => entry.slug === "ivresse");
+const theme = themeForProject("ivresse", Math.max(0, index));
+---
+
+<html lang={lang}>
+    <head>
+        <Meta
+            title={`${book.title} | Aliénor du Parc`}
+            description={t("livre.description")}
+            lang={lang}
+            alternates={{ fr: "/livre/ivresse", en: "/en/livre/ivresse" }}
+        />
+    </head>
+    <body
+        class="font-body bg-[var(--bg)] text-[var(--fg)] antialiased"
+        style={`--book-bg: ${theme.bg}; --book-fg: ${theme.fg}; --book-riso: ${theme.riso}; --book-burst: ${theme.burst};`}
+    >
+        <main class="flex flex-col gap-3 p-3 md:gap-5 md:p-5">
+            <header class="book-poster relative flex min-h-[calc(100svh-1.5rem)] flex-col justify-between overflow-hidden rounded-[1.75rem] px-5 py-5 md:min-h-[calc(100svh-2.5rem)] md:rounded-[2.5rem] md:px-10 md:py-8">
+                <Starburst fill={theme.burst} class="book-spin pointer-events-none absolute -right-20 top-[18%] h-[80vw] w-[80vw] md:-right-16 md:top-[8%] md:h-[46vw] md:w-[46vw]" />
+                <div class="relative z-10 flex items-start justify-between gap-4">
+                    <a href={prefix || "/"} class="inline-flex w-fit">
+                        <Logo withName />
+                    </a>
+                    <a href={`${prefix}/post/ivresse`} class="book-pill font-wide text-[0.6rem] md:text-xs">← {t("livre.back")}</a>
+                </div>
+                <h1 class="font-title riso relative z-10 text-[19vw] leading-[0.8] md:text-[10.5vw]">
+                    <span class="block">14 minutes</span>
+                    <span class="block">et 16 heures</span>
+                </h1>
+                <div class="relative z-10 flex flex-wrap items-end justify-between gap-5">
+                    <p class="font-wide text-[0.65rem] leading-snug md:text-xs">
+                        {t("livre.kind")} - Aliénor du Parc - 2021
+                        {t("livre.language") && (<><br />{t("livre.language")}</>)}
+                    </p>
+                    <div class="flex flex-wrap gap-2 font-wide text-[0.65rem] md:text-xs">
+                        <a href="#lecture" class="book-pill book-pill-solid">{t("livre.read")} ↓</a>
+                        <a href={pdfUrl} download class="book-pill">{t("livre.pdf")} ↗</a>
+                    </div>
+                </div>
+            </header>
+
+            <article id="lecture" class="book-body mx-auto w-full max-w-[40rem] px-2 pb-10 pt-16 md:pt-28">
+                <p class="font-title riso book-epigraph text-5xl leading-[0.9] md:text-7xl">
+                    « {book.epigraph} »
+                </p>
+
+                <section class="mt-20 md:mt-28">
+                    <p class="book-label font-wide">{t("livre.note")}</p>
+                    <div class="book-intro mt-5 space-y-5">
+                        {book.intro.map((paragraph) => <p>{paragraph}</p>)}
+                    </div>
+                </section>
+
+                {
+                    book.chapters.map((chapter) => (
+                        <section class="book-chapter mt-24 md:mt-32">
+                            <h2 class="book-numeral font-title">{chapter.numeral}.</h2>
+                            <div class="book-text mt-8 space-y-6">
+                                {chapter.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+                            </div>
+                        </section>
+                    ))
+                }
+            </article>
+
+            <footer class="book-poster relative overflow-hidden rounded-[1.75rem] px-5 py-8 md:rounded-[2.5rem] md:px-10 md:py-12">
+                <Starburst fill={theme.burst} class="book-spin pointer-events-none absolute -bottom-24 -right-16 h-72 w-72 md:h-[26rem] md:w-[26rem]" />
+                <p class="font-title riso relative z-10 text-6xl leading-[0.82] md:text-8xl">356 m</p>
+                <p class="font-wide relative z-10 mt-3 text-[0.65rem] md:text-xs">{t("livre.end")}</p>
+                <div class="relative z-10 mt-10 max-w-xl space-y-4 text-base leading-relaxed md:text-lg">
+                    {book.back.map((paragraph) => <p class="book-serif">{paragraph}</p>)}
+                </div>
+                <div class="relative z-10 mt-10 flex flex-wrap gap-2 font-wide text-[0.65rem] md:text-xs">
+                    <a href={pdfUrl} download class="book-pill book-pill-solid">{t("livre.pdf")} ↗</a>
+                    <a href={`${prefix}/post/ivresse`} class="book-pill">← {t("livre.back")}</a>
+                </div>
+            </footer>
+        </main>
+
+        <div class="depth-gauge font-title" aria-hidden="true">
+            <span class="depth-label font-wide">{t("livre.depth")}</span>
+            <span id="depth-value" data-surface={t("livre.surface")}>{t("livre.surface")}</span>
+        </div>
+
+        <div class="theme-dock-fixed">
+            <LanguageToggle lang={lang} />
+            <ThemeToggle />
+        </div>
+
+        <script define:vars={{ maxDepth: book.maxDepth }}>
+            // Profondimètre : la lecture fait descendre de la surface à 356 m
+            const reading = document.getElementById("lecture");
+            const value = document.getElementById("depth-value");
+            const updateDepth = () => {
+                if (!reading || !value) return;
+                const rect = reading.getBoundingClientRect();
+                const travel = rect.height - window.innerHeight * 0.5;
+                const progress = Math.min(1, Math.max(0, (window.innerHeight * 0.5 - rect.top) / travel));
+                const depth = Math.round(progress * maxDepth);
+                value.textContent = depth === 0 ? value.dataset.surface : `-${depth} m`;
+                document.body.classList.toggle("is-diving", progress > 0);
+            };
+            window.addEventListener("scroll", updateDepth, { passive: true });
+            window.addEventListener("resize", updateDepth);
+            updateDepth();
+        </script>
+
+        <style>
+            .book-poster {
+                --logo-fill: var(--book-fg);
+                --logo-riso: var(--book-riso);
+                --logo-riso2: var(--book-burst);
+                --riso: var(--book-riso);
+                background: var(--book-bg);
+                color: var(--book-fg);
+                box-shadow: inset 0 0 0 1px rgb(var(--fg-rgb) / 0.12);
+            }
+
+            .book-pill {
+                display: inline-flex;
+                align-items: center;
+                border-radius: 999px;
+                border: 1.5px solid currentColor;
+                padding: 0.55rem 1rem;
+                transition: transform 200ms ease;
+            }
+
+            .book-pill:hover {
+                transform: translateY(-2px);
+            }
+
+            .book-pill-solid {
+                background: var(--book-fg);
+                color: var(--book-bg);
+                border-color: var(--book-fg);
+            }
+
+            .book-epigraph {
+                --riso: var(--book-riso);
+            }
+
+            .book-label {
+                font-size: 0.65rem;
+                color: var(--book-riso);
+            }
+
+            .book-intro,
+            .book-text,
+            .book-serif {
+                font-family: "Newsreader", Georgia, serif;
+            }
+
+            .book-intro {
+                font-style: italic;
+                font-size: 1.15rem;
+                line-height: 1.6;
+                opacity: 0.85;
+            }
+
+            .book-text {
+                font-size: 1.2rem;
+                line-height: 1.7;
+                hyphens: auto;
+            }
+
+            .book-text p:first-child::first-letter {
+                float: left;
+                margin: 0.08em 0.12em 0 0;
+                font-family: "Archivo", "Inter", sans-serif;
+                font-weight: 900;
+                font-stretch: 62%;
+                font-size: 4.2em;
+                line-height: 0.8;
+                color: var(--book-riso);
+            }
+
+            .book-numeral {
+                font-size: clamp(6rem, 22vw, 11rem);
+                line-height: 0.8;
+                color: var(--book-bg);
+                -webkit-text-stroke: 2px var(--fg);
+            }
+
+            .depth-gauge {
+                position: fixed;
+                right: 0.6rem;
+                top: 0.6rem;
+                z-index: 40;
+                display: flex;
+                align-items: baseline;
+                gap: 0.4rem;
+                border-radius: 999px;
+                padding: 0.35rem 0.75rem 0.3rem;
+                background: var(--book-bg);
+                color: var(--book-fg);
+                font-size: 1.1rem;
+                line-height: 0.9;
+                box-shadow: 0.15rem 0.15rem 0 var(--book-riso);
+                opacity: 0;
+                transform: translateY(-1rem);
+                transition:
+                    opacity 250ms ease,
+                    transform 250ms ease;
+                pointer-events: none;
+            }
+
+            .depth-label {
+                font-size: 0.5rem;
+                opacity: 0.75;
+            }
+
+            :global(body.is-diving) .depth-gauge {
+                opacity: 1;
+                transform: none;
+            }
+
+            .book-spin {
+                animation: bookSpin 50s linear infinite;
+            }
+
+            @keyframes bookSpin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            @media (min-width: 768px) {
+                .depth-gauge {
+                    top: auto;
+                    right: auto;
+                    left: 1.25rem;
+                    bottom: 1.25rem;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0.2rem;
+                    border-radius: 1rem;
+                    padding: 0.55rem 0.8rem 0.5rem;
+                    font-size: 2.4rem;
+                    transform: translateY(1rem);
+                    box-shadow: 0.2rem 0.2rem 0 var(--book-riso);
+                }
+
+                .depth-label {
+                    font-size: 0.6rem;
+                }
+
+                .book-text {
+                    font-size: 1.3rem;
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .book-spin {
+                    animation: none;
+                }
+            }
+        </style>
+    </body>
+</html>
