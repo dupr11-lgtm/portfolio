@@ -1,0 +1,385 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aliénor du Parc</title>
+<script src="i18n.js"></script>
+<script>(function(){try{var n=performance.getEntriesByType("navigation")[0];if(n&&n.type=="back_forward"&&sessionStorage.getItem("retour")){history.scrollRestoration="manual";document.documentElement.classList.add("retour")}}catch(e){}})()</script>
+<style>html.retour body{visibility:hidden}</style>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Rokkitt:wght@800&family=Courier+Prime&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="commun.css">
+<style>
+:root{--p:#efe9dd;--b:#252b80;--r:#d8452e}
+body{background:var(--p);color:var(--b);font:400 .78rem/1.3 "Courier Prime",monospace}
+@font-face{font-family:"Geist Serif";src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-serif/GeistSerif-Regular.woff2) format("woff2");font-display:swap}
+h1{font-family:"Geist Serif",serif;font-weight:400;letter-spacing:-.015em}
+[data-logo] span{font-family:"Geist Serif",serif;font-weight:400}
+#page{position:relative;overflow:hidden}
+#champ{position:absolute;left:0;top:0;pointer-events:none}
+
+/* Le logo reste en haut à gauche : son nom disparaît une fois l'accueil passé, la maison reste dans la marge */
+.haut{position:fixed;z-index:12;top:1.3rem}
+.haut.gauche{left:1.3rem}
+.haut.gauche span{transition:opacity 200ms}
+.haut.gauche.plie span{opacity:0;pointer-events:none}
+.haut.droite{right:1.3rem;display:flex;flex-direction:column;align-items:flex-end;gap:.3rem}
+.haut.droite a{transition:transform 220ms cubic-bezier(.3,1.5,.5,1),color 120ms}
+.haut.droite a:hover{color:var(--r);transform:translateX(-.4rem)}
+[data-logo] svg{height:3.2rem}
+[data-logo] span{font-size:1.15rem;line-height:1.02}
+body[data-theme=nuit]{--p:#14162e;--b:#ece6da;--r:#ff6a4d;--l0:#ece6da;--l1:#9da1d6;--l2:#5a5f9e}
+body[data-theme=nuit][data-logo-c=b]{--l0:#ece6da;--l1:#9da1d6;--l2:#5a5f9e}
+body[data-theme=nuit][data-im] .im{filter:var(--pre,) url(#nuit-sable)}
+body,.pl{transition:background-color 300ms,color 300ms}
+[data-logo] .l0{fill:var(--l0)}[data-logo] .l1{fill:var(--l1)}[data-logo] .l2{fill:var(--l2)}
+body[data-logo-c=b]{--l0:#252b80;--l1:#6f74ba;--l2:#b5b8de}
+
+/* Où on en est : un simple fil de numéros, le projet en cours passe en rouge et se décale */
+.fil{position:fixed;z-index:11;right:1.3rem;top:50%;transform:translateY(-50%);list-style:none;padding:0;text-align:right}
+.fil .an{font:800 .8rem/1 Rokkitt,serif;color:var(--r);margin:.5rem 0 .1rem auto;width:fit-content}
+.fil a{position:relative;display:block;width:fit-content;margin-left:auto;padding:.05rem 0;transition:transform 220ms cubic-bezier(.3,1.5,.5,1),color 120ms}
+.fil a i{font-style:normal;position:absolute;right:calc(100% + .5rem);top:50%;transform:translateY(-50%);white-space:nowrap;pointer-events:none;clip-path:inset(-2px -2px -2px 100%);transition:clip-path 300ms cubic-bezier(.3,.7,.2,1)}
+.fil a::after,.haut.droite a::after{content:"";position:absolute;left:100%;top:0;bottom:0;width:1.3rem}
+.haut.droite a{position:relative}
+.fil a:hover,.fil a.on{color:var(--r);transform:translateX(-.55rem)}
+.fil a:hover i,.fil a.on i{clip-path:inset(-2px -2px -2px -2px)}
+
+/* L'accueil */
+.hero{position:relative;height:100svh;min-height:640px}
+.carte{position:absolute;left:32%;top:9%;width:50%;height:78%;background:url(../public/projects/centre-de-recherches.mdx/cover.jpg) center/cover}
+/* Disques : papier découpé, une forme vectorielle différente à chaque fois */
+.d{position:absolute;--disc-b:#252b80}
+body[data-theme=nuit] .d{--disc-b:#c7bda6}
+.d svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+h1{position:absolute;left:2rem;bottom:6.6rem;font:300 clamp(3.2rem,7.4vw,7.8rem)/.92 Newsreader,serif;letter-spacing:-.025em;z-index:2}
+.sous{position:absolute;left:2rem;bottom:1.6rem;z-index:2;max-width:36rem;font-size:.84rem;line-height:1.3}
+
+/* Les projets : les tailles et les places varient, rien ne se superpose */
+.annee{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:4.5rem 1.4rem;padding:3.5rem 13rem 2.5rem 6rem;scroll-margin-top:4rem}
+.annee>h2,.titre{grid-column:1/-1;font:800 clamp(3.2rem,7.4vw,7rem)/.8 Rokkitt,serif;color:var(--r);margin-bottom:-2.4rem}
+.it{position:relative;display:block;scroll-margin-top:6rem}
+.cad{position:relative}
+.pl{position:relative;z-index:1;border-radius:20px;overflow:hidden;background:var(--p);transition:transform 650ms cubic-bezier(.22,.8,.3,1),background-color 300ms}
+/* Au survol, l'image grossit à peine et en douceur, à l'aller comme au retour */
+.it:hover .pl,.it.vu .pl,.it:hover .vide,.it.vu .vide{transform:scale(1.012)}
+.pl img{display:block;width:100%;height:100%;object-fit:cover}
+.pl .im2{position:absolute;inset:0;opacity:0;filter:url(#bleu);transition:opacity 350ms}
+.bas{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem 1.6rem;margin-top:.8rem}
+.note{font:500 1.15rem/1.2 Newsreader,serif;max-width:18rem}
+.note.dessus{margin-bottom:.7rem;margin-left:auto;text-align:right}
+.cap{display:grid;grid-template-columns:auto 1fr;gap:.15rem .7rem;align-items:start;max-width:30rem}
+.cap h3{-webkit-text-stroke:0 currentColor;transition:color 120ms,-webkit-text-stroke-width 180ms}
+.it:hover .cap h3,.it.vu .cap h3{color:var(--r);-webkit-text-stroke-width:.5px}
+.cap b{font:800 1.9rem/.9 Rokkitt,serif;color:var(--r)}
+.cap h3{font:450 1.22rem/1.1 Newsreader,serif}
+.cap p{grid-column:2;font-size:.76rem}
+.vide{transition:transform 650ms cubic-bezier(.22,.8,.3,1),background-color 300ms,color 300ms;aspect-ratio:4/3;display:grid;place-items:center;text-align:center;font:italic 300 2.6rem/1 Newsreader,serif;color:var(--p);background:var(--b);border-radius:48% 52% 46% 54%}
+
+/* Le profil */
+.profil{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:3.6rem 1.4rem;padding:5rem 13rem 3rem 6rem;scroll-margin-top:3rem}
+.bloc{align-self:start;margin:0}
+.bref{grid-column:1/span 6}.bref p{font:400 1.36rem/1.34 Newsreader,serif}
+.form{grid-column:8/span 5}
+.bloc h3{font:800 1.3rem/1 Rokkitt,serif;color:var(--r);margin-bottom:.8rem}
+.form dt{color:var(--r);margin-top:.8rem}.form dd{margin:.1rem 0 0;font:450 1.04rem/1.24 Newsreader,serif}
+.note,.bref p,.cap h3,.form dd{font-variation-settings:"opsz" 14}
+
+/* Le contact : une page entière, qui répond à l'accueil */
+.contact{position:relative;min-height:100svh;padding:3.5rem 13rem 2.4rem 6rem;scroll-margin-top:0}
+.contact h2{font:800 clamp(3.2rem,7.4vw,7rem)/.8 Rokkitt,serif;color:var(--r)}
+.fin{position:absolute;right:13rem;top:27%;width:43%;height:30%;display:flex;align-items:center;justify-content:center}
+.fin [data-logo],.fin [data-logo] svg{height:100%}
+.mail{position:absolute;left:6rem;bottom:2.2rem;z-index:2;font:400 clamp(2rem,6.5vw,6.5rem)/1 "Geist Serif",serif;letter-spacing:-.015em;transition:color 120ms}
+.mail:hover{color:var(--r)}
+.contact .vers{position:absolute;left:6rem;bottom:1.8rem;font-size:.84rem}
+
+/* Soleil et lune */
+.jour{position:fixed;right:1.3rem;bottom:1.2rem;z-index:12;display:flex;gap:.55rem}
+.jour button{all:unset;cursor:pointer;width:1.45rem;height:1.45rem;color:var(--b);opacity:.5;transition:opacity 150ms,color 150ms}
+.jour button svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.jour button:hover{opacity:1}
+.jour button[aria-pressed=true]{color:var(--r);opacity:1}
+.jour button:focus-visible{outline:1.5px solid var(--r);outline-offset:3px;border-radius:4px}
+.jour .lg{width:auto;font:400 .8rem/1.45rem "Courier Prime",monospace;letter-spacing:.03em}
+.jour .sep{width:1px;height:1rem;align-self:center;background:var(--b);opacity:.3;margin:0 .1rem}
+@media (max-width:900px){.jour{position:absolute;right:.9rem;top:3.1rem;bottom:auto}}
+
+/* Réglage d'essai, pour comparer les images : ne restera pas sur le site */
+.essai{position:fixed;right:1.3rem;bottom:1.1rem;z-index:15;width:10.5rem;background:var(--b);color:var(--p);border-radius:10px;padding:.5rem .6rem;display:flex;flex-direction:column;gap:.1rem;font-size:.7rem}
+.essai u{text-decoration:none;opacity:.7;margin-top:.25rem}
+.essai button{all:unset;cursor:pointer;padding:.1rem .4rem;border-radius:5px}
+.essai button.on{background:var(--p);color:var(--b)}
+
+@media (max-width:900px){
+ .haut{position:absolute}.haut.droite{flex-direction:row;gap:.9rem}.haut.gauche.plie span{opacity:1}
+ .fil{top:auto;bottom:.8rem;right:.8rem;transform:none;text-shadow:none}.fil .an,.fil li:not(:has(a.on)){display:none}
+ .fil a,.fil a.on,.fil a:hover{transform:none;color:var(--p);background:var(--b);padding:.25rem .55rem;border-radius:7px;margin:0}
+ .fil a i{position:static;display:inline;clip-path:none;transform:none;margin-right:.5rem}
+ .hero{height:80svh;min-height:540px}.hero .gros{top:8%!important}
+ .carte{left:9%;top:13%;width:82%;height:50%}
+ h1{left:1rem;bottom:7rem;font-size:3.4rem}.sous{left:1rem;right:1rem;bottom:.8rem}
+ .annee,.profil{padding:2rem 1rem;gap:3rem 0}
+ .it{grid-column:1/-1!important;grid-row:auto!important;margin-top:0!important}
+ .it:nth-of-type(even){margin-left:9%}.it:nth-of-type(odd){margin-right:9%}
+ .bref,.form{grid-column:1/-1}
+ .contact{padding:2rem 1rem}.fin{right:9%;top:26%;width:82%;height:28%}.mail{left:1rem;bottom:4.4rem;font-size:clamp(1.7rem,8.6vw,3rem)}.contact .vers{left:1rem;bottom:3rem}
+ .essai{display:none}
+}
+/* Zoom, fil et courbes restent actifs avec « réduire les animations » : effets très discrets, sans grand déplacement */
+</style></head><body data-im="bleu" data-logo-c="b" data-survol="courbes">
+<script>(function(){var t="";try{t=localStorage.getItem("theme")||""}catch(e){}var q=new URLSearchParams(location.search);if(q.has("t"))t=q.get("t");if(location.hash=="#sombre")t="nuit";document.body.dataset.theme=t})()</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<filter id="bleu" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="1.3" intercept="-.13"/><feFuncG type="linear" slope="1.3" intercept="-.13"/><feFuncB type="linear" slope="1.3" intercept="-.13"/></feComponentTransfer><feComponentTransfer><feFuncR type="table" tableValues=".145 .937"/><feFuncG type="table" tableValues=".17 .914"/><feFuncB type="table" tableValues=".5 .867"/></feComponentTransfer></filter>
+<filter id="verm" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="1.3" intercept="-.13"/><feFuncG type="linear" slope="1.3" intercept="-.13"/><feFuncB type="linear" slope="1.3" intercept="-.13"/></feComponentTransfer><feComponentTransfer><feFuncR type="table" tableValues=".72 .937"/><feFuncG type="table" tableValues=".2 .914"/><feFuncB type="table" tableValues=".13 .867"/></feComponentTransfer></filter>
+<filter id="noir" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="1.3" intercept="-.13"/><feFuncG type="linear" slope="1.3" intercept="-.13"/><feFuncB type="linear" slope="1.3" intercept="-.13"/></feComponentTransfer><feComponentTransfer><feFuncR type="table" tableValues=".11 .937"/><feFuncG type="table" tableValues=".105 .914"/><feFuncB type="table" tableValues=".095 .867"/></feComponentTransfer></filter>
+<filter id="nuit-sable" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="table" tableValues=".078 .36 .78"/><feFuncG type="table" tableValues=".086 .35 .74"/><feFuncB type="table" tableValues=".18 .36 .65"/></feComponentTransfer></filter>
+
+</svg>
+<style>
+body[data-im=bleu] .im{filter:var(--pre,) url(#bleu)}
+</style>
+
+<a class="haut gauche" id="logo" data-logo data-accueil href="#" aria-label="Retour à l'accueil"><span>Aliénor<br>du Parc</span></a>
+<nav class="haut droite"><a href="#a2026">Portfolio</a><a href="#profil">Profil</a><a href="#contact">Contact</a></nav>
+<ol class="fil" id="fil"></ol>
+<div class="jour" role="group" aria-label="Thème">
+  <button data-t="" aria-label="Thème clair"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/></svg></button>
+  <button data-t="nuit" aria-label="Thème sombre"><svg viewBox="0 0 24 24"><path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1z"/></svg></button>
+</div>
+
+<div id="page">
+<svg id="champ" aria-hidden="true"></svg>
+<svg id="couche" aria-hidden="true" style="position:absolute;left:0;top:0;pointer-events:none"><g id="gras" fill="none" stroke-linecap="round" style="stroke:var(--r)"></g></svg>
+<section class="hero">
+  <div class="d gros" style="width:19vw;height:19vw;left:66%;top:1%"></div>
+  <div class="d" style="width:4.6vw;height:4.6vw;left:27%;top:26%;background:var(--b)"></div>
+  <div class="d" style="width:2.2vw;height:2.2vw;left:33%;top:15%"></div>
+  <div class="carte im" id="carte"></div>
+  <h1>Aliénor<br>du Parc</h1>
+  <p class="sous">Je suis étudiante en master d'architecture à l'ULB, à Bruxelles.</p>
+</section>
+<div id="table"></div>
+<section class="profil" id="profil">
+  <h2 class="titre" id="h-profil"></h2>
+  <div class="bloc bref"><h3 id="h-bref"></h3><p id="bref"></p></div>
+  <dl class="bloc form" id="formation"><h3 id="h-form"></h3></dl>
+</section>
+<section class="contact" id="contact">
+  <div class="d" style="width:11vw;height:11vw;right:calc(13rem + 39%);top:10%"></div>
+  <div class="fin" id="fin"><a data-logo data-accueil href="#" aria-label="Aliénor du Parc"></a></div>
+  <h2>Contact</h2>
+  <a class="mail" href="mailto:alienor@duparc.studio">alienor@duparc.studio</a>
+</section>
+</div>
+
+<script src="commun.js"></script><script src="projets.js"></script>
+<script>
+// Les textes fixes, dans la langue de la visiteuse
+pose([[".haut.droite a:nth-child(1)","portfolio"],[".haut.droite a:nth-child(2)","profil"],[".haut.droite a:nth-child(3)","contact"],[".sous","hero"],["#logo","accueil","aria-label"],[".jour","themeG","aria-label"],[".jour [data-t='']","clair","aria-label"],[".jour [data-t='nuit']","sombre","aria-label"],[".contact h2","contact"],["#h-profil","profil"],["#h-bref","enbref"],["#h-form","formation"]]);
+bref.innerHTML=BREF[LANG];
+formation.insertAdjacentHTML("beforeend",FORMATION[LANG].map(([d,l])=>`<dt>${d}</dt><dd>${l.join("<br>")}</dd>`).join(""));
+initLangue();
+
+// i : projet / court : nom dans le fil / note : ses propres mots / col, span, row, ar, mt : place sur le plan / disc : [taille, x, y] qui dépasse derrière l'image
+PROJECTS.push({title:"Cinéma",meta:"Master - ULB",year:"2026",img:null},{title:"ACT",meta:"Projet interactif - Master - ULB",year:"2026",img:null});
+const G=[
+ ["2026",[
+  {i:14,court:"Cinéma",col:2,span:4,row:2,vide:"Coming soon"},
+  {i:15,court:"ACT",col:7,span:4,row:2,mt:90,vide:"Coming soon"},
+ ]],
+ ["2025",[
+  {i:0,court:"Entre deux corps",col:1,span:7,row:2,ar:"16/10",disc:[22,84,-12],note:"La vallée est traversée, jamais habitée.",b:"left:-.6rem;top:1.2rem"},
+  {i:1,court:"Nakagin Capsule",col:9,span:4,row:2,ar:"1/1",mt:150,bright:2.6,alt:1,note:"Travailler la lumière comme matière.",b:"right:-.7rem;top:1rem"},
+  {i:2,court:"Podcast",col:3,span:5,row:3,ar:"4/3",alt:1,note:"Pas de plan, pas de maquette, juste la voix.",b:"left:-1rem;top:45%"},
+ ]],
+ ["2024",[
+  {i:5,court:"Centre de recherches",col:4,span:9,row:2,ar:"16/9",disc:[20,-7,62],dbleu:1,alt:1,note:"Construire avec l'instabilité.",b:"right:1.4rem;top:-1rem"},
+ ]],
+ ["2023",[
+  {i:3,court:"Structure bois",col:1,span:5,row:2,ar:"4/3",disc:[34,76,-14],note:"Pas un exercice de forme, mais de lecture.",b:"left:1rem;top:60%"},
+  {i:4,court:"Châtellerault",col:6,span:7,row:2,ar:"16/10",mt:110,alt:1,note:"Un espace qu'on traverse, mais qu'on n'habite pas.",b:"right:1rem;top:-.8rem"},
+  {i:6,court:"Structure béton",col:2,span:3,row:3,ar:"4/5",disc:[46,-16,48],dbleu:1},
+  {i:7,court:"Festival",col:6,span:7,row:3,ar:"16/9",mt:70,alt:1,note:"Transformer ce vide en chemin.",b:"left:-1rem;top:20%"},
+  {i:8,court:"Avenue Daumesnil",col:1,span:7,row:4,ar:"16/10",note:"Comme un fleuve urbain.",b:"right:8%;top:5%"},
+  {i:9,court:"L'école, un carré",col:9,span:4,row:4,ar:"1/1",mt:130,disc:[40,70,84],alt:1,note:"Dans une école, un carré.",b:"left:-1rem;top:1rem"},
+  {i:10,court:"32 logements",col:2,span:5,row:5,ar:"4/3",note:"De la rue au jardin, le monde change.",b:"left:-.6rem;top:30%"},
+  {i:11,court:"Ce que révèle le pli",col:8,span:4,row:5,ar:"1/1",mt:60,alt:1,note:"Une toute petite maison.",b:"left:-1rem;top:64%"},
+  {i:12,court:"Stage ouvrier",col:3,span:8,row:6,ar:"16/9",disc:[18,91,-8],note:"Le chantier impose son rythme.",b:"right:-.8rem;top:48%"},
+ ]],
+ ["2021",[
+  {i:13,court:"Ivresse des profondeurs",col:6,span:4,row:2,note:"Pas comme excès. Comme déformation.",b:"right:-1rem;top:1rem"},
+ ]],
+];
+// Une deuxième image de chaque projet
+const R2="../public/projects/",A={0:"entre-deux-corps.mdx/3.jpg",1:"nakagin-capsule.mdx/2.png",2:"Podcast.mdx/profil.png",3:"structure-bois.mdx/2.jpg",4:"chatel.mdx/1.png",5:"centre-de-recherches.mdx/2.jpg",6:"structure-beton.mdx/2.jpg",7:"festival-structure-temporaire.mdx/3.jpg",8:"avenue-daumesnil.mdx/2.jpg",9:"ecole-sad.mdx/1.png",10:"32-logements.mdx/2.jpg",11:"escargot-sad.mdx/1.png",12:"stage-chantier.mdx/1.png"};
+let n=0,s="",tab="";
+for(const [an,items] of G){
+  s+=`<li class="an">${an}</li>`;tab+=`<section class="annee" id="a${an}"><h2>${an}</h2>`;
+  for(const q of items){
+    const p=PROJECTS[q.i],P=PAGES.find(x=>x.i==q.i),no=String(++n).padStart(2,"0"),id="p"+no,pre=q.bright?`--pre:brightness(${q.bright})`:"",alt=q.alt?" alt":"";
+    s+=`<li><a href="#${id}" data-p="${id}"><i>${P.court}</i>${no}</a></li>`;
+    tab+=`<a class="it" id="${id}" href="projet.html?p=${q.i}" style="grid-column:${q.col}/span ${q.span};grid-row:${q.row};margin-top:${q.mt||0}px"><div class="cad">
+      ${q.disc?`<div class="d" style="width:${q.disc[0]}%;aspect-ratio:1;left:${q.disc[1]}%;top:${q.disc[2]}%;background:var(--${q.dbleu?"b":"r"})"></div>`:""}
+      ${p.img?`<div class="pl" style="aspect-ratio:${q.ar}"><img class="im${alt}" loading="lazy" src="${p.img}" alt="" style="${pre}"></div>`:`<div class="vide" style="position:relative;z-index:1">${q.vide||"14 min,<br>16 h"}</div>`}
+      </div>
+      <div class="bas"><div class="cap"><b>${no}</b><div style="grid-column:2"><h3>${P.titre}</h3><p>${P.an} - ${P.meta}</p></div></div>${P.note?`<p class="note">${P.note}</p>`:""}</div></a>`;
+  }
+  tab+="</section>";
+}
+fil.innerHTML=s;table.innerHTML=tab;restaureLangue();
+
+// Chaque disque est découpé à la main, façon ciseaux : une forme différente à chaque fois, en pur vectoriel
+document.querySelectorAll(".d").forEach((el,n)=>{
+  const r=rng(101+n*37),bleu=el.style.background.includes("--b");el.style.background="none";
+  const lent=[2,3].map(k=>({k,a:.02+r()*.06,p:r()*6.28})),nb=17+Math.floor(r()*9),pts=[];
+  let t=r()*6.28;const pas=[];for(let i=0;i<nb;i++)pas.push(.55+r()*.9);const tot=pas.reduce((a,b)=>a+b,0);
+  for(let i=0;i<nb;i++){t+=pas[i]/tot*6.28319;const q=90*(1+lent.reduce((v,h)=>v+h.a*Math.sin(h.k*t+h.p),0))+(r()-.5)*2.4;pts.push([t,q])}
+  const xy=(t,q)=>[100+Math.cos(t)*q,100+Math.sin(t)*q];
+  // Chaque coup de ciseaux est un arc légèrement bombé, et les jonctions restent à peine marquées
+  let d="";pts.forEach((c,i)=>{const e=pts[(i+1)%nb],[x,y]=xy(c[0],c[1]);if(!i)d+=`M${x.toFixed(2)} ${y.toFixed(2)}`;const u=e[0]<c[0]?e[0]+6.28319:e[0],[cx,cy]=xy((c[0]+u)/2,(c[1]+e[1])/2/Math.cos((u-c[0])/2)*(.992+r()*.012)),[ex,ey]=xy(e[0],e[1]);d+=`Q${cx.toFixed(2)} ${cy.toFixed(2)} ${ex.toFixed(2)} ${ey.toFixed(2)}`});
+  el.insertAdjacentHTML("afterbegin",`<svg viewBox="0 0 200 200" aria-hidden="true"><path d="${d}Z" fill="${bleu?"var(--disc-b)":"var(--r)"}"/></svg>`);
+});
+
+// La forme de l'accueil, puis un vrai relevé de courbes de niveau sur toute la hauteur de la page :
+// les lignes partent de la carte et continuent sans fin jusqu'en bas
+let SEG=[],TEXTES=[],LARG=0;const anims=new Map(),prets=new Map();
+const fb=contour(11,.2),fb2=contour(47,.2);
+const dessine=()=>{
+  const P=document.getElementById("page"),W=P.offsetWidth,H=P.offsetHeight,c=carte,w=c.offsetWidth,h=c.offsetHeight;
+  const r0=Math.min(w,h)*.385,sx=w/h>1?Math.min(1.25,(w/h)*.95):1;
+  c.style.clipPath=`path("${ringPath(fb,w/2,h/2,r0,0,sx,1)}")`;
+  const F2=document.getElementById("fin"),w2=F2.offsetWidth,h2=F2.offsetHeight,sx2=w2/h2>1?Math.min(1.25,(w2/h2)*.95):1;
+  const b=c.getBoundingClientRect(),o=P.getBoundingClientRect();
+  const col=[{x:b.left-o.left+w/2,y:b.top-o.top+h/2,sx,f:fb}];
+  const pas=Math.max(780,W*.62);let k=1;
+  const f0=F2.getBoundingClientRect(),yf=f0.top-o.top+h2/2;
+  for(let y=col[0].y+pas*1.05;y<yf-pas*.55;y+=pas,k++)col.push({x:W*(k%2?.24:.74)+((k*137)%90-45),y,sx:1.15,f:contour(11+k*7,.34)});
+  col.push({x:f0.left-o.left+w2/2,y:yf,sx:sx2,f:fb2});
+  const hs=(x,y)=>{const h=Math.sin(x*127.1+y*311.7)*43758.5453;return h-Math.floor(h)};
+  const vn=(x,y)=>{const i=Math.floor(x),j=Math.floor(y),u=x-i,v=y-j,a=u*u*(3-2*u),b=v*v*(3-2*v);return (hs(i,j)*(1-a)+hs(i+1,j)*a)*(1-b)+(hs(i,j+1)*(1-a)+hs(i+1,j+1)*a)*b-.5};
+  // Le relief : plusieurs échelles de bruit, des grandes pentes aux petits accidents de terrain
+  const relief=(x,y)=>vn(x/460,y/460)*150+vn(x/210+9,y/210+4)*62+vn(x/90+3,y/90+8)*20+vn(x/38+5,y/38+2)*5;
+  const A0=col[0],Z0=col[col.length-1];
+  const champ=(px,py)=>{let e=0;for(const a of col){const dx=(px-a.x)/a.sx,dy=py-a.y,t=Math.atan2(dy,dx),r=Math.hypot(dx,dy)/a.f(t,0);e+=Math.exp(-r/110)}
+    // Les courbes restent calmes autour des deux formes, puis le terrain prend le dessus
+    const d=Math.min(Math.hypot(px-A0.x,py-A0.y),Math.hypot(px-Z0.x,py-Z0.y)),m=Math.max(0,Math.min(1,(d-290)/520));
+    return -Math.log(e)*110+relief(px,py)*m*m*(3-2*m)};
+  const C=9,nx=Math.ceil(W/C)+1,ny=Math.ceil(H/C)+1,v=new Float32Array(nx*ny);
+  for(let j=0;j<ny;j++)for(let i=0;i<nx;i++)v[j*nx+i]=champ(i*C,j*C);
+  const E=38;let fin="",fort="";SEG=[];TEXTES=[];LARG=W;
+  const S=(a,b,va,vb,L)=>a+(b-a)*(L-va)/(vb-va),niveaux=new Map();
+  for(let j=0;j<ny-1;j++)for(let i=0;i<nx-1;i++){
+    const A=v[j*nx+i],B=v[j*nx+i+1],D=v[(j+1)*nx+i],G2=v[(j+1)*nx+i+1],mn=Math.min(A,B,D,G2),mx=Math.max(A,B,D,G2),x=i*C,y=j*C;
+    for(let l=Math.ceil(mn/E);l*E<=mx;l++){const L=l*E,q=[];
+      if((A<L)!=(B<L))q.push([S(x,x+C,A,B,L),y]);
+      if((B<L)!=(G2<L))q.push([x+C,S(y,y+C,B,G2,L)]);
+      if((D<L)!=(G2<L))q.push([S(x,x+C,D,G2,L),y+C]);
+      if((A<L)!=(D<L))q.push([x,S(y,y+C,A,D,L)]);
+      for(let m=0;m+1<q.length;m+=2)(niveaux.get(l)||niveaux.set(l,[]).get(l)).push([q[m][0],q[m][1],q[m+1][0],q[m+1][1]]);
+    }
+  }
+  // On relie les petits traits en lignes continues, puis on les arrondit
+  const fmt=(n)=>n.toFixed(1);
+  for(const [l,segs] of niveaux){
+    const cle=(x,y)=>x.toFixed(2)+","+y.toFixed(2),ends=new Map(),vu=new Uint8Array(segs.length);
+    segs.forEach((g,i)=>{for(const e of [cle(g[0],g[1]),cle(g[2],g[3])])(ends.get(e)||ends.set(e,[]).get(e)).push(i)});
+    const pousse=(pts,avant)=>{for(;;){const c=avant?pts[0]:pts[pts.length-1],i=(ends.get(cle(c[0],c[1]))||[]).find(n=>!vu[n]);if(i==null)return;vu[i]=1;const g=segs[i],p=cle(g[0],g[1])==cle(c[0],c[1])?[g[2],g[3]]:[g[0],g[1]];if(avant)pts.unshift(p);else pts.push(p)}};
+    const f=l%5==0?1:0;let d="";
+    segs.forEach((g,i)=>{if(vu[i])return;vu[i]=1;const pts=[[g[0],g[1]],[g[2],g[3]]];pousse(pts,false);pousse(pts,true);
+      let ax=pts[0][0],ay=pts[0][1];d+=`M${fmt(ax)} ${fmt(ay)}`;
+      for(let n=1;n<pts.length;n++){const c=pts[n],fin_=n==pts.length-1,bx=fin_?c[0]:(c[0]+pts[n+1][0])/2,by=fin_?c[1]:(c[1]+pts[n+1][1])/2;
+        d+=`Q${fmt(c[0])} ${fmt(c[1])} ${fmt(bx)} ${fmt(by)}`;
+        const mx=.25*ax+.5*c[0]+.25*bx,my=.25*ay+.5*c[1]+.25*by;SEG.push(ax,ay,mx,my,f,mx,my,bx,by,f);ax=bx;ay=by}});
+    if(f)fort+=d;else fin+=d;
+  }
+  champ_svg.setAttribute("width",W);champ_svg.setAttribute("height",H);champ_svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  // Sans cadre : les courbes s'effacent doucement autour de chaque ligne de texte, comme sur une carte autour des cotes
+  const trous=[];
+  const garde=(el)=>{const fixe=getComputedStyle(el).position=="fixed"||el.closest(".haut")&&getComputedStyle(el.closest(".haut")).position=="fixed",g=document.createRange();g.selectNodeContents(el);
+    for(const q of g.getClientRects()){if(q.width<2||q.height<2)continue;const X=q.left-(fixe?0:o.left)-8,Y=q.top-(fixe?0:o.top)-5;if(!fixe)TEXTES.push([X,Y,X+q.width+16,Y+q.height+10]);trous.push(`<rect x="${X.toFixed(0)}" y="${Y.toFixed(0)}" width="${(q.width+16).toFixed(0)}" height="${(q.height+10).toFixed(0)}" rx="8"/>`)}};
+  document.querySelectorAll("#page h1,#page h2,#page h3,#page p,#page dt,#page dd,#contact a,#page .vide,.haut span,.haut.droite a").forEach(garde);
+  const mx=document.querySelector(".fin svg").getScreenCTM();
+  const silhouette=`<path d="${HOUSE}" fill="#000" transform="matrix(${mx.a} ${mx.b} ${mx.c} ${mx.d} ${mx.e-o.left} ${mx.f-o.top})"/>`;
+  const marge=W>900?`<rect x="${W-260}" y="0" width="260" height="${H}" fill="url(#fondu)"/>`:"";
+  champ_svg.innerHTML=`<defs><linearGradient id="fondu" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".8"/></linearGradient>
+    <filter id="flou" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><feGaussianBlur stdDeviation="4"/></filter>
+    <mask id="garde" maskUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><rect width="${W}" height="${H}" fill="#fff"/><g fill="#000" opacity=".5" filter="url(#flou)">${trous.join("")}</g>${marge}${silhouette}</mask>
+    <g id="lignes" fill="none" stroke-linecap="round"><path d="${fin}" stroke-width=".65"/><path d="${fort}" stroke-width="1.4"/></g></defs>
+    <use href="#lignes" style="stroke:var(--r)" mask="url(#garde)"/>`;
+  // Les lignes en gras ont leur propre calque : les animer ne redessine pas tout le relief
+  const couche=document.getElementById("couche");couche.setAttribute("width",W);couche.setAttribute("height",H);couche.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  document.getElementById("gras").innerHTML="";anims.clear();prets.clear();
+};
+const champ_svg=document.getElementById("champ");
+dessine();document.fonts?.ready.then(dessine);
+let tm;addEventListener("resize",()=>{clearTimeout(tm);tm=setTimeout(dessine,200)});
+
+const adresse=new URLSearchParams(location.search),boutons=[...document.querySelectorAll(".jour button[data-t]")];
+const regle=(t)=>{document.body.dataset.theme=t;boutons.forEach(b=>b.setAttribute("aria-pressed",b.dataset.t==t));try{localStorage.setItem("theme",t)}catch(e){}};
+let themeInitial="";try{themeInitial=localStorage.getItem("theme")||""}catch(e){}
+if(adresse.has("t")){themeInitial=adresse.get("t");history.replaceState(null,"",location.pathname+location.hash)}if(location.hash=="#sombre")themeInitial="nuit";
+regle(themeInitial);boutons.forEach(b=>b.onclick=()=>regle(b.dataset.t));
+
+// La maison ramène toujours à l'accueil
+document.querySelectorAll("[data-logo]").forEach(a=>a.addEventListener("click",(e)=>{e.preventDefault();history.replaceState(null,"",location.pathname);scrollTo({top:0,behavior:"smooth"})}));
+// Depuis un projet, on revient directement à l'endroit quitté, sans repasser par le haut de page
+document.querySelectorAll(".it").forEach(it=>it.addEventListener("click",(e)=>{e.preventDefault();const h=it.getAttribute("href");if(!h.startsWith("projet"))return;
+  try{sessionStorage.setItem("retour",JSON.stringify({id:it.id,haut:it.getBoundingClientRect().top}))}catch(e){}
+  location.href=`${h}&n=1&t=${document.body.dataset.theme||""}`}));
+// Le fil et les projets se répondent
+const liens=[...document.querySelectorAll("[data-p]")];
+// Au survol, chaque bout de courbe s'épaissit selon sa distance au projet : pas de masque, donc pas de halo
+const NIV=10,EPAIS=3.2,RAYON=230;
+const lisse=(t)=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
+const hors=(x,y,a,b,c,d)=>Math.hypot(Math.max(a-x,0,x-c),Math.max(b-y,0,y-d));
+const proches=(it)=>{
+  const o=document.getElementById("page").getBoundingClientRect(),r=it.querySelector(".pl,.vide").getBoundingClientRect();
+  const a=r.left-o.left,b=r.top-o.top,c=r.right-o.left,d=r.bottom-o.top,M=RAYON+30;
+  const tx=TEXTES.filter(t=>t[2]>a-M&&t[0]<c+M&&t[3]>b-M&&t[1]<d+M),out=[];
+  for(let i=0;i<SEG.length;i+=5){
+    const x=(SEG[i]+SEG[i+2])/2,y=(SEG[i+1]+SEG[i+3])/2,dist=hors(x,y,a,b,c,d);
+    if(dist>=RAYON)continue;
+    let w=(1-lisse(dist/RAYON))*(1-lisse((x-(LARG-230))/120));
+    for(const t of tx)w*=lisse((hors(x,y,t[0],t[1],t[2],t[3])-2)/26);
+    if(w>.02)out.push([SEG[i],SEG[i+1],SEG[i+2],SEG[i+3],SEG[i+4],w]);
+  }
+  return out;
+};
+const prepare=(it)=>{
+  if(prets.has(it))return prets.get(it);
+  const seaux=Array(NIV*2).fill("");
+  for(const q of proches(it)){const n=Math.max(1,Math.round(q[5]*NIV));seaux[q[4]*NIV+n-1]+=`M${q[0].toFixed(1)} ${q[1].toFixed(1)}L${q[2].toFixed(1)} ${q[3].toFixed(1)}`}
+  const g=document.createElementNS("http://www.w3.org/2000/svg","g"),traits=[];
+  seaux.forEach((d,i)=>{if(!d)return;const p=document.createElementNS("http://www.w3.org/2000/svg","path");p.setAttribute("d",d);g.append(p);traits.push({p,base:i>=NIV?1.4:.65,n:((i%NIV)+1)/NIV})});
+  document.getElementById("gras").append(g);const pret={g,traits};prets.set(it,pret);return pret;
+};
+const peindre=()=>{for(const [it,an] of anims){const e=lisse(an.p),pret=prepare(it);pret.g.style.display=e>0?"":"none";for(const t of pret.traits)t.p.setAttribute("stroke-width",(t.base*(1+(EPAIS-1)*t.n*e)).toFixed(2))}};
+let enCours=false,avant=0;
+const tic=(t)=>{
+  const dt=t-avant;avant=t;let reste=false;
+  for(const [it,an] of anims){an.p=Math.max(0,Math.min(1,an.p+(an.but?1:-1)*dt/170));if(an.p==0&&!an.but){prepare(it).g.style.display="none";anims.delete(it)}else if(an.p<1||!an.but)reste=true}
+  peindre();
+  if(reste)requestAnimationFrame(tic);else enCours=false;
+};
+const actif=(it,oui)=>{
+  let an=anims.get(it);
+  if(!an){if(!oui)return;an={p:0,but:true};anims.set(it,an)}
+  an.but=oui;
+  if(!enCours){enCours=true;avant=performance.now();requestAnimationFrame(tic)}
+};
+document.querySelectorAll(".it").forEach(it=>{it.addEventListener("mouseenter",()=>actif(it,true));it.addEventListener("mouseleave",()=>{if(!it.classList.contains("vu"))actif(it,false)})});
+liens.forEach(a=>{const it=document.getElementById(a.dataset.p);a.onmouseenter=()=>{it.classList.add("vu");actif(it,true)};a.onmouseleave=()=>{it.classList.remove("vu");if(!it.matches(":hover"))actif(it,false)}});
+const its=[...document.querySelectorAll(".it")],herop=document.querySelector(".hero"),prof=document.getElementById("profil");
+const suivre=()=>{
+  logo.classList.toggle("plie",herop.getBoundingClientRect().bottom<innerHeight*.35);
+  const m=innerHeight/2;let cur=null,best=1e9;
+  if(herop.getBoundingClientRect().bottom<m&&prof.getBoundingClientRect().top>m)for(const it of its){const r=it.getBoundingClientRect(),d=m<r.top?r.top-m:m>r.bottom?m-r.bottom:0;
+    // à égalité (deux projets côte à côte), celui dont le centre est le plus proche
+    const c=d*1000+Math.abs((r.top+r.bottom)/2-m);if(c<best){best=c;cur=it}}
+  liens.forEach(l=>l.classList.toggle("on",cur!=null&&l.dataset.p==cur.id));
+};
+const revenir=()=>{let r=null;try{r=JSON.parse(sessionStorage.getItem("retour"))}catch(e){}const it=r&&document.getElementById(r.id);if(it)scrollBy({top:it.getBoundingClientRect().top-r.haut,behavior:"instant"})};
+if(document.documentElement.classList.contains("retour")){revenir();const montre=()=>{revenir();suivre();document.documentElement.classList.remove("retour");try{sessionStorage.removeItem("retour")}catch(e){}};Promise.race([document.fonts?.ready,new Promise(k=>setTimeout(k,300))]).then(montre)}
+addEventListener("pageshow",(e)=>{if(e.persisted){try{sessionStorage.removeItem("retour");regle(localStorage.getItem("theme")||"")}catch(x){}}});
+let att=false;addEventListener("scroll",()=>{if(!att){att=true;requestAnimationFrame(()=>{att=false;suivre()})}},{passive:true});addEventListener("resize",suivre);suivre();
+
+// Réglage d'essai
+document.querySelectorAll(".essai button").forEach(b=>b.onclick=()=>{document.body.dataset[b.dataset.k]=b.dataset.v;document.querySelectorAll(`.essai button[data-k=${b.dataset.k}]`).forEach(x=>x.classList.toggle("on",x==b));});
+</script></body></html>

@@ -1,0 +1,168 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Projet</title>
+<script src="i18n.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Rokkitt:wght@800&family=Courier+Prime&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="commun.css">
+<style>
+@font-face{font-family:"Geist Serif";src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-serif/GeistSerif-Regular.woff2) format("woff2");font-display:swap}
+:root{--p:#efe9dd;--b:#252b80;--r:#d8452e;--l0:#252b80;--l1:#6f74ba;--l2:#b5b8de;--disc-b:#252b80}
+body[data-theme=nuit]{--p:#14162e;--b:#ece6da;--r:#ff6a4d;--l0:#ece6da;--l1:#9da1d6;--l2:#5a5f9e;--disc-b:#c7bda6}
+body{background:var(--p);color:var(--b);font:400 .84rem/1.35 "Courier Prime",monospace;transition:background-color 300ms,color 300ms}
+.im{filter:var(--pre,) url(#bleu)}body[data-theme=nuit] .im{filter:var(--pre,) url(#nuit-sable)}
+#page{position:relative;overflow:hidden}
+#champ,#couche{position:absolute;left:0;top:0;pointer-events:none}
+.haut{position:fixed;z-index:12;top:1.3rem}.haut.gauche{left:1.3rem}
+[data-logo] svg{height:3.2rem}[data-logo] .l0{fill:var(--l0)}[data-logo] .l1{fill:var(--l1)}[data-logo] .l2{fill:var(--l2)}
+/* Les étapes de la page : celle qu'on lit passe en rouge et se décale */
+.etapes{position:fixed;z-index:11;right:1.3rem;top:50%;transform:translateY(-50%);list-style:none;padding:0;text-align:right}
+.etapes a{position:relative;display:block;width:fit-content;margin:0 0 .55rem auto;transition:transform 220ms cubic-bezier(.3,1.5,.5,1),color 120ms}
+.etapes a::after{content:"";position:absolute;left:100%;top:0;bottom:0;width:1.3rem}
+.etapes b{font:800 .95rem/1 Rokkitt,serif;color:var(--r);margin-left:.4rem}
+.etapes a:hover,.etapes a.on{color:var(--r);transform:translateX(-.55rem)}
+.jour{position:fixed;right:1.3rem;bottom:1.2rem;z-index:12;display:flex;gap:.55rem}
+.jour button{all:unset;cursor:pointer;width:1.45rem;height:1.45rem;color:var(--b);opacity:.5;transition:opacity 150ms,color 150ms}
+.jour svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.jour button:hover{opacity:1}.jour button[aria-pressed=true]{color:var(--r);opacity:1}.jour button:focus-visible{outline:1.5px solid var(--r);outline-offset:3px;border-radius:4px}
+.jour .lg{width:auto;font:400 .8rem/1.45rem "Courier Prime",monospace;letter-spacing:.03em}
+.jour .sep{width:1px;height:1rem;align-self:center;background:var(--b);opacity:.3;margin:0 .1rem}
+.d{position:absolute}.d svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+/* Ouverture */
+.ouv{position:relative;height:100svh;min-height:640px}
+.vedette{position:absolute;left:44%;top:7%;width:41%;height:82%;display:flex;align-items:center;justify-content:center}
+.vedette .fig{display:block;max-width:100%}.vedette .fig .w{max-height:82svh;max-width:100%}.vedette img{max-height:82svh;width:auto;max-width:100%}
+.vedette .vide{width:88%;aspect-ratio:4/3;display:grid;place-items:center;text-align:center;font:italic 400 3.2rem/1 Newsreader,serif;color:var(--p);background:var(--b);border-radius:48% 52% 46% 54%}
+.tete{position:absolute;left:6rem;bottom:1.9rem;z-index:2;max-width:37vw}
+.tete b{display:block;font:800 clamp(2.6rem,5vw,4.6rem)/.85 Rokkitt,serif;color:var(--r);margin-bottom:.8rem}
+h1{font:400 clamp(2.3rem,4.3vw,4.8rem)/.98 "Geist Serif",serif;letter-spacing:-.015em}
+.tete p{margin-top:.9rem;font-size:.88rem}
+/* Le récit */
+.grille{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:3.6rem 1.4rem;padding:4.5rem 13rem 2rem 6rem;scroll-margin-top:0}
+.grille>h2{grid-column:1/-1;font:800 clamp(2.2rem,4.4vw,4.2rem)/.85 Rokkitt,serif;color:var(--r);margin-bottom:-1.4rem}
+.long,.lignes,.suite h2 small{font-variation-settings:"opsz" 14}
+.long{grid-column:3/span 8;font:400 clamp(1.2rem,1.7vw,1.55rem)/1.4 Newsreader,serif}.long p+p{margin-top:.75em}
+.lignes{font:400 clamp(1.08rem,1.35vw,1.28rem)/1.4 Newsreader,serif;align-self:center}.lignes p+p{margin-top:.5em}
+.lignes p:first-child{font-weight:650}
+.fig{all:unset;display:block;cursor:zoom-in;position:relative;align-self:start;min-width:0}
+.fig .w{display:block;border-radius:20px;overflow:hidden;background:var(--p);transition:transform 650ms cubic-bezier(.22,.8,.3,1)}
+.fig img{display:block;width:100%;height:auto}
+.fig.libre .w{background:none;border-radius:0;overflow:visible}.fig.rond .w{border-radius:50%}
+.fig:hover .w,.fig:focus-visible .w{transform:scale(1.012)}
+.fig:focus-visible{outline:1.5px solid var(--r);outline-offset:4px;border-radius:20px}
+/* La tour flotte, sans cadre */
+.flotte img{animation:flotte 8s ease-in-out infinite}
+@keyframes flotte{0%,100%{transform:translateY(-7px) rotate(-.5deg)}50%{transform:translateY(7px) rotate(.5deg)}}
+/* Le lecteur du podcast, à part du reste */
+.lecteur{padding-top:1.5rem;padding-bottom:0}
+.carte{--cf:#e4dccb;--ct:var(--b);--cb:var(--b);--cbt:var(--p);grid-column:2/span 10;display:grid;grid-template-columns:9.5rem 1fr;gap:1.4rem;align-items:center;padding:1rem;border-radius:20px;background:var(--cf);color:var(--ct);box-shadow:inset 0 0 0 1px rgb(37 43 128 / .1)}
+body[data-theme=nuit] .carte{--cf:#c7bda6;--ct:#14162e;--cb:#14162e;--cbt:#c7bda6;box-shadow:none}
+.carte img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}
+.carte strong{display:block;font:400 clamp(1.3rem,2.3vw,2.1rem)/1.05 "Geist Serif",serif}
+.carte small{display:block;margin:.35rem 0 .8rem;font-size:.84rem}
+.barre{display:grid;grid-template-columns:3rem auto 1fr auto;gap:.8rem;align-items:center}
+.lire{all:unset;cursor:pointer;width:3rem;height:3rem;border-radius:50%;display:grid;place-items:center;background:var(--cb);color:var(--cbt);font-size:1rem;transition:transform 200ms}
+.lire:hover{transform:scale(1.06)}.lire:focus-visible{outline:2px solid var(--ct);outline-offset:3px}
+.barre input{width:100%;accent-color:var(--r);margin:0}.barre span{font-size:.8rem}
+.lien{grid-column:3/span 8;font:400 clamp(1.5rem,3vw,2.8rem)/1.05 "Geist Serif",serif;color:var(--r);border-bottom:1px solid currentColor;width:fit-content}
+/* Le livre */
+.livre{display:block;perspective:1100px;width:min(19rem,72%);text-decoration:none}
+.tome{display:block;position:relative;aspect-ratio:2/3;transform:rotateY(-20deg) rotateX(3deg);transform-style:preserve-3d;transition:transform 650ms cubic-bezier(.22,.8,.3,1)}
+.livre:hover .tome,.livre:focus-visible .tome{transform:rotateY(-6deg) rotateX(1deg) scale(1.02)}
+.face{position:absolute;inset:0;display:flex;flex-direction:column;padding:1.5rem 1.3rem 1.2rem 1.7rem;background:#252b80 linear-gradient(90deg,rgb(0 0 0 / .32) 0,rgb(255 255 255 / .1) .7rem,transparent 1.5rem);color:#efe9dd;border-radius:3px 7px 7px 3px;overflow:hidden}
+.face em{font:400 clamp(2rem,3vw,2.8rem)/1 "Geist Serif",serif;font-style:normal;position:relative;z-index:1}
+.face small{margin-top:auto;font-size:.8rem;position:relative;z-index:1}
+.face .d{width:62%;aspect-ratio:1;right:-9%;bottom:15%;--disc-b:#252b80}
+.tranche{position:absolute;top:1.5%;bottom:1.5%;right:-11px;width:12px;background:repeating-linear-gradient(90deg,#efe9dd 0 1px,#c9c1ae 1px 2px);transform:rotateY(70deg);transform-origin:left}
+.legende{display:block;margin-top:1.2rem;font-size:.9rem;color:var(--r)}
+/* Projet suivant : une simple ligne, alignée sur le texte */
+.suite{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:1.4rem;padding:5rem 13rem 4.5rem 6rem;scroll-margin-top:0}
+.suite a{grid-column:3/span 8;display:grid;grid-template-columns:auto 1fr auto;gap:1.2rem;align-items:center;padding-top:1.3rem;border-top:1px solid var(--r)}
+.suite .w{display:block;width:6rem;height:6rem;overflow:hidden;background:var(--b);border-radius:47% 53% 49% 51%/52% 46% 54% 48%;transition:transform 450ms cubic-bezier(.22,.8,.3,1)}
+.suite img{display:block;width:100%;height:100%;object-fit:cover}
+.suite small{display:block;margin-bottom:.3rem}
+.suite h2{font:400 clamp(1.25rem,2vw,1.8rem)/1.08 "Geist Serif",serif;transition:color 120ms}
+.suite .f{font:400 1.8rem/1 "Geist Serif",serif;color:var(--r);transition:transform 300ms cubic-bezier(.3,1.5,.5,1)}
+.suite a:hover h2{color:var(--r)}.suite a:hover .f{transform:translateX(.5rem)}.suite a:hover .w{transform:scale(1.06) rotate(-3deg)}
+/* Agrandissement */
+#loupe{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:var(--p)}
+#loupe.ok{display:flex}#loupe img{max-width:calc(100vw - 9rem);max-height:calc(100svh - 3rem);transition:transform 300ms cubic-bezier(.22,.8,.3,1)}
+#loupe button{all:unset;cursor:pointer;position:absolute;font:400 2.4rem/1 Newsreader,serif;padding:.4rem .8rem;color:var(--b)}#loupe button:hover,#loupe button:focus-visible{color:var(--r)}
+#loupe .x{top:.6rem;right:.8rem}#loupe .tourne{top:.65rem;right:3.6rem;font-size:2rem}#loupe .g{left:.6rem;top:50%;transform:translateY(-50%)}#loupe .dr{right:.6rem;top:50%;transform:translateY(-50%)}
+@media (max-width:900px){
+ .haut{position:absolute}
+ .etapes{top:auto;bottom:.8rem;right:.8rem;transform:none}.etapes li:not(:has(a.on)){display:none}
+ .etapes a,.etapes a.on,.etapes a:hover{transform:none;color:var(--p);background:var(--b);padding:.25rem .55rem;border-radius:7px;margin:0}.etapes b{color:var(--p)}
+ .jour{position:absolute;right:.9rem;top:1.2rem;bottom:auto}
+ .ouv{height:auto;min-height:0;padding:5.5rem 1rem 2rem}.vedette{position:static;width:100%;height:auto;margin-bottom:1.8rem}.vedette img,.vedette .fig .w{max-height:none}
+ .ouv>.d{display:none}.tete{position:static;max-width:none}
+ .grille,.suite{padding:2.5rem 1rem;gap:2.2rem 0}.grille>*,.suite a,.long,.lignes,.fig,.carte,.lien{grid-column:1/-1!important}
+ .suite{padding-bottom:5rem}.carte{grid-template-columns:5.5rem 1fr;gap:.9rem;padding:.8rem}.barre{grid-column:1/-1}
+ #loupe img{max-width:100vw}
+}
+</style></head><body>
+<script>(function(){var t="",q=new URLSearchParams(location.search);try{t=localStorage.getItem("theme")||""}catch(e){}if(q.has("t"))t=q.get("t");document.body.dataset.theme=t})()</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="trait" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncR type="gamma" exponent="3.2"/><feFuncG type="gamma" exponent="3.2"/><feFuncB type="gamma" exponent="3.2"/></feComponentTransfer></filter><filter id="bleu" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="1.3" intercept="-.13"/><feFuncG type="linear" slope="1.3" intercept="-.13"/><feFuncB type="linear" slope="1.3" intercept="-.13"/></feComponentTransfer><feComponentTransfer><feFuncR type="table" tableValues=".145 .937"/><feFuncG type="table" tableValues=".17 .914"/><feFuncB type="table" tableValues=".5 .867"/></feComponentTransfer></filter><filter id="nuit-sable" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="table" tableValues=".078 .36 .78"/><feFuncG type="table" tableValues=".086 .35 .74"/><feFuncB type="table" tableValues=".18 .36 .65"/></feComponentTransfer></filter></svg>
+<a class="haut gauche" id="maison" data-logo data-accueil href="l-nuit.html" aria-label="Retour à l'accueil"></a>
+<ol class="etapes" id="etapes" aria-label="Étapes de la page"></ol>
+<div class="jour" role="group" aria-label="Thème"><button data-t="" aria-label="Thème clair"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/></svg></button><button data-t="nuit" aria-label="Thème sombre"><svg viewBox="0 0 24 24"><path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1z"/></svg></button></div>
+<div id="page"><svg id="champ" aria-hidden="true"></svg><svg id="couche" aria-hidden="true"><g id="gras" fill="none" stroke-linecap="round" style="stroke:var(--r)"></g></svg><main id="contenu"></main></div>
+<div id="loupe" role="dialog" aria-modal="true" aria-label="Image agrandie"><button class="x" aria-label="Fermer">×</button><button class="tourne" aria-label="Tourner l'image">↻</button><button class="g" aria-label="Image précédente">‹</button><button class="dr" aria-label="Image suivante">›</button><img class="im" alt=""></div>
+<script src="commun.js"></script><script src="projets.js"></script><script src="courbes.js"></script>
+<script>
+pose([["#maison","accueil","aria-label"],["#etapes","etapes","aria-label"],[".jour","themeG","aria-label"],[".jour [data-t='']","clair","aria-label"],[".jour [data-t='nuit']","sombre","aria-label"],["#loupe","loupe","aria-label"],["#loupe .x","fermer","aria-label"],["#loupe .tourne","tourner","aria-label"],["#loupe .g","prec","aria-label"],["#loupe .dr","suiv","aria-label"]]);
+initLangue();
+const q=new URLSearchParams(location.search),rang=Math.max(0,PAGES.findIndex(x=>x.i==+q.get("p"))),P=PAGES[rang],pasRetour=+q.get("n")||0,SUITE=PAGES[(rang+1)%PAGES.length];
+const esc=(t)=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+document.title=`${P.titre} | Aliénor du Parc`;
+const preDe=(im)=>im.trait?"url(#trait)":im.sombre?"brightness(2.2)":"";
+const fig=(im,st)=>`<button class="fig${im.libre?" libre":""}${im.rond?" rond":""}${im.flotte?" flotte":""}" style="${st}" data-src="${im.s}" aria-label="${t("agrandir")}"><span class="w" style="aspect-ratio:${im.w}/${im.h}"><img class="im" loading="lazy" src="${im.s}" alt="${esc(P.titre)}" style="--pre:${preDe(im)}"></span></button>`;
+// Les images sont groupées avec les phrases de la section la plus découpée
+const secs=P.sections,tisse=secs.reduce((m,x)=>x.l.length>m.l.length?x:m,secs[0]);
+const MOTIF=[{i:"1/span 8",l:"9/span 4"},{i:"6/span 7",l:"2/span 4"},{i:"2/span 6",l:"9/span 4"},{i:"5/span 8",l:"1/span 4"}];
+const grille=(x)=>{
+  if(x!=tisse||!P.images.length)return `<div class="long">${x.l.map(l=>`<p>${esc(l)}</p>`).join("")}</div>`;
+  const n=P.images.length,tranche=Math.ceil(x.l.length/n);let o="";
+  P.images.forEach((im,k)=>{const m=MOTIF[k%MOTIF.length],debout=im.h>im.w*1.05,lignes=x.l.slice(k*tranche,(k+1)*tranche);
+    const carre=im.rond,st=debout?`grid-column:${k%2?"7":"2"}/span 5`:carre?"grid-column:1/span 6":`grid-column:${m.i}`,ls=debout?`grid-column:${k%2?"2/span 4":"8/span 4"}`:carre?"grid-column:7/span 6":`grid-column:${m.l}`;
+    const a=fig(im,st),b=lignes.length?`<div class="lignes" style="${ls}">${lignes.map(l=>`<p>${esc(l)}</p>`).join("")}</div>`:"";o+=k%2?b+a:a+b});return o};
+const court=(h)=>h.replace(" du projet","").replace(/^Project s/,"S");
+// Le haut de page
+const COUV_LIVRE=null; // la pochette du livre viendra ici
+const haut=P.dossier=="ivresse"?`<a class="livre" href="livre.html?from=projet" aria-label="${t("lireA")}"><span class="tome"><span class="tranche"></span><span class="face"><em>14 minutes et 16 heures</em><span class="d" id="dlivre"></span><small>Aliénor du Parc</small></span></span><span class="legende">${t("lire")}</span></a>`:P.cover?fig(P.cover,""):`<div class="vide">Coming soon</div>`;
+const ecoute=P.dossier=="Podcast"?`<section class="grille lecteur"><div class="carte"><img src="../public/projects/Podcast.mdx/profil.png" alt="${t("pochette")}"><div><strong>Double Vision : Architecture Abroad</strong><small>Aliénor Knoll &amp; Aliénor du Parc</small><div class="barre"><button class="lire" id="lire" aria-label="${t("lecture")}"><span id="ico">▶</span></button><span id="tps">00:00</span><input id="pos" type="range" min="0" max="1000" value="0" aria-label="${t("pos")}"><span id="dur">00:00</span></div></div><audio id="son" preload="metadata" src="../public/projects/Podcast.mdx/podcats.mp3"></audio></div></section>`:"";
+const pochette=SUITE.cover?`<img class="im" loading="lazy" src="${(SUITE.images[0]&&SUITE.cover.libre?SUITE.images[0]:SUITE.cover).s}" alt="" style="--pre:${preDe(SUITE.images[0]&&SUITE.cover.libre?SUITE.images[0]:SUITE.cover)}">`:"";
+contenu.innerHTML=`<section class="ouv"><div class="d" style="width:${11+rang%5*1.6}vw;height:${11+rang%5*1.6}vw;left:${rang%2?20:24}%;top:${rang%2?3:4}%"></div><div class="d db" style="width:3.4vw;height:3.4vw;left:${rang%2?8:12}%;top:${rang%2?30:24}%"></div>
+  <div class="vedette">${haut}</div>
+  <div class="tete"><b>${P.no}</b><h1>${esc(P.titre)}</h1><p>${P.an}${P.meta?" - "+esc(P.meta):""}</p></div></section>${ecoute}
+  ${secs.map((x,k)=>`<section class="grille" id="e${k}"><h2>${esc(x.h)}</h2>${grille(x)}</section>`).join("")}
+  <section class="suite" id="esuite"><a href="projet.html?p=${SUITE.i}&n=${pasRetour+1}"><span class="w">${pochette}</span><span><small>${t("suivant")}</small><h2>${esc(SUITE.titre)}</h2></span><span class="f" aria-hidden="true">→</span></a></section>`;
+document.querySelectorAll(".d").forEach((el,n)=>Courbes.decoupe(el,n+rang*5+3));restaureLangue();
+// Les étapes
+const ET=[...secs.map((x,k)=>["e"+k,court(x.h)]),["esuite",t("suivant")]];
+etapes.innerHTML=ET.map(([id,t],k)=>`<li><a href="#${id}" data-e="${id}">${esc(t)}<b>${k+1}</b></a></li>`).join("");
+const liensE=[...document.querySelectorAll("[data-e]")],blocs=ET.map(([id])=>document.getElementById(id));
+const suivre=()=>{const m=innerHeight*.45;let c=null;for(const b of blocs)if(b.getBoundingClientRect().top<=m)c=b;
+  if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)c=blocs[blocs.length-1];liensE.forEach(l=>l.classList.toggle("on",c&&l.dataset.e==c.id))};
+let att=false;addEventListener("scroll",()=>{if(!att){att=true;requestAnimationFrame(()=>{att=false;suivre()})}},{passive:true});suivre();
+// Les courbes et leur réaction au survol
+const trace=()=>Courbes.dessine({page:document.getElementById("page"),fond:champ,couche,gras,graine:11+rang*13,textes:"h1,h2,.tete b,.tete p,.long p,.lignes p,.legende,.suite small"});
+trace();document.fonts?.ready.then(trace);let tm;addEventListener("resize",()=>{clearTimeout(tm);tm=setTimeout(trace,200)});
+document.querySelectorAll(".fig,.suite .w,.vide,.tome,.carte").forEach(el=>{const h=el.closest("a")||el;h.addEventListener("mouseenter",()=>Courbes.actif(el,true));h.addEventListener("mouseleave",()=>Courbes.actif(el,false))});
+// Thème
+const boutons=[...document.querySelectorAll(".jour button[data-t]")],regle=(t)=>{document.body.dataset.theme=t;boutons.forEach(b=>b.setAttribute("aria-pressed",b.dataset.t==t));try{localStorage.setItem("theme",t)}catch(e){}};
+regle(document.body.dataset.theme||"");boutons.forEach(b=>b.onclick=()=>regle(b.dataset.t));
+// La maison : retour direct à l'endroit quitté dans la liste, même après plusieurs projets
+maison.addEventListener("click",(e)=>{e.preventDefault();let r=null;try{r=sessionStorage.getItem("retour")}catch(x){}if(r&&pasRetour>0&&history.length>pasRetour)history.go(-pasRetour);else location.href="l-nuit.html"});
+// Agrandir et tourner
+const lot=[P.cover,...P.images].filter(Boolean),toutes=lot.map(x=>x.s),limg=loupe.querySelector("img");let cur=0,avantLoupe=null,tour=0;
+const appliqueTour=()=>{const couche=tour%180!=0;limg.style.transform=`rotate(${tour}deg)`;limg.style.maxWidth=couche?"calc(100svh - 3rem)":"";limg.style.maxHeight=couche?"calc(100vw - 9rem)":""};
+const ouvre=(k)=>{cur=(k+toutes.length)%toutes.length;limg.src=toutes[cur];limg.style.setProperty("--pre",preDe(lot[cur]));tour=0;appliqueTour();if(!loupe.classList.contains("ok")){avantLoupe=document.activeElement;loupe.classList.add("ok");loupe.querySelector(".x").focus()}};
+const ferme=()=>{loupe.classList.remove("ok");avantLoupe?.focus?.()};
+document.querySelectorAll("[data-src]").forEach(el=>el.addEventListener("click",()=>ouvre(toutes.indexOf(el.dataset.src))));
+loupe.querySelector(".x").onclick=ferme;loupe.querySelector(".tourne").onclick=()=>{tour+=90;appliqueTour()};loupe.querySelector(".g").onclick=()=>ouvre(cur-1);loupe.querySelector(".dr").onclick=()=>ouvre(cur+1);
+loupe.addEventListener("click",(e)=>{if(e.target==loupe)ferme()});
+addEventListener("keydown",(e)=>{if(!loupe.classList.contains("ok"))return;if(e.key=="Escape")ferme();if(e.key=="ArrowLeft")ouvre(cur-1);if(e.key=="ArrowRight")ouvre(cur+1);if(e.key.toLowerCase()=="r"){tour+=90;appliqueTour()}});
+// Podcast
+if(window.son){const fmt=(n)=>isFinite(n)?String(Math.floor(n/60)).padStart(2,"0")+":"+String(Math.floor(n%60)).padStart(2,"0"):"00:00";
+  lire.onclick=()=>son.paused?son.play():son.pause();son.onplay=son.onpause=()=>ico.textContent=son.paused?"▶":"❚❚";son.onloadedmetadata=()=>dur.textContent=fmt(son.duration);
+  son.ontimeupdate=()=>{if(son.duration)pos.value=son.currentTime/son.duration*1000;tps.textContent=fmt(son.currentTime)};pos.oninput=()=>{if(son.duration)son.currentTime=pos.value/1000*son.duration}}
+</script></body></html>

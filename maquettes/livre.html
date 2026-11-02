@@ -1,0 +1,91 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>14 minutes et 16 heures | Aliénor du Parc</title>
+<script src="i18n.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,200..800&family=Rokkitt:wght@800&family=Courier+Prime&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="commun.css">
+<style>
+@font-face{font-family:"Geist Serif";src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-serif/GeistSerif-Regular.woff2) format("woff2");font-display:swap}
+:root{--l0:#252b80;--l1:#6f74ba;--l2:#b5b8de}
+html{background:#fff;scroll-behavior:smooth}
+body{background:#fff;color:#ece6da;font:400 .84rem/1.35 "Courier Prime",monospace}
+#maison{position:fixed;left:1.3rem;top:1.3rem;z-index:12}[data-logo] svg{height:3.2rem}[data-logo] .l0{fill:var(--l0)}[data-logo] .l1{fill:var(--l1)}[data-logo] .l2{fill:var(--l2)}
+body.fond{--l0:#ece6da;--l1:#9da1d6;--l2:#5a5f9e}
+
+/* L'eau : la page est blanche, puis le bleu monte avec la lecture et fonce à mesure qu'on descend */
+.eau{position:fixed;left:0;right:0;top:0;height:calc(100svh + 5rem);z-index:0;pointer-events:none;transform:translateY(100svh);--eau:#252b80;will-change:transform}
+.eau .vague{display:block;width:200vw;height:5rem;fill:var(--eau);margin-bottom:-1px}
+.eau .masse{height:calc(100% - 5rem + 1px);background:var(--eau)}
+
+.entete{position:relative;z-index:1}
+.titre{min-height:100svh;padding:0 6rem 3.5rem;display:flex;flex-direction:column;justify-content:flex-end;color:#252b80}
+.titre h1{font:400 clamp(3.2rem,10.5vw,11rem)/.92 "Geist Serif",serif;letter-spacing:-.02em}
+.titre p{margin-top:1.3rem}.titre a{color:#d8452e}
+/* La même page en clair, visible seulement sous la surface de l'eau */
+.titre.clair{position:absolute;inset:0;color:#ece6da;pointer-events:none;clip-path:inset(100% 0 0 0)}
+.titre.clair a{color:#ff6a4d}
+
+.corps{position:relative;z-index:1;max-width:38rem;margin:0 auto;padding:6rem 1.2rem 4rem;font:400 clamp(1.14rem,1.5vw,1.3rem)/1.62 Newsreader,serif;font-variation-settings:"opsz" 14;hyphens:auto}
+.exergue{font:400 clamp(2rem,4.4vw,3.8rem)/1.05 "Geist Serif",serif;font-variation-settings:normal;hyphens:none;margin-bottom:6rem}
+h2{font:400 clamp(4rem,9vw,7rem)/1 "Geist Serif",serif;margin:6.5rem 0 2rem;color:#ff6a4d}
+.corps p+p{margin-top:1.05em}
+.intro{font-size:.92em;opacity:.92}
+.note{font:400 .84rem "Courier Prime",monospace;margin-bottom:1rem;color:#ff6a4d}
+/* La règle de plongée, le long de la page */
+.reperes{position:absolute;inset:0 auto 0 -5.5rem;width:4rem;pointer-events:none}
+.reperes span{position:absolute;left:0;font-size:.74rem;opacity:.55;border-top:1px solid currentColor;padding-top:.2rem;width:3.4rem}
+.jauge{position:fixed;right:1.8rem;bottom:1.6rem;z-index:11;text-align:right;color:#ff6a4d;opacity:0;transform:translateY(.6rem);transition:opacity 300ms,transform 300ms;pointer-events:none}
+.jauge.vu{opacity:1;transform:none}.jauge small{display:block;font:400 .78rem "Courier Prime",monospace;color:#ece6da}
+.jauge b{font:800 clamp(2.4rem,4.4vw,4.2rem)/1 Rokkitt,serif}
+.fin{position:relative;z-index:1;max-width:38rem;margin:0 auto;padding:4rem 1.2rem 7rem;font:400 1.15rem/1.55 Newsreader,serif;font-variation-settings:"opsz" 14}
+.fin b{display:block;font:800 clamp(4rem,10vw,8rem)/.9 Rokkitt,serif;color:#ff6a4d;margin-bottom:1.5rem}
+.fin p+p{margin-top:1em}.fin nav{display:flex;flex-wrap:wrap;gap:1.4rem;margin-top:3rem;font:400 .9rem "Courier Prime",monospace}.fin nav a{border-bottom:1px solid #ff6a4d}.fin nav a:hover{color:#ff6a4d}
+/* FR / EN, en haut à droite : bleu sur le blanc, crème sous l'eau */
+.jour{position:fixed;right:1.3rem;top:1.3rem;z-index:12;display:flex;gap:.55rem;color:#252b80;transition:color 200ms}
+body.fond .jour{color:#ece6da}
+.jour button{all:unset;cursor:pointer;opacity:.55;transition:opacity 150ms,color 150ms}
+.jour button:hover{opacity:1}.jour button[aria-pressed=true]{color:#d8452e;opacity:1}body.fond .jour button[aria-pressed=true]{color:#ff6a4d}
+.jour button:focus-visible{outline:1.5px solid currentColor;outline-offset:3px;border-radius:4px}
+.jour .lg{width:auto;font:400 .8rem/1.45rem "Courier Prime",monospace;letter-spacing:.03em}
+.jour .sep{width:1px;height:1rem;align-self:center;background:currentColor;opacity:.3;margin:0 .1rem}
+@media (max-width:1000px){.reperes{display:none}.titre{padding:0 1.1rem 2.5rem}.jauge{right:1rem;bottom:1rem}}
+</style></head><body>
+<a id="maison" data-logo data-accueil href="projet.html?p=13"></a>
+<div class="eau" id="eau" aria-hidden="true"><svg class="vague" id="vague" viewBox="0 0 2880 70" preserveAspectRatio="none"><path id="onde"/></svg><div class="masse"></div></div>
+<div class="entete" id="entete"><header class="titre"><h1 id="titreh"></h1><p><span id="sous"></span><br><a href="#corps" id="descendre"></a></p></header></div>
+<article class="corps" id="corps"><div class="reperes" id="reperes" aria-hidden="true"></div></article>
+<footer class="fin" id="fin"></footer>
+<div class="jour" role="group" aria-label="Langue"></div>
+<div class="jauge" id="jauge" aria-hidden="true"><small id="plib"></small><b id="prof">0 m</b></div>
+<script src="commun.js"></script><script src="livre-data.js"></script>
+<script>
+const L=LIVRE,e=(x)=>x.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+pose([["#maison","retourProjet","aria-label"],["#sous","recit"],["#descendre","descendre"],["#plib","profondeur"]]);
+titreh.innerHTML="14 minutes<br>et 16 heures";
+corps.insertAdjacentHTML("beforeend",`<p class="exergue">« ${e(L.epigraph)} »</p><p class="note">${t("note")}</p><div class="intro">${L.intro.map(x=>`<p>${e(x)}</p>`).join("")}</div>`+L.chapters.map(c=>`<h2>${c.numeral}.</h2>${c.paragraphs.map(x=>`<p>${e(x)}</p>`).join("")}`).join(""));
+fin.innerHTML=`<b>${L.maxDepth} m</b>${L.back.map(x=>`<p>${e(x)}</p>`).join("")}<nav><a href="projet.html?p=13" id="retour">${t("retourProjet")}</a></nav>`;
+let reperes_="";for(let m=50;m<L.maxDepth;m+=50)reperes_+=`<span style="top:${(m/L.maxDepth*100).toFixed(2)}%">-${m} m</span>`;reperes.innerHTML=reperes_;
+restaureLangue();
+
+// La surface : une onde dont la période divise la largeur, pour qu'elle glisse sans couture
+let d="M0 70L0 30";for(let x=0;x<=2880;x+=20)d+=`L${x} ${(30+13*Math.sin(x/720*6.2832)+5*Math.sin(x/360*6.2832+1.3)).toFixed(1)}`;onde.setAttribute("d",d+"L2880 70Z");
+// La page claire, copiée pour n'apparaître que sous l'eau
+const titre0=entete.querySelector(".titre"),clair=titre0.cloneNode(true);
+clair.classList.add("clair");clair.setAttribute("aria-hidden","true");clair.querySelectorAll("[id]").forEach(x=>x.removeAttribute("id"));clair.querySelectorAll("a").forEach(a=>a.setAttribute("tabindex","-1"));entete.append(clair);
+
+const PALIERS=[[0,[37,43,128]],[.35,[20,26,82]],[.7,[8,10,36]],[1,[3,4,11]]];
+const teinte=(p)=>{for(let i=1;i<PALIERS.length;i++){if(p<=PALIERS[i][0]){const a=PALIERS[i-1],b=PALIERS[i],k=(p-a[0])/(b[0]-a[0]);return `rgb(${a[1].map((v,j)=>Math.round(v+(b[1][j]-v)*k)).join(",")})`}}return `rgb(${PALIERS[3][1].join(",")})`};
+const suit=()=>{
+  const H=innerHeight,niveau=Math.max(0,Math.min(H+60,scrollY*1.3)),surface=H-niveau;
+  eau.style.transform=`translateY(${surface}px)`;
+  vague.style.transform=`translateX(${-((scrollY*.45)%innerWidth)}px)`;
+  const r=corps.getBoundingClientRect(),pct=Math.min(1,Math.max(0,(H*.5-r.top)/r.height)),prof_=Math.round(pct*L.maxDepth);
+  eau.style.setProperty("--eau",teinte(pct));
+  const b=entete.getBoundingClientRect();clair.style.clipPath=`inset(${Math.max(0,Math.min(b.height,surface+30-b.top))}px 0 0 0)`;
+  prof.textContent=prof_?`-${prof_} m`:"0 m";jauge.classList.toggle("vu",pct>0);
+  document.body.classList.toggle("fond",surface<80);
+};
+addEventListener("scroll",suit,{passive:true});addEventListener("resize",suit);suit();document.fonts?.ready.then(suit);
+initLangue();
+const venu=new URLSearchParams(location.search).get("from")=="projet",retourne=(ev)=>{ev.preventDefault();if(venu&&history.length>1)history.back();else location.href="projet.html?p=13"};
+maison.addEventListener("click",retourne);retour.addEventListener("click",retourne);
+</script></body></html>
