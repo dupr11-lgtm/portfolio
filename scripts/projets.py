@@ -1,7 +1,10 @@
-# Transforme les textes et images du site en données bilingues pour les maquettes (accueil, page projet)
+# Transforme les textes et images du site en données bilingues : src/data/projets.json, lu par Astro au build.
+# Depuis la racine du dépôt : python3 scripts/projets.py (nécessite Pillow)
 import glob, json, os, re
 from PIL import Image
-RS = "../src/content/posts/"; RE = "../src/content/postsEn/"; RP = "../public/projects/"
+RS = "src/content/posts/"; RE = "src/content/postsEn/"; RP = "public/projects/"
+os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+SRC = "../public/projects/"  # préfixe conservé dans les données
 # (n° du projet, fichier, dossier d'images, nom court fr, nom court en, phrase fr, phrase en)
 L = [
  (0, "Entre deux corps.mdx", "entre-deux-corps", "Entre deux corps", "Between two bodies", "La vallée est traversée, jamais habitée.", "The valley is crossed, never inhabited."),
@@ -37,7 +40,7 @@ def info(d, x):
     libre = im.mode == "RGBA" and im.getpixel((2, 2))[3] == 0
     fond = im.convert("RGBA"); blanc = Image.new("RGBA", fond.size, "white"); blanc.alpha_composite(fond)
     clair = sum(blanc.convert("L").resize((64, 64)).get_flattened_data()) / (64 * 64 * 255)
-    return {"s": RP + d + ".mdx/" + x, "w": w, "h": h, "trait": clair > .8 and not libre, "sombre": clair < .3, "libre": libre}
+    return {"s": SRC + d + ".mdx/" + x, "w": w, "h": h, "trait": clair > .8 and not libre, "sombre": clair < .3, "libre": libre}
 
 out = []
 for n, (i, f, d, cfr, cen, nfr, nen) in enumerate(L):
@@ -70,8 +73,7 @@ act.update({"lien": ACT_LIEN, "etat": ACT_ETAT, "etiquette": "Comment la ville f
     "en": [{"h": "Context", "l": ["The text is coming soon."]}, {"h": "Research notebook", "l": ["The text is coming soon."]}]}})
 out = [enc(14, "01", "Cinéma", "Cinema", "Master - ULB", "Master's - ULB", "cinema"), act] + out
 
-# Les champs bilingues se réduisent à la langue de la visiteuse dès le chargement
-open("projets.js", "w", encoding="utf8").write(
-    "window.PAGES=" + json.dumps(out, ensure_ascii=False) + ";\n"
-    "window.PAGES.forEach(function(p){var l=window.LANG||'fr';['titre','court','meta','note','etat'].forEach(function(k){if(p[k])p[k]=p[k][l]});p.sections=p.sections[l]});")
+with open("src/data/projets.json", "w", encoding="utf8") as sortie:
+    json.dump(out, sortie, ensure_ascii=False, indent=1)
+    sortie.write("\n")
 print(len(out), [len(p["sections"]["en"]) - len(p["sections"]["fr"]) for p in out])

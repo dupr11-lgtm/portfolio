@@ -1,188 +1,58 @@
-export const languages = {
-  fr: "Français",
-  en: "English",
-} as const;
+import type { Lang } from "@/data/site";
 
-export type Lang = keyof typeof languages;
-
-export const defaultLang: Lang = "fr";
-
-export const ui = {
+export const UI = {
   fr: {
-    "meta.title": "Aliénor du Parc",
-    "meta.description": "Portfolio d'architecture",
-    "nav.profil": "Profil",
-    "nav.portfolio": "Portfolio",
-    "nav.contact": "Contact",
-    "section.profil": "Profil",
-    "section.formation": "Formation",
-    "section.enBref": "En bref",
-    "section.portfolio": "Portfolio",
-    "section.contact": "Contact",
-    "profil.photoAlt": "Photo de profil d’Aliénor",
-    "contact.emailLabel": "email :",
-    "hero.tagline": "Master d’architecture · ULB Bruxelles",
-    "hero.projects": "projets",
-    "post.with": "avec",
-    "post.and": "et",
-    "post.coverAlt": "couverture",
-    "post.podcast.playPause": "Lecture / pause",
-    "post.podcast.seek": "Avancer ou reculer l'audio",
-    "post.podcast.status": "Clique sur Play pour activer l'audio.",
-    "post.podcast.blocked":
-      "Lecture bloquée par le navigateur. Reclique sur Play.",
-    "post.podcast.error":
-      "Audio indisponible pour le moment. Recharge la page.",
-    "post.podcast.artwork": "Miniature officielle",
-    "post.lightbox.prev": "Image précédente",
-    "post.lightbox.close": "Fermer",
-    "post.lightbox.rotate": "Rotation 90 degrés",
-    "post.lightbox.next": "Image suivante",
-    "post.lightbox.image": "Image agrandie",
-    "post.imageAlt": "Image",
-    "livre.back": "Retour au projet",
-    "post.next": "Projet suivant",
-    "marquee.contact": "Écris-moi",
-    "livre.description": "Lecture du livre 14 minutes et 16 heures.",
-    "livre.read": "Lire",
-    "livre.pdf": "Télécharger le PDF",
-    "livre.kind": "Récit",
-    "livre.note": "Note d’intention",
-    "livre.surface": "Surface",
-    "livre.depth": "Profondeur",
-    "livre.language": "",
-    "livre.end": "Remontée en 16 heures et 14 minutes",
+    accueil: "Retour à l'accueil", themeG: "Thème", clair: "Thème clair", sombre: "Thème sombre", langue: "Langue",
+    portfolio: "Portfolio", profil: "Profil", contact: "Contact",
+    hero: "Je suis étudiante en master d'architecture à l'ULB, à Bruxelles.",
+    description: "Portfolio d'Aliénor du Parc, étudiante en master d'architecture à l'ULB, à Bruxelles.",
+    enbref: "En bref", formation: "Formation",
+    suivant: "Projet suivant", etapes: "Étapes de la page",
+    agrandir: "Agrandir l'image", fermer: "Fermer", tourner: "Tourner l'image", prec: "Image précédente", suiv: "Image suivante", loupe: "Image agrandie",
+    lecture: "Écouter ou mettre en pause", pos: "Avancer ou reculer", pochette: "Pochette du podcast, Aliénor Knoll et Aliénor du Parc",
+    lire: "Lire le récit →", lireA: "Lire 14 minutes et 16 heures",
+    enCours: "En cours", ouvrir: "Ouvrir la boîte →", ouvrirA: "Ouvrir la boîte du projet ACT",
+    retourProjet: "Retour au projet", recit: "Récit - Aliénor du Parc - 2021", descendre: "Descendre ↓", note: "Note d'intention", profondeur: "Profondeur",
+    introuvable: "Page introuvable",
   },
   en: {
-    "meta.title": "Aliénor du Parc",
-    "meta.description": "Architecture portfolio",
-    "nav.profil": "Profile",
-    "nav.portfolio": "Portfolio",
-    "nav.contact": "Contact",
-    "section.profil": "Profile",
-    "section.formation": "Education",
-    "section.enBref": "In short",
-    "section.portfolio": "Portfolio",
-    "section.contact": "Contact",
-    "profil.photoAlt": "Profile photo of Aliénor",
-    "contact.emailLabel": "email:",
-    "hero.tagline": "Master’s in architecture · ULB Brussels",
-    "hero.projects": "projects",
-    "post.with": "with",
-    "post.and": "and",
-    "post.coverAlt": "cover",
-    "post.podcast.playPause": "Play / pause",
-    "post.podcast.seek": "Seek audio",
-    "post.podcast.status": "Click Play to enable audio.",
-    "post.podcast.blocked": "Playback blocked by the browser. Click Play again.",
-    "post.podcast.error": "Audio is unavailable right now. Reload the page.",
-    "post.podcast.artwork": "Podcast artwork",
-    "post.lightbox.prev": "Previous image",
-    "post.lightbox.close": "Close",
-    "post.lightbox.rotate": "Rotate 90 degrees",
-    "post.lightbox.next": "Next image",
-    "post.lightbox.image": "Enlarged image",
-    "post.imageAlt": "Image",
-    "livre.back": "Back to project",
-    "post.next": "Next project",
-    "marquee.contact": "Write to me",
-    "livre.description": "Reading of the book 14 minutes and 16 hours.",
-    "livre.read": "Read",
-    "livre.pdf": "Download the PDF",
-    "livre.kind": "Short story",
-    "livre.note": "Author’s note",
-    "livre.surface": "Surface",
-    "livre.depth": "Depth",
-    "livre.language": "Written in French",
-    "livre.end": "Back up after 16 hours and 14 minutes",
+    accueil: "Back to home", themeG: "Theme", clair: "Light theme", sombre: "Dark theme", langue: "Language",
+    portfolio: "Portfolio", profil: "Profile", contact: "Contact",
+    hero: "I am a master's student in architecture at ULB in Brussels.",
+    description: "Portfolio of Aliénor du Parc, a master's student in architecture at ULB in Brussels.",
+    enbref: "In short", formation: "Education",
+    suivant: "Next project", etapes: "Page steps",
+    agrandir: "Enlarge image", fermer: "Close", tourner: "Rotate image", prec: "Previous image", suiv: "Next image", loupe: "Enlarged image",
+    lecture: "Play or pause", pos: "Seek", pochette: "Podcast artwork, Aliénor Knoll and Aliénor du Parc",
+    lire: "Read the story (in French) →", lireA: "Read 14 minutes et 16 heures",
+    enCours: "In progress", ouvrir: "Open the box →", ouvrirA: "Open the ACT project box",
+    retourProjet: "Back to project", recit: "Short story - Aliénor du Parc - 2021 - written in French", descendre: "Scroll down ↓", note: "Author's note", profondeur: "Depth",
+    introuvable: "Page not found",
   },
 } as const;
 
-export type UiKey = keyof (typeof ui)["fr"];
+export const traduction = (lang: Lang) => (k: keyof (typeof UI)["fr"]) => UI[lang][k];
 
-const formationFr = [
-  {
-    dates: "2026 - aujourd’hui",
-    lines: ["Master - Faculté d’Architecture La Cambre Horta, ULB, Bruxelles"],
-  },
-  {
-    dates: "2022 - 2025",
-    lines: ["Licence - École Spéciale d'Architecture, Paris"],
-  },
-  {
-    dates: "Octobre 2024 - Février 2025",
-    lines: ["Erasmus - State Academy of Fine Arts, Stuttgart"],
-  },
-  {
-    dates: "2021 - 2022",
-    lines: ["Bachelor Design d'Espace - Immaconcept, Bordeaux"],
-  },
-  {
-    dates: "2020 - 2021",
-    lines: [
-      "Baccalauréat - Lycée Saint-Jacques-de-Compostelle, Dax",
-      "Spécialités Histoire-Géographie-Géopolitique-Sciences politiques, Mathématiques",
-    ],
-  },
-  {
-    dates: "2018 - 2020",
-    lines: [
-      "Lycée Isaac de l'Étoile, Poitiers",
-      "Seconde - Option Création Culture Design et Histoire des Arts",
-    ],
-  },
-];
-
-const formationEn = [
-  {
-    dates: "2026 - present",
-    lines: ["Master's - Faculty of Architecture La Cambre Horta, ULB, Brussels"],
-  },
-  {
-    dates: "2022 - 2025",
-    lines: ["Bachelor - École Spéciale d'Architecture, Paris"],
-  },
-  {
-    dates: "October 2024 - February 2025",
-    lines: ["Erasmus - State Academy of Fine Arts, Stuttgart"],
-  },
-  {
-    dates: "2021 - 2022",
-    lines: ["Bachelor of Spatial Design - Immaconcept, Bordeaux"],
-  },
-  {
-    dates: "2020 - 2021",
-    lines: [
-      "High school diploma - Lycée Saint-Jacques-de-Compostelle, Dax",
-      "Specialties: History, Geography, Geopolitics, Political Science, Mathematics",
-    ],
-  },
-  {
-    dates: "2018 - 2020",
-    lines: [
-      "Lycée Isaac de l'Étoile, Poitiers",
-      "Sophomore year - Option: Creation, Culture, Design and Art History",
-    ],
-  },
-];
-
-export const formation: Record<Lang, { dates: string; lines: string[] }[]> = {
-  fr: formationFr,
-  en: formationEn,
+export const BREF = {
+  fr: "Je suis étudiante en master d'architecture à l'ULB, à Bruxelles.<br><br>Si je ne suis pas sur Midjourney ou en train de discuter avec Claude, je suis sûrement en train d'écrire un nouvel épisode de podcast ou de préparer mon prochain marathon.",
+  en: "I am a master's student in architecture at ULB in Brussels.<br><br>When I'm not on Midjourney or chatting with Claude, I'm probably writing a new podcast episode or training for my next marathon.",
 };
 
-const enBrefFr =
-  "Je suis actuellement étudiante en master d'architecture à l'ULB, à Bruxelles, passionnée par les nouvelles technologies et l'intelligence artificielle.<br /><br />Si je ne suis pas sur Midjourney ou en train de discuter avec ChatGPT, je suis sûrement en train d'écrire un nouvel épisode de podcast ou de préparer mon prochain marathon.";
-
-const enBrefEn =
-  "I am currently a master's student in architecture at ULB in Brussels, passionate about new technologies and artificial intelligence.<br /><br />When I'm not on Midjourney or chatting with ChatGPT, I'm probably writing a new podcast episode or training for my next marathon.";
-
-export const enBref: Record<Lang, string> = {
-  fr: enBrefFr,
-  en: enBrefEn,
+export const FORMATION: Record<Lang, [string, string[]][]> = {
+  fr: [
+    ["2026 - aujourd’hui", ["Master - Faculté d’Architecture La Cambre Horta, ULB, Bruxelles"]],
+    ["2022 - 2025", ["Licence - École Spéciale d'Architecture, Paris"]],
+    ["Octobre 2024 - Février 2025", ["Erasmus - State Academy of Fine Arts, Stuttgart"]],
+    ["2021 - 2022", ["Bachelor Design d'Espace - Immaconcept, Bordeaux"]],
+    ["2020 - 2021", ["Baccalauréat - Lycée Saint-Jacques-de-Compostelle, Dax", "Spécialités Histoire-Géographie-Géopolitique-Sciences politiques, Mathématiques"]],
+    ["2018 - 2020", ["Lycée Isaac de l'Étoile, Poitiers", "Seconde - Option Création Culture Design et Histoire des Arts"]],
+  ],
+  en: [
+    ["2026 - present", ["Master's - Faculty of Architecture La Cambre Horta, ULB, Brussels"]],
+    ["2022 - 2025", ["Bachelor - École Spéciale d'Architecture, Paris"]],
+    ["October 2024 - February 2025", ["Erasmus - State Academy of Fine Arts, Stuttgart"]],
+    ["2021 - 2022", ["Bachelor of Spatial Design - Immaconcept, Bordeaux"]],
+    ["2020 - 2021", ["High school diploma - Lycée Saint-Jacques-de-Compostelle, Dax", "Specialties: History, Geography, Geopolitics, Political Science, Mathematics"]],
+    ["2018 - 2020", ["Lycée Isaac de l'Étoile, Poitiers", "Sophomore year - Option: Creation, Culture, Design and Art History"]],
+  ],
 };
-
-export function useTranslations(lang: Lang) {
-  return (key: UiKey): string =>
-    (ui[lang] as Record<string, string>)[key] ?? ui.fr[key];
-}

@@ -1,0 +1,104 @@
+@font-face{font-family:"Geist Serif";src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-serif/GeistSerif-Regular.woff2) format("woff2");font-display:swap}
+:root{--p:#efe9dd;--b:#252b80;--r:#d8452e;--l0:#252b80;--l1:#6f74ba;--l2:#b5b8de;--disc-b:#252b80}
+body[data-theme=nuit]{--p:#14162e;--b:#ece6da;--r:#ff6a4d;--l0:#ece6da;--l1:#9da1d6;--l2:#5a5f9e;--disc-b:#c7bda6}
+body{background:var(--p);color:var(--b);font:400 .84rem/1.35 "Courier Prime",monospace;transition:background-color 300ms,color 300ms}
+.im{filter:var(--pre,) url(#bleu)}body[data-theme=nuit] .im{filter:var(--pre,) url(#nuit-sable)}
+#page{position:relative;overflow:hidden}
+#champ,#couche{position:absolute;left:0;top:0;pointer-events:none}
+.haut{position:fixed;z-index:12;top:1.3rem}.haut.gauche{left:1.3rem}
+[data-logo] svg{height:3.2rem}[data-logo] .l0{fill:var(--l0)}[data-logo] .l1{fill:var(--l1)}[data-logo] .l2{fill:var(--l2)}
+/* Les étapes de la page : celle qu'on lit passe en rouge et se décale */
+.etapes{position:fixed;z-index:11;right:1.3rem;top:50%;transform:translateY(-50%);list-style:none;padding:0;text-align:right}
+.etapes a{position:relative;display:block;width:fit-content;margin:0 0 .55rem auto;transition:transform 220ms cubic-bezier(.3,1.5,.5,1),color 120ms}
+.etapes a::after{content:"";position:absolute;left:100%;top:0;bottom:0;width:1.3rem}
+.etapes b{font:800 .95rem/1 Rokkitt,serif;color:var(--r);margin-left:.4rem}
+.etapes a:hover,.etapes a.on{color:var(--r);transform:translateX(-.55rem)}
+.jour{position:fixed;right:1.3rem;bottom:1.2rem;z-index:12;display:grid;grid-template-columns:repeat(2,1.45rem);gap:.3rem .55rem}
+.jour button,.jour a{all:unset;cursor:pointer;width:1.45rem;height:1.45rem;color:var(--b);opacity:.5;transition:opacity 150ms,color 150ms}
+.jour svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.jour button:hover,.jour a:hover{opacity:1}.jour button[aria-pressed=true],.jour a[aria-current]{color:var(--r);opacity:1}.jour button:focus-visible,.jour a:focus-visible{outline:1.5px solid var(--r);outline-offset:3px;border-radius:4px}
+.jour .lg{font:400 1.05rem/1.45rem "Geist Serif",serif;text-align:center}
+.d{position:absolute}.d svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+/* Ouverture */
+.ouv{position:relative;height:100svh;min-height:640px}
+.vedette{position:absolute;left:44%;top:7%;width:41%;height:82%;display:flex;align-items:center;justify-content:center}
+.vedette .fig{display:block;max-width:100%}.vedette .fig .w{max-height:82svh;max-width:100%}.vedette img{max-height:82svh;width:auto;max-width:100%}
+.vedette .vide{width:88%;aspect-ratio:4/3;display:grid;place-items:center;text-align:center;font:italic 400 3.2rem/1 Newsreader,serif;color:var(--p);background:var(--b);border-radius:48% 52% 46% 54%}
+.tete{position:absolute;left:6rem;bottom:1.9rem;z-index:2;max-width:37vw}
+.tete b{display:block;font:800 clamp(2.6rem,5vw,4.6rem)/.85 Rokkitt,serif;color:var(--r);margin-bottom:.8rem}
+h1{font:400 clamp(2.3rem,4.3vw,4.8rem)/.98 "Geist Serif",serif;letter-spacing:-.015em}
+.tete p{margin-top:.9rem;font-size:.88rem}
+.tete .etat{margin-top:.35rem;color:var(--r)}
+/* Le récit */
+.grille{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:3.6rem 1.4rem;padding:4.5rem 13rem 2rem 6rem;scroll-margin-top:0}
+.grille>h2{grid-column:1/-1;font:800 clamp(2.2rem,4.4vw,4.2rem)/.85 Rokkitt,serif;color:var(--r);margin-bottom:-1.4rem}
+.long,.lignes,.suite h2 small{font-variation-settings:"opsz" 14}
+.long{grid-column:3/span 8;font:400 clamp(1.2rem,1.7vw,1.55rem)/1.4 Newsreader,serif}.long p+p{margin-top:.75em}
+.lignes{font:400 clamp(1.08rem,1.35vw,1.28rem)/1.4 Newsreader,serif;align-self:center}.lignes p+p{margin-top:.5em}
+.lignes p:first-child{font-weight:650}
+.fig{all:unset;display:block;cursor:zoom-in;position:relative;align-self:start;min-width:0}
+.fig .w{display:block;border-radius:20px;overflow:hidden;background:var(--p);transition:transform 650ms cubic-bezier(.22,.8,.3,1)}
+.fig img{display:block;width:100%;height:auto}
+.fig.libre .w{background:none;border-radius:0;overflow:visible}.fig.rond .w{border-radius:50%}
+.fig:hover .w,.fig:focus-visible .w{transform:scale(1.012)}
+.fig:focus-visible{outline:1.5px solid var(--r);outline-offset:4px;border-radius:20px}
+/* La tour flotte, sans cadre */
+.flotte img{animation:flotte 8s ease-in-out infinite}
+@keyframes flotte{0%,100%{transform:translateY(-7px) rotate(-.5deg)}50%{transform:translateY(7px) rotate(.5deg)}}
+/* Le lecteur du podcast, à part du reste */
+.lecteur{padding-top:1.5rem;padding-bottom:0}
+.carte{--cf:#e4dccb;--ct:var(--b);--cb:var(--b);--cbt:var(--p);grid-column:2/span 10;display:grid;grid-template-columns:9.5rem 1fr;gap:1.4rem;align-items:center;padding:1rem;border-radius:20px;background:var(--cf);color:var(--ct);box-shadow:inset 0 0 0 1px rgb(37 43 128 / .1)}
+body[data-theme=nuit] .carte{--cf:#c7bda6;--ct:#14162e;--cb:#14162e;--cbt:#c7bda6;box-shadow:none}
+.carte img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}
+.carte strong{display:block;font:400 clamp(1.3rem,2.3vw,2.1rem)/1.05 "Geist Serif",serif}
+.carte small{display:block;margin:.35rem 0 .8rem;font-size:.84rem}
+.barre{display:grid;grid-template-columns:3rem auto 1fr auto;gap:.8rem;align-items:center}
+.lire{all:unset;cursor:pointer;width:3rem;height:3rem;border-radius:50%;display:grid;place-items:center;background:var(--cb);color:var(--cbt);font-size:1rem;transition:transform 200ms}
+.lire:hover{transform:scale(1.06)}.lire:focus-visible{outline:2px solid var(--ct);outline-offset:3px}
+.barre input{width:100%;accent-color:var(--r);margin:0}.barre span{font-size:.8rem}
+/* Le livre */
+.livre{display:block;perspective:1100px;width:min(19rem,72%);text-decoration:none}
+.tome{display:block;position:relative;aspect-ratio:2/3;transform:rotateY(-20deg) rotateX(3deg);transform-style:preserve-3d;transition:transform 650ms cubic-bezier(.22,.8,.3,1)}
+.livre:hover .tome,.livre:focus-visible .tome{transform:rotateY(-6deg) rotateX(1deg) scale(1.02)}
+.face{position:absolute;inset:0;display:flex;flex-direction:column;padding:1.5rem 1.3rem 1.2rem 1.7rem;background:#252b80 linear-gradient(90deg,rgb(0 0 0 / .32) 0,rgb(255 255 255 / .1) .7rem,transparent 1.5rem);color:#efe9dd;border-radius:3px 7px 7px 3px;overflow:hidden}
+.face em{font:400 clamp(2rem,3vw,2.8rem)/1 "Geist Serif",serif;font-style:normal;position:relative;z-index:1}
+.face small{margin-top:auto;font-size:.8rem;position:relative;z-index:1}
+.face .d{width:62%;aspect-ratio:1;right:-9%;bottom:15%;--disc-b:#252b80}
+.tranche{position:absolute;top:1.5%;bottom:1.5%;right:-11px;width:12px;background:repeating-linear-gradient(90deg,#efe9dd 0 1px,#c9c1ae 1px 2px);transform:rotateY(70deg);transform-origin:left}
+.legende{display:block;margin-top:1.2rem;font-size:.9rem;color:var(--r)}
+/* La boîte d'ACT : le même carton kraft que le site du projet, tournée comme le livre */
+.boite{display:block;perspective:1100px;width:min(19rem,72%);text-decoration:none}
+.carton{--ep:1.5rem;display:block;position:relative;aspect-ratio:552/780;transform:rotateY(-20deg) rotateX(3deg);transform-style:preserve-3d;transition:transform 650ms cubic-bezier(.22,.8,.3,1)}
+.boite:hover .carton,.boite:focus-visible .carton{transform:rotateY(-6deg) rotateX(1deg) scale(1.02)}
+.carton>span{position:absolute;display:block;--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .16 0 0 0 0 .08 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23g)'/%3E%3C/svg%3E");background:var(--grain),#b98f64}
+.carton .dessus{inset:0;transform:translateZ(calc(var(--ep)/2))}
+.carton .cote{top:0;bottom:0;width:var(--ep);left:100%;margin-left:calc(var(--ep)/-2);transform:rotateY(90deg);background:var(--grain),#96704a}
+/* Le rabat gauche se soulève au survol, comme sur le site du projet */
+.carton .rabat{left:0;top:0;bottom:0;width:54%;transform:translateZ(calc(var(--ep)/2 + 1px));transform-origin:0 50%;box-shadow:1px 0 3px rgb(58 42 26 / .45);transition:transform 650ms cubic-bezier(.22,.8,.3,1)}
+.boite:hover .rabat,.boite:focus-visible .rabat{transform:translateZ(calc(var(--ep)/2 + 1px)) rotateY(-16deg)}
+.etiquette{position:absolute;left:12%;top:15%;width:76%;padding:.55rem .6rem;background:#f2f1ec;color:#9c3a2a;font:700 .7rem/1.25 "Courier Prime",monospace;clip-path:polygon(5% 0,100% 0,100% 92%,94% 100%,0 100%,0 8%)}
+/* Projet suivant : une simple ligne, alignée sur le texte */
+.suite{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:1.4rem;padding:5rem 13rem 4.5rem 6rem;scroll-margin-top:0}
+.suite a{grid-column:3/span 8;display:grid;grid-template-columns:auto 1fr auto;gap:1.2rem;align-items:center;padding-top:1.3rem;border-top:1px solid var(--r)}
+.suite .w{display:block;width:6rem;height:6rem;overflow:hidden;background:var(--b);border-radius:47% 53% 49% 51%/52% 46% 54% 48%;transition:transform 450ms cubic-bezier(.22,.8,.3,1)}
+.suite img{display:block;width:100%;height:100%;object-fit:cover}
+.suite small{display:block;margin-bottom:.3rem}
+.suite h2{font:400 clamp(1.25rem,2vw,1.8rem)/1.08 "Geist Serif",serif;transition:color 120ms}
+.suite .f{font:400 1.8rem/1 "Geist Serif",serif;color:var(--r);transition:transform 300ms cubic-bezier(.3,1.5,.5,1)}
+.suite a:hover h2{color:var(--r)}.suite a:hover .f{transform:translateX(.5rem)}.suite a:hover .w{transform:scale(1.06) rotate(-3deg)}
+/* Agrandissement */
+#loupe{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:var(--p)}
+#loupe.ok{display:flex}#loupe img{max-width:calc(100vw - 9rem);max-height:calc(100svh - 3rem);transition:transform 300ms cubic-bezier(.22,.8,.3,1)}
+#loupe button{all:unset;cursor:pointer;position:absolute;font:400 2.4rem/1 Newsreader,serif;padding:.4rem .8rem;color:var(--b)}#loupe button:hover,#loupe button:focus-visible{color:var(--r)}
+#loupe .x{top:.6rem;right:.8rem}#loupe .tourne{top:.65rem;right:3.6rem;font-size:2rem}#loupe .g{left:.6rem;top:50%;transform:translateY(-50%)}#loupe .dr{right:.6rem;top:50%;transform:translateY(-50%)}
+@media (max-width:900px){
+ .haut{position:absolute}
+ .etapes{top:auto;bottom:.8rem;right:.8rem;transform:none}.etapes li:not(:has(a.on)){display:none}
+ .etapes a,.etapes a.on,.etapes a:hover{transform:none;color:var(--p);background:var(--b);padding:.25rem .55rem;border-radius:7px;margin:0}.etapes b{color:var(--p)}
+ .jour{position:absolute;right:.9rem;top:1.2rem;bottom:auto}
+ .ouv{height:auto;min-height:0;padding:5.5rem 1rem 2rem}.vedette{position:static;width:100%;height:auto;margin-bottom:1.8rem}.vedette img,.vedette .fig .w{max-height:none}
+ .ouv>.d{display:none}.tete{position:static;max-width:none}
+ .grille,.suite{padding:2.5rem 1rem;gap:2.2rem 0}.grille>*,.suite a,.long,.lignes,.fig,.carte{grid-column:1/-1!important}
+ .suite{padding-bottom:5rem}.carte{grid-template-columns:5.5rem 1fr;gap:.9rem;padding:.8rem}.carte>div{display:contents}.carte>img{grid-row:span 2}.carte strong,.carte small{grid-column:2}.barre{grid-column:1/-1}
+ #loupe img{max-width:100vw}
+}

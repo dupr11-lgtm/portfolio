@@ -1,0 +1,63 @@
+---
+import type { Lang } from "@/data/site";
+import "@/styles/commun.css";
+
+interface Props {
+  title: string;
+  description: string;
+  lang: Lang;
+  // Le chemin de la page, sans le préfixe de langue ; absent si elle n'a pas de double (404)
+  chemin?: string;
+  image?: string;
+  // Cette page lit le thème choisi par la visiteuse
+  theme?: boolean;
+  attributs?: Record<string, string | number>;
+}
+
+const { title, description, lang, chemin, image, theme = true, attributs = {} } = Astro.props;
+const canonique = new URL(Astro.url.pathname, Astro.site);
+const apercu = new URL(image || "/social-preview-v3.png?v=4", Astro.site);
+const version = (l: Lang) => new URL((l === "en" ? "/en" : "") + (chemin === "/" ? (l === "en" ? "" : "/") : chemin), Astro.site);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonique} />
+    {chemin && (
+      <>
+        <link rel="alternate" hreflang="fr" href={version("fr")} />
+        <link rel="alternate" hreflang="en" href={version("en")} />
+        <link rel="alternate" hreflang="x-default" href={version("fr")} />
+      </>
+    )}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonique} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={lang === "fr" ? "fr_FR" : "en_US"} />
+    <meta property="og:image" content={apercu} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={apercu} />
+    <link rel="icon" href="/favicon.ico?v=5" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-riso.svg" />
+    <link rel="apple-touch-icon" href="/favicon-riso.png" />
+    <link rel="sitemap" href="/sitemap.xml" />
+    <script defer src="https://u.herbievine.com/script.js" data-website-id="db8d3099-07fb-4913-9489-e87067418f74"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <slot name="tete" />
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Rokkitt:wght@800&family=Courier+Prime&display=swap" rel="stylesheet" />
+  </head>
+  <body {...attributs}>
+    {theme && <script is:inline>(function(){var t="";try{t=localStorage.getItem("theme")||""}catch(e){}if(location.hash=="#sombre")t="nuit";document.body.dataset.theme=t})()</script>}
+    <slot />
+  </body>
+</html>

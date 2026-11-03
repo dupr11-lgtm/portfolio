@@ -1,38 +1,8 @@
 ---
-import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
-import PostPage from "@/components/PostPage.astro";
+import Projet from "@/components/Projet.astro";
+import { slugs } from "@/data/site";
 
-export async function getStaticPaths() {
-    const posts = await getCollection("posts");
-
-    const paths = [];
-
-    for (const post of posts) {
-        paths.push(
-            {
-                params: { slug: post.slug },
-                props: post,
-            },
-            {
-                params: { slug: `${post.slug}.md` },
-                props: post,
-            },
-        );
-    }
-
-    return paths;
-}
-
-type Props = CollectionEntry<"posts">;
-
-const post = Astro.props;
-
-if (Astro.url.pathname.endsWith(".md")) {
-    const markdown = `${post.data.title}\n${post.body}`;
-
-    return new Response(markdown);
-}
+export const getStaticPaths = () => slugs().map((slug) => ({ params: { slug } }));
 ---
 
-<PostPage post={post} lang="fr" />
+<Projet lang="fr" slug={Astro.params.slug} />

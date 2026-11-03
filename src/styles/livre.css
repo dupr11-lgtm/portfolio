@@ -1,0 +1,43 @@
+@font-face{font-family:"Geist Serif";src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-serif/GeistSerif-Regular.woff2) format("woff2");font-display:swap}
+:root{--l0:#252b80;--l1:#6f74ba;--l2:#b5b8de}
+html{background:#fff;scroll-behavior:smooth}
+body{background:#fff;color:#ece6da;font:400 .84rem/1.35 "Courier Prime",monospace}
+#maison{position:fixed;left:1.3rem;top:1.3rem;z-index:12}[data-logo] svg{height:3.2rem}[data-logo] .l0{fill:var(--l0)}[data-logo] .l1{fill:var(--l1)}[data-logo] .l2{fill:var(--l2)}
+body.fond{--l0:#ece6da;--l1:#9da1d6;--l2:#5a5f9e}
+
+/* L'eau : la page est blanche, puis le bleu monte avec la lecture et fonce à mesure qu'on descend */
+.eau{position:fixed;left:0;right:0;top:0;height:calc(100svh + 5rem);z-index:0;pointer-events:none;transform:translateY(100svh);--eau:#252b80;will-change:transform}
+.eau .vague{display:block;width:200vw;height:5rem;fill:var(--eau);margin-bottom:-1px}
+.eau .masse{height:calc(100% - 5rem + 1px);background:var(--eau)}
+
+.entete{position:relative;z-index:1}
+.titre{min-height:100svh;padding:0 6rem 3.5rem;display:flex;flex-direction:column;justify-content:flex-end;color:#252b80}
+.titre h1{font:400 clamp(3.2rem,10.5vw,11rem)/.92 "Geist Serif",serif;letter-spacing:-.02em}
+.titre p{margin-top:1.3rem}.titre a{color:#d8452e}
+/* La même page en clair, visible seulement sous la surface de l'eau */
+.titre.clair{position:absolute;inset:0;color:#ece6da;pointer-events:none;clip-path:inset(100% 0 0 0)}
+.titre.clair a{color:#ff6a4d}
+
+.corps{position:relative;z-index:1;max-width:38rem;margin:0 auto;padding:6rem 1.2rem 4rem;font:400 clamp(1.14rem,1.5vw,1.3rem)/1.62 Newsreader,serif;font-variation-settings:"opsz" 14;hyphens:auto}
+.exergue{font:400 clamp(2rem,4.4vw,3.8rem)/1.05 "Geist Serif",serif;font-variation-settings:normal;hyphens:none;margin-bottom:6rem}
+h2{font:400 clamp(4rem,9vw,7rem)/1 "Geist Serif",serif;margin:6.5rem 0 2rem;color:#ff6a4d}
+.corps p+p{margin-top:1.05em}
+.intro{font-size:.92em;opacity:.92}
+.note{font:400 .84rem "Courier Prime",monospace;margin-bottom:1rem;color:#ff6a4d}
+/* La règle de plongée, le long de la page */
+.reperes{position:absolute;inset:0 auto 0 -5.5rem;width:4rem;pointer-events:none}
+.reperes span{position:absolute;left:0;font-size:.74rem;opacity:.55;border-top:1px solid currentColor;padding-top:.2rem;width:3.4rem}
+.jauge{position:fixed;right:1.8rem;bottom:1.6rem;z-index:11;text-align:right;color:#ff6a4d;opacity:0;transform:translateY(.6rem);transition:opacity 300ms,transform 300ms;pointer-events:none}
+.jauge.vu{opacity:1;transform:none}.jauge small{display:block;font:400 .78rem "Courier Prime",monospace;color:#ece6da}
+.jauge b{font:800 clamp(2.4rem,4.4vw,4.2rem)/1 Rokkitt,serif}
+.fin{position:relative;z-index:1;max-width:38rem;margin:0 auto;padding:4rem 1.2rem 7rem;font:400 1.15rem/1.55 Newsreader,serif;font-variation-settings:"opsz" 14}
+.fin b{display:block;font:800 clamp(4rem,10vw,8rem)/.9 Rokkitt,serif;color:#ff6a4d;margin-bottom:1.5rem}
+.fin p+p{margin-top:1em}.fin nav{display:flex;flex-wrap:wrap;gap:1.4rem;margin-top:3rem;font:400 .9rem "Courier Prime",monospace}.fin nav a{border-bottom:1px solid #ff6a4d}.fin nav a:hover{color:#ff6a4d}
+/* FR / EN, en haut à droite : bleu sur le blanc, crème sous l'eau */
+.jour{position:fixed;right:1.3rem;top:1.3rem;z-index:12;display:flex;gap:.55rem;color:#252b80;transition:color 200ms}
+body.fond .jour{color:#ece6da}
+.jour button,.jour a{all:unset;cursor:pointer;opacity:.55;transition:opacity 150ms,color 150ms}
+.jour button:hover,.jour a:hover{opacity:1}.jour button[aria-pressed=true],.jour a[aria-current]{color:#d8452e;opacity:1}body.fond .jour button[aria-pressed=true]{color:#ff6a4d}
+.jour button:focus-visible,.jour a:focus-visible{outline:1.5px solid currentColor;outline-offset:3px;border-radius:4px}
+.jour .lg{width:1.45rem;font:400 1.05rem/1.45rem "Geist Serif",serif;text-align:center}
+@media (max-width:1000px){.reperes{display:none}.titre{padding:0 1.1rem 2.5rem}.jauge{right:1rem;bottom:1rem}}

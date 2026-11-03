@@ -1,0 +1,27 @@
+---
+import { type Lang } from "@/data/site";
+import { traduction } from "@/i18n/ui";
+
+interface Props {
+  lang: Lang;
+  // Le chemin de la page, sans le préfixe de langue
+  chemin: string;
+  theme?: boolean;
+}
+
+const { lang, chemin, theme = true } = Astro.props;
+const t = traduction(lang);
+const fr = chemin;
+const en = chemin === "/" ? "/en" : `/en${chemin}`;
+---
+
+<div class="jour" role="group" aria-label={theme ? t("themeG") : t("langue")}>
+  <a class="lg" data-l="fr" lang="fr" href={fr} aria-label="Français" aria-current={lang === "fr" ? "true" : undefined}>FR</a>
+  <a class="lg" data-l="en" lang="en" href={en} aria-label="English" aria-current={lang === "en" ? "true" : undefined}>EN</a>
+  {theme && (
+    <>
+      <button data-t="" aria-label={t("clair")}><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"></path></svg></button>
+      <button data-t="nuit" aria-label={t("sombre")}><svg viewBox="0 0 24 24"><path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1z"></path></svg></button>
+    </>
+  )}
+</div>
