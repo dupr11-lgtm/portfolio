@@ -64,7 +64,7 @@ enc = lambda i, no, cfr, cen, mfr, men, d: {"i": i, "no": no, "an": "2026", "dos
     "court": {"fr": cfr, "en": cen}, "titre": {"fr": cfr, "en": cen}, "meta": {"fr": mfr, "en": men}, "note": {"fr": "", "en": ""},
     "cover": None, "images": [], "sections": {"fr": [{"h": "L'idée", "l": [ATT_FR]}], "en": [{"h": "The idea", "l": [ATT_EN]}]}}
 # ACT est en cours : à chaque mise à jour, changer la date ici. Le lien de la boîte n'est écrit qu'à cet endroit.
-ACT_LIEN = "https://boite-act.cloudflare-pentagon035.workers.dev/"
+ACT_LIEN = "https://boite-act.duparc.studio/"
 ACT_ETAT = {"fr": "En cours - dernière mise à jour le 3 novembre 2026 - fin prévue en janvier 2027",
             "en": "In progress - last updated on 3 November 2026 - due to finish in January 2027"}
 act = enc(15, "02", "ACT", "ACT", "Projet interactif - Master - ULB", "Interactive project - Master's - ULB", "act")
