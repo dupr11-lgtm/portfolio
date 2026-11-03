@@ -14,25 +14,25 @@ const degrade = (couleurs, x) => {
   return entre(couleurs[k], couleurs[k + 1], p - k);
 };
 
-// Lunettes : le rouge de la photo (V médian 216) devient l'orange du site ; le reste redevient un vrai noir et blanc
+// Le bleu : le dégradé du filtre #bleu du site, de #252b80 au papier
+const EAU = [hex("#252b80"), hex("#efe9dd")];
+// Le filtre #bleu tel quel : contraste x1,3 puis dégradé
+const bleu = (r, g, b) => degrade(EAU, 1.3 * lum(r, g, b) - 0.13);
+// Ivresse : tons moyens assombris
+const eau = (r, g, b) => degrade(EAU, palier(0.1, 0.95, lum(r, g, b)) ** 3);
+
+// Lunettes : le rouge de la photo (V médian 216) devient l'orange du site ; le reste passe dans le bleu du site
 const ORANGE = hex("#ff6a4d");
 const lunettes = (r, g, b) => {
   const grand = Math.max(r, g, b), ecart = grand - Math.min(r, g, b);
   const part = r > g && r > b ? palier(30, 110, ecart) : 0;
-  const gris = lum(r, g, b) * 255, teinte = ORANGE.map((v) => Math.min(255, (v * grand) / 216));
-  return entre([gris, gris, gris], teinte, part);
+  const teinte = ORANGE.map((v) => Math.min(255, (v * grand) / 216));
+  return entre(bleu(r, g, b), teinte, part);
 };
 
-// La terre : la couleur du favicon de la boîte ACT occupe le milieu de l'image
-const TERRE = [hex("#2e0f07"), hex("#8f371f"), hex("#e9c4a6")];
-const terre = (r, g, b) => degrade(TERRE, palier(0.2, 0.9, lum(r, g, b)) ** 1.2);
-
-// Le bleu : le dégradé du filtre #bleu du site, de #252b80 au papier, avec des tons moyens assombris
-const EAU = [hex("#252b80"), hex("#efe9dd")];
-const eau = (r, g, b) => degrade(EAU, palier(0.1, 0.95, lum(r, g, b)) ** 3);
-
-for (const [nom, teinte] of [["cinema", lunettes], ["act", terre], ["ivresse", eau]]) {
-  let image = sharp(resolve(RACINE, `src/assets/couvertures/${nom}.jpg`)).rotate().removeAlpha();
+for (const [nom, teinte] of [["cinema", lunettes], ["act", eau], ["ivresse", eau]]) {
+  // Ivresse est tournée d'un quart de tour vers la droite
+  let image = sharp(resolve(RACINE, `src/assets/couvertures/${nom}.jpg`)).rotate(nom == "ivresse" ? 90 : undefined).removeAlpha();
   // La source d'ACT a un fin liseré sombre sur ses bords
   if (nom == "act") image = image.extract({ left: 12, top: 12, width: 1000, height: 1000 });
   const { data, info } = await image.raw().toBuffer({ resolveWithObject: true });

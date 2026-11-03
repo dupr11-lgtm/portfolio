@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 import couvertures from "./couvertures.json";
 import projets from "./projets.json";
 
@@ -15,9 +17,21 @@ export const codeLangue = (lang: Lang) => (lang === "en" ? "en-GB" : "fr");
 export const prefixe = (lang: Lang) => (lang === "en" ? "/en" : "");
 export const accueil = (lang: Lang) => prefixe(lang) || "/";
 
+// Les images de /opt restent 30 jours en cache (public/_headers) : leur adresse porte l'empreinte du fichier,
+// pour qu'une image retouchée soit rechargée aussitôt
+const empreintes = new Map<string, string>();
+export const v = (url: string) => {
+  if (!empreintes.has(url)) {
+    let e = "";
+    try { e = createHash("md5").update(readFileSync(`public${url}`)).digest("hex").slice(0, 8); } catch {}
+    empreintes.set(url, e ? `${url}?v=${e}` : url);
+  }
+  return empreintes.get(url)!;
+};
+
 // Les images compressées par scripts/images.mjs : une version par largeur, jamais l'original
 export const opt = (s: string, l: number) =>
-  s.replace(/^.*\/projects\/|^media\//, "/opt/").replace(/\.\w+$/, `-${l}.webp`);
+  v(s.replace(/^.*\/projects\/|^media\//, "/opt/").replace(/\.\w+$/, `-${l}.webp`));
 export const jeu = (s: string) => `${opt(s, 800)} 800w,${opt(s, 1600)} 1600w,${opt(s, 2400)} 2400w`;
 export const VEDETTE = "(max-width:900px) 100vw,41vw";
 
@@ -44,4 +58,4 @@ export const slugs = () => pagesEn("fr").map((p) => p.slug as string);
 
 // Le JPEG des aperçus de liens (WhatsApp, réseaux) ; sans couverture, l'image générale du site
 export const partage = (couverture: string | null) =>
-  couverture ? couverture.replace(/^\/projects\//, "/opt/").replace(/\.\w+$/, "-1200.jpg") : undefined;
+  couverture ? v(couverture.replace(/^\/projects\//, "/opt/").replace(/\.\w+$/, "-1200.jpg")) : undefined;

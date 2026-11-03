@@ -1738,8 +1738,8 @@
   },
   "cover": {
    "s": "../public/projects/ivresse.mdx/cover.jpg",
-   "w": 1200,
-   "h": 1800,
+   "w": 1799,
+   "h": 1200,
    "trait": false,
    "sombre": false,
    "libre": false,
