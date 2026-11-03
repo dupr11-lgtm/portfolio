@@ -1,4 +1,5 @@
 @font-face{font-family:"Geist Serif";src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-serif/GeistSerif-Regular.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Geist";font-weight:500;src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-sans/Geist-Medium.woff2) format("woff2");font-display:swap}
 :root{--p:#efe9dd;--b:#252b80;--r:#d8452e;--l0:#252b80;--l1:#6f74ba;--l2:#b5b8de;--disc-b:#252b80}
 body[data-theme=nuit]{--p:#14162e;--b:#ece6da;--r:#ff6a4d;--l0:#ece6da;--l1:#9da1d6;--l2:#5a5f9e;--disc-b:#c7bda6}
 body{background:var(--p);color:var(--b);font:400 .84rem/1.35 "Courier Prime",monospace;transition:background-color 300ms,color 300ms}
@@ -13,11 +14,15 @@ body{background:var(--p);color:var(--b);font:400 .84rem/1.35 "Courier Prime",mon
 .etapes a::after{content:"";position:absolute;left:100%;top:0;bottom:0;width:1.3rem}
 .etapes b{font:800 .95rem/1 Rokkitt,serif;color:var(--r);margin-left:.4rem}
 .etapes a:hover,.etapes a.on{color:var(--r);transform:translateX(-.55rem)}
-.jour{position:fixed;right:1.3rem;bottom:1.2rem;z-index:12;display:grid;grid-template-columns:repeat(2,1.45rem);gap:.3rem .55rem}
-.jour button,.jour a{all:unset;cursor:pointer;width:1.45rem;height:1.45rem;color:var(--b);opacity:.5;transition:opacity 150ms,color 150ms}
+/* Langue et thème sont déjà choisis à l'accueil : ici ce n'est qu'un détail, petit, sur une seule ligne */
+.jour{position:fixed;right:1.3rem;bottom:1.2rem;z-index:12;display:flex;align-items:center;gap:.45rem}
+.jour button,.jour a{all:unset;cursor:pointer;width:.95rem;height:.95rem;color:var(--b);opacity:.45;transition:opacity 150ms,color 150ms}
 .jour svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .jour button:hover,.jour a:hover{opacity:1}.jour button[aria-pressed=true],.jour a[aria-current]{color:var(--r);opacity:1}.jour button:focus-visible,.jour a:focus-visible{outline:1.5px solid var(--r);outline-offset:3px;border-radius:4px}
-.jour .lg{font:400 1.05rem/1.45rem "Geist Serif",serif;text-align:center}
+.jour .lg{width:auto;font:500 .62rem/.95rem Geist,sans-serif;letter-spacing:.04em;text-align:center}
+.jour .lg+button{margin-left:.25rem}
+/* Petit à l'œil, mais assez grand sous le doigt */
+.jour button,.jour a{position:relative}.jour button::after,.jour a::after{content:"";position:absolute;inset:-.4rem -.2rem}
 .d{position:absolute}.d svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 /* Ouverture */
 .ouv{position:relative;height:100svh;min-height:640px}
@@ -93,9 +98,9 @@ body[data-theme=nuit] .carte{--cf:#c7bda6;--ct:#14162e;--cb:#14162e;--cbt:#c7bda
 #loupe .x{top:.6rem;right:.8rem}#loupe .tourne{top:.65rem;right:3.6rem;font-size:2rem}#loupe .g{left:.6rem;top:50%;transform:translateY(-50%)}#loupe .dr{right:.6rem;top:50%;transform:translateY(-50%)}
 @media (max-width:900px){
  .haut{position:absolute}
- .etapes{top:auto;bottom:.8rem;right:.8rem;transform:none}.etapes li:not(:has(a.on)){display:none}
- .etapes a,.etapes a.on,.etapes a:hover{transform:none;color:var(--p);background:var(--b);padding:.25rem .55rem;border-radius:7px;margin:0}.etapes b{color:var(--p)}
- .jour{position:absolute;right:.9rem;top:1.2rem;bottom:auto}
+ /* Sur téléphone, les titres des parties suffisent en descendant : pas d'étiquette en bas à droite */
+ .etapes{display:none}
+ .jour{position:absolute;right:1.1rem;top:2.4rem;bottom:auto}
  .ouv{height:auto;min-height:0;padding:5.5rem 1rem 2rem}.vedette{position:static;width:100%;height:auto;margin-bottom:1.8rem}.vedette img,.vedette .fig .w{max-height:none}
  .ouv>.d{display:none}.tete{position:static;max-width:none}
  .grille,.suite{padding:2.5rem 1rem;gap:2.2rem 0}.grille>*,.suite a,.long,.lignes,.fig,.carte{grid-column:1/-1!important}

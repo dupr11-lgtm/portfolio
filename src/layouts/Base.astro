@@ -27,6 +27,8 @@ const version = (l: Lang) => new URL((l === "en" ? "/en" : "") + (chemin === "/"
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Rien ne s'affiche avant la fin du body, donc avant le script de la page : pas de page à moitié dessinée -->
+    <link rel="expect" href="#rendu" blocking="render" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonique} />
@@ -61,6 +63,7 @@ const version = (l: Lang) => new URL((l === "en" ? "/en" : "") + (chemin === "/"
   <body {...attributs}>
     {theme && <script is:inline>(function(){var t="";try{t=localStorage.getItem("theme")||""}catch(e){}if(location.hash=="#sombre")t="nuit";document.body.dataset.theme=t})()</script>}
     <slot />
+    <i id="rendu" hidden></i>
     <script>
       import { anticipeLiens } from "@/scripts/reglages.js";
       anticipeLiens();

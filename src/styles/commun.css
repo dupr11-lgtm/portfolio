@@ -11,3 +11,12 @@ img{display:block;max-width:100%}
 [data-logo]:hover .l1{transform:translate(170px,10px)}
 [data-logo]:hover .l2{transform:translate(-150px,70px)}
 @media (prefers-reduced-motion:reduce){[data-logo] path,html{transition:none;scroll-behavior:auto}}
+/* La barre de défilement : un trait arrondi, orange en clair, sable en sombre, sur le livre aussi */
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#d8452e;background-clip:padding-box;border:3px solid transparent;border-radius:11px;min-height:3rem}
+::-webkit-scrollbar-thumb:hover{border-width:2px}
+html:has(body[data-theme=nuit])::-webkit-scrollbar-thumb,html:has(body.fond)::-webkit-scrollbar-thumb{background-color:#c7bda6}
+::-webkit-scrollbar-corner{background:transparent}
+/* Firefox ne connaît pas les règles ci-dessus : couleurs seulement, sans les arrondis */
+@supports not selector(::-webkit-scrollbar){html{scrollbar-width:thin;scrollbar-color:#d8452e transparent}html:has(body[data-theme=nuit]),html:has(body.fond){scrollbar-color:#c7bda6 transparent}}

@@ -1,13 +1,14 @@
 @font-face{font-family:"Geist Serif";src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-serif/GeistSerif-Regular.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Geist";font-weight:500;src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-sans/Geist-Medium.woff2) format("woff2");font-display:swap}
 :root{--l0:#252b80;--l1:#6f74ba;--l2:#b5b8de}
 html{background:#fff;scroll-behavior:smooth}
 body{background:#fff;color:#ece6da;font:400 .84rem/1.35 "Courier Prime",monospace}
-#maison{position:fixed;left:1.3rem;top:1.3rem;z-index:12}[data-logo] svg{height:3.2rem}[data-logo] .l0{fill:var(--l0)}[data-logo] .l1{fill:var(--l1)}[data-logo] .l2{fill:var(--l2)}
+#maison{position:fixed;left:1.3rem;top:1.3rem;z-index:12;transition:opacity 250ms,transform 250ms}[data-logo] svg{height:3.2rem}[data-logo] .l0{fill:var(--l0)}[data-logo] .l1{fill:var(--l1)}[data-logo] .l2{fill:var(--l2)}
 body.fond{--l0:#ece6da;--l1:#9da1d6;--l2:#5a5f9e}
 
 /* L'eau : la page est blanche, puis le bleu monte avec la lecture et fonce à mesure qu'on descend */
-.eau{position:fixed;left:0;right:0;top:0;height:calc(100svh + 5rem);z-index:0;pointer-events:none;transform:translateY(100svh);--eau:#252b80;will-change:transform}
-.eau .vague{display:block;width:200vw;height:5rem;fill:var(--eau);margin-bottom:-1px}
+.eau{position:fixed;left:0;right:0;top:0;height:calc(100svh + 5rem);z-index:0;pointer-events:none;overflow:hidden;transform:translateY(100svh);--eau:#252b80;will-change:transform}
+.eau .vague{display:block;width:200vw;max-width:none;height:5rem;fill:var(--eau);margin-bottom:-1px}
 .eau .masse{height:calc(100% - 5rem + 1px);background:var(--eau)}
 
 .entete{position:relative;z-index:1}
@@ -35,9 +36,18 @@ h2{font:400 clamp(4rem,9vw,7rem)/1 "Geist Serif",serif;margin:6.5rem 0 2rem;colo
 .fin p+p{margin-top:1em}.fin nav{display:flex;flex-wrap:wrap;gap:1.4rem;margin-top:3rem;font:400 .9rem "Courier Prime",monospace}.fin nav a{border-bottom:1px solid #ff6a4d}.fin nav a:hover{color:#ff6a4d}
 /* FR / EN, en haut à droite : bleu sur le blanc, crème sous l'eau */
 .jour{position:fixed;right:1.3rem;top:1.3rem;z-index:12;display:flex;gap:.55rem;color:#252b80;transition:color 200ms}
-body.fond .jour{color:#ece6da}
+/* Elles ne servent qu'en arrivant : dès que la vague les a passées, elles s'en vont */
+.jour{transition:color 200ms,opacity 300ms,visibility 300ms}
+body.fond .jour{opacity:0;visibility:hidden}
 .jour button,.jour a{all:unset;cursor:pointer;opacity:.55;transition:opacity 150ms,color 150ms}
 .jour button:hover,.jour a:hover{opacity:1}.jour button[aria-pressed=true],.jour a[aria-current]{color:#d8452e;opacity:1}body.fond .jour button[aria-pressed=true]{color:#ff6a4d}
 .jour button:focus-visible,.jour a:focus-visible{outline:1.5px solid currentColor;outline-offset:3px;border-radius:4px}
-.jour .lg{width:1.45rem;font:400 1.05rem/1.45rem "Geist Serif",serif;text-align:center}
-@media (max-width:1000px){.reperes{display:none}.titre{padding:0 1.1rem 2.5rem}.jauge{right:1rem;bottom:1rem}}
+.jour .lg{width:1.45rem;font:500 .78rem/1.45rem Geist,sans-serif;letter-spacing:.03em;text-align:center}
+@media (max-width:1000px){.reperes{display:none}.titre{padding:0 1.1rem 2.5rem}
+ /* La maison laisse le texte tranquille pendant qu'on descend */
+ #maison.cache{opacity:0;transform:translateY(-.8rem);pointer-events:none}
+ /* La profondeur : un bandeau discret en bas, dans la couleur de l'eau, où le texte s'efface en passant dessous */
+ .jauge{left:0;right:0;bottom:0;display:flex;justify-content:flex-end;align-items:baseline;gap:.5rem;padding:2.2rem 1.1rem calc(.75rem + env(safe-area-inset-bottom));background:linear-gradient(to bottom,transparent,var(--eau,#252b80) 62%);transform:translateY(100%)}
+ .jauge small{display:inline;font-size:.68rem;opacity:.7}
+ .jauge b{font-size:1.3rem}
+}

@@ -6,6 +6,8 @@ import { apresPolices, initLangue, initTheme } from "./reglages.js";
 const carte=document.getElementById("carte"),logo=document.getElementById("logo"),MAISON=document.querySelector(".fin svg path").getAttribute("d");
 let SEG=[],TEXTES=[],LARG=0;const anims=new Map(),prets=new Map();
 const fb=contour(11,.2),fb2=contour(47,.2);
+// Les textes que les courbes contournent
+const TEXTES_GARDES="#page h1,#page h2,#page h3,#page p,#page dt,#page dd,#contact a,#page .vide,.haut span,.haut.droite a";
 const dessine=()=>{
   const P=document.getElementById("page"),W=P.offsetWidth,H=P.offsetHeight,c=carte,w=c.offsetWidth,h=c.offsetHeight;
   const r0=Math.min(w,h)*.385,sx=w/h>1?Math.min(1.25,(w/h)*.95):1;
@@ -59,7 +61,7 @@ const dessine=()=>{
   const trous=[];
   const garde=(el)=>{const fixe=getComputedStyle(el).position=="fixed"||el.closest(".haut")&&getComputedStyle(el.closest(".haut")).position=="fixed",g=document.createRange();g.selectNodeContents(el);
     for(const q of g.getClientRects()){if(q.width<2||q.height<2)continue;const X=q.left-(fixe?0:o.left)-8,Y=q.top-(fixe?0:o.top)-5;if(!fixe)TEXTES.push([X,Y,X+q.width+16,Y+q.height+10]);trous.push(`<rect x="${X.toFixed(0)}" y="${Y.toFixed(0)}" width="${(q.width+16).toFixed(0)}" height="${(q.height+10).toFixed(0)}" rx="8"/>`)}};
-  document.querySelectorAll("#page h1,#page h2,#page h3,#page p,#page dt,#page dd,#contact a,#page .vide,.haut span,.haut.droite a").forEach(garde);
+  document.querySelectorAll(TEXTES_GARDES).forEach(garde);
   const mx=document.querySelector(".fin svg").getScreenCTM();
   const silhouette=`<path d="${MAISON}" fill="#000" transform="matrix(${mx.a} ${mx.b} ${mx.c} ${mx.d} ${mx.e-o.left} ${mx.f-o.top})"/>`;
   const marge=W>900?`<rect x="${W-260}" y="0" width="260" height="${H}" fill="url(#fondu)"/>`:"";
@@ -73,7 +75,7 @@ const dessine=()=>{
   document.getElementById("gras").innerHTML="";anims.clear();prets.clear();
 };
 const champ_svg=document.getElementById("champ");
-dessine();apresPolices(dessine);
+dessine();apresPolices(dessine,TEXTES_GARDES);
 let tm;addEventListener("resize",()=>{clearTimeout(tm);tm=setTimeout(dessine,200)});
 
 initTheme();initLangue();

@@ -54,7 +54,19 @@ export const anticipeLiens = () => {
   ["mouseover", "focusin", "touchstart"].forEach((ev) => document.addEventListener(ev, prepare, { passive: true }));
 };
 
-// Redessine une fois les polices arrivées, seulement si elles ont changé la mise en page
-export const apresPolices = (dessin) => {
-  if (document.fonts?.status == "loading") document.fonts.ready.then(() => (window.requestIdleCallback || setTimeout)(() => dessin()));
+// Redessine une fois les polices arrivées, seulement si elles ont changé la mise en page :
+// on compare la taille de la page et de chaque ligne des textes que les courbes contournent
+export const apresPolices = (dessin, textes) => {
+  if (document.fonts?.status != "loading") return;
+  const empreinte = () => {
+    let s = innerWidth + "," + document.documentElement.scrollHeight;
+    document.querySelectorAll(textes).forEach((el) => {
+      const g = document.createRange();
+      g.selectNodeContents(el);
+      for (const q of g.getClientRects()) s += `|${Math.round(q.width)},${Math.round(q.height)}`;
+    });
+    return s;
+  };
+  const avant = empreinte();
+  document.fonts.ready.then(() => (window.requestIdleCallback || setTimeout)(() => { if (empreinte() != avant) dessin(); }));
 };

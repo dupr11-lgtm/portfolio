@@ -1,6 +1,7 @@
 ---
 import Jour from "@/components/Jour.astro";
 import Logo from "@/components/Logo.astro";
+import { scriptEnLigne } from "@/data/scriptEnLigne";
 import { esc, prefixe, type Lang } from "@/data/site";
 import L from "@/data/livre.json";
 import { traduction } from "@/i18n/ui";
@@ -41,7 +42,5 @@ for (let m = 50; m < L.maxDepth; m += 50) reperes.push(m);
   </footer>
   <Jour lang={lang} chemin="/livre/ivresse" theme={false} />
   <div class="jauge" id="jauge" aria-hidden="true"><small>{t("profondeur")}</small><b id="prof">0 m</b></div>
-  <script>
-    import "@/scripts/livre.js";
-  </script>
+  <script is:inline set:html={scriptEnLigne("livre.js")}></script>
 </Base>

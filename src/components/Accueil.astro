@@ -1,6 +1,7 @@
 ---
 import Jour from "@/components/Jour.astro";
 import Logo from "@/components/Logo.astro";
+import { scriptEnLigne } from "@/data/scriptEnLigne";
 import { accueil, esc, jeu, opt, pagesEn, prefixe, VEDETTE, type Lang } from "@/data/site";
 import { BREF, FORMATION, traduction } from "@/i18n/ui";
 import Base from "@/layouts/Base.astro";
@@ -48,7 +49,7 @@ const G: [string, any[]][] = [
 // Chaque disque est découpé à la main, façon ciseaux : sa graine suit son ordre dans la page
 let graine = 0;
 const d = (style: string, bleu = false) => `<div class="d" style="${style}">${disque(graine++, bleu)}</div>`;
-const heroDisques = d("width:19vw;height:19vw;left:66%;top:1%").replace('class="d"', 'class="d gros"') + d("width:4.6vw;height:4.6vw;left:27%;top:26%", true) + d("width:2.2vw;height:2.2vw;left:33%;top:15%");
+const heroDisques = d("width:19vw;height:19vw;left:66%;top:1%").replace('class="d"', 'class="d gros"') + d("width:4.6vw;height:4.6vw;left:27%;top:26%", true) + d("width:2.2vw;height:2.2vw;left:33%;top:15%").replace('class="d"', 'class="d point"');
 
 let n = 0, fil = "", table = "";
 for (const [an, items] of G) {
@@ -119,7 +120,5 @@ const racine = accueil(lang);
       <a class="mail" href="mailto:alienor@duparc.studio">alienor@duparc.studio</a>
     </section>
   </div>
-  <script>
-    import "@/scripts/accueil.js";
-  </script>
+  <script is:inline set:html={scriptEnLigne("accueil.js")}></script>
 </Base>

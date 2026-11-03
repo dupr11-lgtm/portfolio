@@ -11,8 +11,9 @@ const suivre=()=>{const m=innerHeight*.45;let c=null;for(const b of blocs)if(b.g
   if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)c=blocs[blocs.length-1];liensE.forEach(l=>l.classList.toggle("on",c&&l.dataset.e==c.id))};
 let att=false;addEventListener("scroll",()=>{if(!att){att=true;requestAnimationFrame(()=>{att=false;suivre()})}},{passive:true});suivre();
 // Les courbes et leur réaction au survol
-const trace=()=>Courbes.dessine({page:$("page"),fond:$("champ"),couche:$("couche"),gras:$("gras"),graine:11+rang*13,textes:"h1,h2,.tete b,.tete p,.long p,.lignes p,.legende,.suite small"});
-trace();apresPolices(trace);let tm;addEventListener("resize",()=>{clearTimeout(tm);tm=setTimeout(trace,200)});
+const TEXTES="h1,h2,.tete b,.tete p,.long p,.lignes p,.legende,.suite small";
+const trace=()=>Courbes.dessine({page:$("page"),fond:$("champ"),couche:$("couche"),gras:$("gras"),graine:11+rang*13,textes:TEXTES});
+trace();apresPolices(trace,TEXTES);let tm;addEventListener("resize",()=>{clearTimeout(tm);tm=setTimeout(trace,200)});
 document.querySelectorAll(".fig,.suite .w,.vide,.tome,.carton,.carte").forEach(el=>{const h=el.closest("a")||el;h.addEventListener("mouseenter",()=>Courbes.actif(el,true));h.addEventListener("mouseleave",()=>Courbes.actif(el,false))});
 initTheme();initLangue();
 // La maison : retour direct à l'endroit quitté dans la liste, même après plusieurs projets

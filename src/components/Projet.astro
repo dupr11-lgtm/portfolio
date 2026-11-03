@@ -1,6 +1,7 @@
 ---
 import Jour from "@/components/Jour.astro";
 import Logo from "@/components/Logo.astro";
+import { scriptEnLigne } from "@/data/scriptEnLigne";
 import { accueil, esc, jeu, opt, pagesEn, partage, prefixe, VEDETTE, type Image, type Lang } from "@/data/site";
 import { traduction } from "@/i18n/ui";
 import Base from "@/layouts/Base.astro";
@@ -74,7 +75,5 @@ const description = [`${P.an}${P.meta ? " - " + P.meta : ""}`, texte].filter(Boo
     <button class="dr" aria-label={t("suiv")}>›</button>
     <img class="im" alt="" />
   </div>
-  <script>
-    import "@/scripts/projet.js";
-  </script>
+  <script is:inline set:html={scriptEnLigne("projet.js")}></script>
 </Base>
