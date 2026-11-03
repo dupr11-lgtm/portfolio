@@ -12,9 +12,11 @@ interface Props {
   // Cette page lit le thème choisi par la visiteuse
   theme?: boolean;
   attributs?: Record<string, string | number>;
+  // Variante de l'icône d'onglet : "-livre" pour la maison sur fond bleu
+  icone?: "" | "-livre";
 }
 
-const { title, description, lang, chemin, image, theme = true, attributs = {} } = Astro.props;
+const { title, description, lang, chemin, image, theme = true, attributs = {}, icone = "" } = Astro.props;
 const canonique = new URL(Astro.url.pathname, Astro.site);
 const apercu = new URL(image || "/social-preview-v3.png?v=4", Astro.site);
 const version = (l: Lang) => new URL((l === "en" ? "/en" : "") + (chemin === "/" ? (l === "en" ? "" : "/") : chemin), Astro.site);
@@ -45,9 +47,9 @@ const version = (l: Lang) => new URL((l === "en" ? "/en" : "") + (chemin === "/"
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={apercu} />
-    <link rel="icon" href="/favicon.ico?v=8" sizes="any" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=8" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=8" />
+    <link rel="icon" href={`/favicon${icone}.ico?v=8`} sizes="any" />
+    <link rel="icon" type="image/svg+xml" href={`/favicon${icone}.svg?v=8`} />
+    <link rel="apple-touch-icon" href={`/apple-touch-icon${icone}.png?v=8`} />
     <link rel="sitemap" href="/sitemap.xml" />
     <script defer src="https://u.herbievine.com/script.js" data-website-id="db8d3099-07fb-4913-9489-e87067418f74"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -18,7 +18,7 @@ const reperes: number[] = [];
 for (let m = 50; m < L.maxDepth; m += 50) reperes.push(m);
 ---
 
-<Base title="14 minutes et 16 heures | Aliénor du Parc" description={L.epigraph} lang={lang} chemin="/livre/ivresse" theme={false} attributs={{ "data-max": L.maxDepth }}>
+<Base title="14 minutes et 16 heures | Aliénor du Parc" description={L.epigraph} lang={lang} chemin="/livre/ivresse" theme={false} icone="-livre" attributs={{ "data-max": L.maxDepth }}>
   <a id="maison" data-logo href={projet} aria-label={t("retourProjet")}><Logo /></a>
   <div class="eau" id="eau" aria-hidden="true"><svg class="vague" id="vague" viewBox="0 0 2880 70" preserveAspectRatio="none"><path id="onde"></path></svg><div class="masse"></div></div>
   <div class="entete" id="entete"><header class="titre"><h1>14 minutes<br />et 16 heures</h1><p><span>{t("recit")}</span><br /><a href="#corps">{t("descendre")}</a></p></header></div>
