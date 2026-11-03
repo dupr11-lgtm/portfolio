@@ -21,7 +21,6 @@ Depuis `maquettes/` : `python3 outils/projets.py` (génère `projets.js` à part
 
 ## À savoir
 
-- Sur la page du livre, le bas de l'eau laisse environ 10 px de blanc en fin de page, et le séparateur FR/EN est en trop (corrections prévues).
-- Le basculement FR/EN n'a été vérifié que sur ce dépôt, par un test automatique simple.
+- Le basculement FR/EN n'a été vérifié que par un test automatique simple, pas encore à la main sur toutes les pages.
 - Cinéma et ACT sont en "coming soon" avec un texte provisoire. La pochette du livre manque.
 - La suite prévue est de porter ces maquettes dans le site Astro.
