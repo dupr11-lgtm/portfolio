@@ -23,7 +23,7 @@ export const VEDETTE = "(max-width:900px) 100vw,41vw";
 
 export const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 
-export type Image = { s: string; w: number; h: number; trait: boolean; sombre: boolean; libre: boolean; rond?: boolean; flotte?: boolean };
+export type Image = { s: string; w: number; h: number; trait: boolean; sombre: boolean; libre: boolean; rond?: boolean; flotte?: boolean; brut?: boolean };
 
 export const pagesEn = (lang: Lang) =>
   (projets as any[]).map((p) => ({

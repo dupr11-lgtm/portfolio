@@ -19,8 +19,8 @@ const PAGES = pagesEn(lang);
 // i : projet / col, span, row, ar, mt : place sur le plan / disc : [taille, x, y] qui dépasse derrière l'image
 const G: [string, any[]][] = [
   ["2026", [
-    { i: 14, col: 2, span: 4, row: 2, vide: "Coming soon" },
-    { i: 15, col: 7, span: 4, row: 2, mt: 90, vide: t("enCours") },
+    { i: 14, col: 2, span: 4, row: 2, ar: "2/3" },
+    { i: 15, col: 7, span: 4, row: 2, ar: "1/1", mt: 90 },
   ]],
   ["2025", [
     { i: 0, col: 1, span: 7, row: 2, ar: "16/10", disc: [22, 84, -12] },
@@ -42,7 +42,7 @@ const G: [string, any[]][] = [
     { i: 12, col: 3, span: 8, row: 6, ar: "16/9", disc: [18, 91, -8] },
   ]],
   ["2021", [
-    { i: 13, col: 6, span: 4, row: 2 },
+    { i: 13, col: 6, span: 4, row: 2, ar: "2/3" },
   ]],
 ];
 
@@ -56,7 +56,7 @@ for (const [an, items] of G) {
   fil += `<li class="an">${an}</li>`;
   table += `<section class="annee" id="a${an}"><h2>${an}</h2>`;
   for (const q of items) {
-    const P = PAGES.find((x) => x.i == q.i), no = String(++n).padStart(2, "0"), id = "p" + no, pre = q.bright ? `--pre:brightness(${q.bright})` : "";
+    const P = PAGES.find((x) => x.i == q.i), no = String(++n).padStart(2, "0"), id = "p" + no, pre = P.cover?.brut ? "filter:none" : q.bright ? `--pre:brightness(${q.bright})` : "";
     // La couverture du projet se prépare au survol, avec les mêmes tailles que sur sa page
     const vedette = P.dossier != "ivresse" && !P.lien && P.cover ? ` data-jeu="${jeu(P.cover.s)}" data-tailles="${VEDETTE}"` : "";
     fil += `<li><a href="#${id}" data-p="${id}"><i>${esc(P.court)}</i>${no}</a></li>`;

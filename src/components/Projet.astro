@@ -18,7 +18,8 @@ const t = traduction(lang);
 const PAGES = pagesEn(lang);
 const rang = PAGES.findIndex((x) => x.slug == slug), P = PAGES[rang], SUITE = PAGES[(rang + 1) % PAGES.length];
 const preDe = (im: Image) => (im.trait ? "url(#trait)" : im.sombre ? "brightness(2.2)" : "");
-const fig = (im: Image, st: string, tete?: boolean) => `<button class="fig${im.libre ? " libre" : ""}${im.rond ? " rond" : ""}${im.flotte ? " flotte" : ""}" style="${st}" data-src="${im.s}" aria-label="${t("agrandir")}"><span class="w" style="aspect-ratio:${im.w}/${im.h}"><img class="im" ${tete ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" src="${opt(im.s, 800)}" srcset="${jeu(im.s)}" sizes="${tete ? VEDETTE : "(max-width:900px) 100vw,60vw"}" alt="${esc(P.titre)}" style="--pre:${preDe(im)}"></span></button>`;
+const styleIm = (im: Image) => (im.brut ? "filter:none" : `--pre:${preDe(im)}`);
+const fig = (im: Image, st: string, tete?: boolean) => `<button class="fig${im.libre ? " libre" : ""}${im.rond ? " rond" : ""}${im.flotte ? " flotte" : ""}" style="${st}" data-src="${im.s}" aria-label="${t("agrandir")}"><span class="w" style="aspect-ratio:${im.w}/${im.h}"><img class="im" ${tete ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" src="${opt(im.s, 800)}" srcset="${jeu(im.s)}" sizes="${tete ? VEDETTE : "(max-width:900px) 100vw,60vw"}" alt="${esc(P.titre)}" style="${styleIm(im)}"></span></button>`;
 // Les images sont groupées avec les phrases de la section la plus découpée
 const secs = P.sections, tisse = secs.reduce((m, x) => (x.l.length > m.l.length ? x : m), secs[0]);
 const MOTIF = [{ i: "1/span 8", l: "9/span 4" }, { i: "6/span 7", l: "2/span 4" }, { i: "2/span 6", l: "9/span 4" }, { i: "5/span 8", l: "1/span 4" }];
@@ -43,7 +44,7 @@ const boite = () => `<a class="boite" href="${P.lien}" aria-label="${t("ouvrirA"
 const haut = P.dossier == "ivresse" ? `<a class="livre" href="${prefixe(lang)}/livre/ivresse?from=projet" aria-label="${t("lireA")}"><span class="tome"><span class="tranche"></span><span class="face"><em>${t("livreTitre")}</em><span class="d">${disque(graine++, false)}</span><small>Aliénor du Parc</small></span></span><span class="legende">${t("lire")}</span></a>` : P.lien ? boite() : P.cover ? fig(P.cover, "", true) : `<div class="vide">Coming soon</div>`;
 const ecoute = P.dossier == "Podcast" ? `<section class="grille lecteur"><div class="carte"><img src="/opt/Podcast.mdx/profil-800.webp" alt="${esc(t("pochette"))}"><div><strong>${esc(t("podcastTitre"))}</strong><small>Aliénor Knoll &amp; Aliénor du Parc</small><div class="barre"><button class="lire" id="lire" aria-label="${esc(t("lecture"))}"><span id="ico">▶</span></button><span id="tps">00:00</span><input id="pos" type="range" min="0" max="1000" value="0" aria-label="${esc(t("pos"))}"><span id="dur">00:00</span></div></div><audio id="son" preload="metadata" src="/projects/Podcast.mdx/podcats.mp3"></audio></div></section>` : "";
 const imSuite = SUITE.cover ? (SUITE.images[0] && SUITE.cover.libre ? SUITE.images[0] : SUITE.cover) : null;
-const pochette = imSuite ? `<img class="im" loading="lazy" decoding="async" src="${opt(imSuite.s, 800)}" alt="" style="--pre:${preDe(imSuite)}">` : "";
+const pochette = imSuite ? `<img class="im" loading="lazy" decoding="async" src="${opt(imSuite.s, 800)}" alt="" style="${styleIm(imSuite)}">` : "";
 const preSuite = SUITE.dossier != "ivresse" && !SUITE.lien && SUITE.cover ? ` data-jeu="${jeu(SUITE.cover.s)}" data-tailles="${VEDETTE}"` : "";
 const contenu = `<section class="ouv">${disques}
   <div class="vedette">${haut}</div>
@@ -51,7 +52,7 @@ const contenu = `<section class="ouv">${disques}
   ${secs.map((x, k) => `<section class="grille" id="e${k}"><h2>${esc(x.h)}</h2>${grille(x)}</section>`).join("")}
   <section class="suite" id="esuite"><a href="${SUITE.url}"${preSuite}><span class="w">${pochette}</span><span><small>${t("suivant")}</small><h2>${esc(SUITE.titre)}</h2></span><span class="f" aria-hidden="true">→</span></a></section>`;
 const ET: [string, string][] = [...secs.map((x, k): [string, string] => ["e" + k, court(x.h)]), ["esuite", t("suivant")]];
-const lot = [P.cover, ...P.images].filter(Boolean).map((im: Image) => ({ s: im.s, u: opt(im.s, 2400), pre: preDe(im) }));
+const lot = [P.cover, ...P.images].filter(Boolean).map((im: Image) => ({ s: im.s, u: opt(im.s, 2400), pre: preDe(im), brut: im.brut }));
 const texte = secs[0]?.l[0] || "";
 const description = [`${P.an}${P.meta ? " - " + P.meta : ""}`, texte].filter(Boolean).join(". ").slice(0, 200);
 ---

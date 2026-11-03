@@ -42,6 +42,9 @@ def info(d, x):
     clair = sum(blanc.convert("L").resize((64, 64)).get_flattened_data()) / (64 * 64 * 255)
     return {"s": SRC + d + ".mdx/" + x, "w": w, "h": h, "trait": clair > .8 and not libre, "sombre": clair < .3, "libre": libre}
 
+# Déjà teintée par scripts/couvertures.mjs : ni le filtre bleu du site, ni le sable de la nuit
+brute = lambda d: {**info(d, "cover.jpg"), "trait": False, "sombre": False, "brut": True}
+
 out = []
 for n, (i, f, d, cfr, cen, nfr, nen) in enumerate(L):
     tf, an, mf, sf = lire(RS, f)
@@ -50,7 +53,7 @@ for n, (i, f, d, cfr, cen, nfr, nen) in enumerate(L):
     cover = "cover2.jpeg" if d == "nakagin-capsule" else next((x for x in fichiers if x.startswith("cover.")), None)
     exclus = {cover, "cover.jpg" if d == "nakagin-capsule" else "", "profil.png"}
     images = [info(d, x) for x in sorted(fichiers, key=lambda v: (len(v), v)) if x not in exclus]
-    couv = info(d, cover) if cover else None
+    couv = brute(d) if d == "ivresse" else info(d, cover) if cover else None
     if d == "nakagin-capsule":
         # La tour est détourée : elle flotte, sans cadre. Le hublot est recadré à part.
         couv = info(d, "2.png"); couv["flotte"] = True
@@ -121,6 +124,7 @@ cinema["sections"] = {
             "The film remains a reply to Brussels MP Sofia Bennani. She is calling for Includo to be scrapped, because in her view this is not the job of a transport company.",
             "So we are widening the question: who has the duty to care for homeless people?",
             "Our answer: several actors at once. Organisations, public authorities, and those who pass them every day. None of them can carry this duty alone."]}]}
+cinema["cover"] = brute("cinema"); act["cover"] = brute("act")
 out = [cinema, act] + out
 
 with open("src/data/projets.json", "w", encoding="utf8") as sortie:

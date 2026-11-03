@@ -21,7 +21,15 @@
    "fr": "",
    "en": ""
   },
-  "cover": null,
+  "cover": {
+   "s": "../public/projects/cinema.mdx/cover.jpg",
+   "w": 736,
+   "h": 1104,
+   "trait": false,
+   "sombre": false,
+   "libre": false,
+   "brut": true
+  },
   "images": [],
   "sections": {
    "fr": [
@@ -96,7 +104,15 @@
    "fr": "",
    "en": ""
   },
-  "cover": null,
+  "cover": {
+   "s": "../public/projects/act.mdx/cover.jpg",
+   "w": 1000,
+   "h": 1000,
+   "trait": false,
+   "sombre": false,
+   "libre": false,
+   "brut": true
+  },
   "images": [],
   "sections": {
    "fr": [
@@ -1720,7 +1736,15 @@
    "fr": "Pas comme excès. Comme déformation.",
    "en": "Not as excess. As distortion."
   },
-  "cover": null,
+  "cover": {
+   "s": "../public/projects/ivresse.mdx/cover.jpg",
+   "w": 1200,
+   "h": 1800,
+   "trait": false,
+   "sombre": false,
+   "libre": false,
+   "brut": true
+  },
   "images": [],
   "sections": {
    "fr": [
