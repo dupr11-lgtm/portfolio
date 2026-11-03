@@ -61,5 +61,9 @@ const version = (l: Lang) => new URL((l === "en" ? "/en" : "") + (chemin === "/"
   <body {...attributs}>
     {theme && <script is:inline>(function(){var t="";try{t=localStorage.getItem("theme")||""}catch(e){}if(location.hash=="#sombre")t="nuit";document.body.dataset.theme=t})()</script>}
     <slot />
+    <script>
+      import { anticipeLiens } from "@/scripts/reglages.js";
+      anticipeLiens();
+    </script>
   </body>
 </html>

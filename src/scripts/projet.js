@@ -1,5 +1,5 @@
 import { Courbes } from "./courbes.js";
-import { anticipe, apresPolices, initLangue, initTheme } from "./reglages.js";
+import { apresPolices, initLangue, initTheme } from "./reglages.js";
 
 const $=(id)=>document.getElementById(id),rang=+document.body.dataset.rang;
 // Combien de projets on a enchaînés depuis l'accueil : gardé dans l'historique, pour que le retour arrière reste juste
@@ -18,7 +18,7 @@ initTheme();initLangue();
 // La maison : retour direct à l'endroit quitté dans la liste, même après plusieurs projets
 $("maison").addEventListener("click",(e)=>{let r=null;try{r=sessionStorage.getItem("retour")}catch(x){}if(r&&pasRetour>0&&history.length>pasRetour){e.preventDefault();history.go(-pasRetour)}});
 // Vers le projet suivant : un pas de plus à refaire pour revenir à la liste
-const suite=document.querySelector(".suite a");anticipe(suite);suite.addEventListener("click",()=>{try{sessionStorage.setItem("pas",String(pasRetour+1))}catch(x){}});
+const suite=document.querySelector(".suite a");suite.addEventListener("click",()=>{try{sessionStorage.setItem("pas",String(pasRetour+1))}catch(x){}});
 // Agrandir et tourner
 const loupe=$("loupe"),lot=JSON.parse(loupe.dataset.lot),toutes=lot.map(x=>x.s),limg=loupe.querySelector("img");let cur=0,avantLoupe=null,tour=0;
 const appliqueTour=()=>{const couche=tour%180!=0;limg.style.transform=`rotate(${tour}deg)`;limg.style.maxWidth=couche?"calc(100svh - 3rem)":"";limg.style.maxHeight=couche?"calc(100vw - 9rem)":""};

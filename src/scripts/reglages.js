@@ -29,17 +29,29 @@ export const initTheme = () => {
   addEventListener("pageshow", (e) => { if (e.persisted) try { regle(localStorage.getItem("theme") || ""); } catch (x) {} });
 };
 
-// Au survol ou au toucher, la page visée et son image se préparent : le clic est immédiat
-const prepares = new Set();
-export const anticipe = (lien) => {
-  const prepare = () => {
-    if (prepares.has(lien)) return;
-    prepares.add(lien);
-    const ajoute = (o) => document.head.append(Object.assign(document.createElement("link"), o));
-    ajoute({ rel: "prefetch", href: lien.getAttribute("href") });
-    if (lien.dataset.jeu) ajoute({ rel: "preload", as: "image", imageSrcset: lien.dataset.jeu, imageSizes: lien.dataset.tailles });
+// Au survol ou au toucher de n'importe quel lien du site, la page visée (et son image) se prépare : le clic est immédiat
+export const anticipeLiens = () => {
+  if (navigator.connection?.saveData) return;
+  const prepares = new Set();
+  const ajoute = (o) => document.head.append(Object.assign(document.createElement("link"), o));
+  const prepare = (e) => {
+    const lien = e.target.closest?.("a[href]");
+    if (!lien || lien.hasAttribute("download")) return;
+    const url = new URL(lien.href, location.href);
+    url.hash = "";
+    const ici = new URL(location.href);
+    ici.hash = "";
+    if (url.origin != location.origin || url.href == ici.href) return;
+    if (!prepares.has(url.href)) {
+      prepares.add(url.href);
+      ajoute({ rel: "prefetch", href: url.href });
+    }
+    if (lien.dataset.jeu && !prepares.has(lien.dataset.jeu)) {
+      prepares.add(lien.dataset.jeu);
+      ajoute({ rel: "preload", as: "image", imageSrcset: lien.dataset.jeu, imageSizes: lien.dataset.tailles });
+    }
   };
-  ["mouseenter", "focus", "touchstart"].forEach((ev) => lien.addEventListener(ev, prepare, { passive: true }));
+  ["mouseover", "focusin", "touchstart"].forEach((ev) => document.addEventListener(ev, prepare, { passive: true }));
 };
 
 // Redessine une fois les polices arrivées, seulement si elles ont changé la mise en page

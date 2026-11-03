@@ -1,5 +1,5 @@
 import { contour, ringPath } from "./formes.js";
-import { anticipe, apresPolices, initLangue, initTheme } from "./reglages.js";
+import { apresPolices, initLangue, initTheme } from "./reglages.js";
 
 // La forme de l'accueil, puis un vrai relevé de courbes de niveau sur toute la hauteur de la page :
 // les lignes partent de la carte et continuent sans fin jusqu'en bas
@@ -81,7 +81,7 @@ initTheme();initLangue();
 // La maison ramène toujours à l'accueil
 document.querySelectorAll("[data-logo]").forEach(a=>a.addEventListener("click",(e)=>{e.preventDefault();history.replaceState(null,"",location.pathname);scrollTo({top:0,behavior:"smooth"})}));
 // Depuis un projet, on revient directement à l'endroit quitté, sans repasser par le haut de page
-document.querySelectorAll(".it").forEach(it=>{anticipe(it);it.addEventListener("click",(e)=>{if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
+document.querySelectorAll(".it").forEach(it=>{it.addEventListener("click",(e)=>{if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
   try{sessionStorage.setItem("retour",JSON.stringify({id:it.id,haut:it.getBoundingClientRect().top}));sessionStorage.setItem("pas","1")}catch(e){}})});
 // Le fil et les projets se répondent
 const liens=[...document.querySelectorAll("[data-p]")];
