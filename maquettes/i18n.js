@@ -8,7 +8,11 @@
   }
   window.LANG = l;
   document.documentElement.lang = l;
-  window.tr = function (fr, en) { return l === "en" ? en : fr; };
+  // Retour arrière depuis le cache : la page reprend la langue choisie entre-temps
+  addEventListener("pageshow", function (e) {
+    if (!e.persisted) return;
+    try { var s = localStorage.getItem("lang"); if (s && s !== l) location.reload(); } catch (x) {}
+  });
 
   window.UI = {
     fr: {
@@ -20,8 +24,8 @@
       agrandir: "Agrandir l'image", fermer: "Fermer", tourner: "Tourner l'image", prec: "Image précédente", suiv: "Image suivante", loupe: "Image agrandie",
       lecture: "Écouter ou mettre en pause", pos: "Avancer ou reculer", pochette: "Pochette du podcast, Aliénor Knoll et Aliénor du Parc",
       lire: "Lire le récit →", lireA: "Lire 14 minutes et 16 heures",
-      retourProjet: "Retour au projet", recit: "Récit - Aliénor du Parc - 2021", descendre: "Descendre ↓", note: "Note d'intention", profondeur: "Profondeur",
-      attente: "Projet en cours : le texte arrive bientôt.", idee: "L'idée"
+      enCours: "En cours", ouvrir: "Ouvrir la boîte →", ouvrirA: "Ouvrir la boîte du projet ACT",
+      retourProjet: "Retour au projet", recit: "Récit - Aliénor du Parc - 2021", descendre: "Descendre ↓", note: "Note d'intention", profondeur: "Profondeur"
     },
     en: {
       accueil: "Back to home", themeG: "Theme", clair: "Light theme", sombre: "Dark theme", langue: "Language",
@@ -32,8 +36,8 @@
       agrandir: "Enlarge image", fermer: "Close", tourner: "Rotate image", prec: "Previous image", suiv: "Next image", loupe: "Enlarged image",
       lecture: "Play or pause", pos: "Seek", pochette: "Podcast artwork, Aliénor Knoll and Aliénor du Parc",
       lire: "Read the story (in French) →", lireA: "Read 14 minutes et 16 heures",
-      retourProjet: "Back to project", recit: "Short story - Aliénor du Parc - 2021 - written in French", descendre: "Scroll down ↓", note: "Author's note", profondeur: "Depth",
-      attente: "Work in progress: the text is coming soon.", idee: "The idea"
+      enCours: "In progress", ouvrir: "Open the box →", ouvrirA: "Open the ACT project box",
+      retourProjet: "Back to project", recit: "Short story - Aliénor du Parc - 2021 - written in French", descendre: "Scroll down ↓", note: "Author's note", profondeur: "Depth"
     }
   };
   window.t = function (k) { return (UI[l] && UI[l][k]) || UI.fr[k] || k; };
@@ -71,12 +75,11 @@
     });
   };
 
-  // FR / EN à côté du soleil et de la lune
+  // FR / EN au-dessus du soleil et de la lune
   window.initLangue = function () {
     var jour = document.querySelector(".jour");
     if (!jour) return;
-    var sep = jour.querySelector("[data-t]") ? '<i class="sep"></i>' : "";
-    jour.insertAdjacentHTML("afterbegin", '<button class="lg" data-l="fr" lang="fr" aria-label="Français">FR</button><button class="lg" data-l="en" lang="en" aria-label="English">EN</button>' + sep);
+    jour.insertAdjacentHTML("afterbegin", '<button class="lg" data-l="fr" lang="fr" aria-label="Français">FR</button><button class="lg" data-l="en" lang="en" aria-label="English">EN</button>');
     jour.querySelectorAll("[data-l]").forEach(function (b) {
       b.setAttribute("aria-pressed", String(b.dataset.l === l));
       b.onclick = function () { if (b.dataset.l !== l) window.setLang(b.dataset.l); };
@@ -94,8 +97,8 @@
       sessionStorage.removeItem("lang-y");
       history.scrollRestoration = "manual";
       y = +y;
-      window.scrollTo(0, y);
-      addEventListener("load", function () { if (Math.abs(window.scrollY - y) < 500) window.scrollTo(0, y); });
+      window.scrollTo({ top: y, behavior: "instant" });
+      addEventListener("load", function () { if (Math.abs(window.scrollY - y) < 500) window.scrollTo({ top: y, behavior: "instant" }); });
     } catch (e) {}
   };
 })();

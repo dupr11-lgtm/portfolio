@@ -1,5 +1,4 @@
 window.LIVRE = {
-    title: "14 minutes et 16 heures",
     epigraph: "J’ai laissé, à 356 mètres sous la mer, mon âme entière",
     intro: [
         "J’ai voulu créer une histoire autour du monde aquatique et des profondeurs de l’eau. Il s’agit donc de l’ivresse des profondeurs ; un accident de plongée autonome, qui se produit généralement au-delà de 30 m de profondeur : avec un excès d’azote qui agit sur le système nerveux en entraînant des troubles du comportement.",

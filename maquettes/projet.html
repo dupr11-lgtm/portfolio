@@ -1,6 +1,7 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Projet</title>
 <script src="i18n.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Rokkitt:wght@800&family=Courier+Prime&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="commun.css">
 <style>
@@ -19,12 +20,11 @@ body{background:var(--p);color:var(--b);font:400 .84rem/1.35 "Courier Prime",mon
 .etapes a::after{content:"";position:absolute;left:100%;top:0;bottom:0;width:1.3rem}
 .etapes b{font:800 .95rem/1 Rokkitt,serif;color:var(--r);margin-left:.4rem}
 .etapes a:hover,.etapes a.on{color:var(--r);transform:translateX(-.55rem)}
-.jour{position:fixed;right:1.3rem;bottom:1.2rem;z-index:12;display:flex;gap:.55rem}
+.jour{position:fixed;right:1.3rem;bottom:1.2rem;z-index:12;display:grid;grid-template-columns:repeat(2,1.45rem);gap:.3rem .55rem}
 .jour button{all:unset;cursor:pointer;width:1.45rem;height:1.45rem;color:var(--b);opacity:.5;transition:opacity 150ms,color 150ms}
 .jour svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .jour button:hover{opacity:1}.jour button[aria-pressed=true]{color:var(--r);opacity:1}.jour button:focus-visible{outline:1.5px solid var(--r);outline-offset:3px;border-radius:4px}
-.jour .lg{width:auto;font:400 .8rem/1.45rem "Courier Prime",monospace;letter-spacing:.03em}
-.jour .sep{width:1px;height:1rem;align-self:center;background:var(--b);opacity:.3;margin:0 .1rem}
+.jour .lg{font:400 1.05rem/1.45rem "Geist Serif",serif;text-align:center}
 .d{position:absolute}.d svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 /* Ouverture */
 .ouv{position:relative;height:100svh;min-height:640px}
@@ -35,6 +35,7 @@ body{background:var(--p);color:var(--b);font:400 .84rem/1.35 "Courier Prime",mon
 .tete b{display:block;font:800 clamp(2.6rem,5vw,4.6rem)/.85 Rokkitt,serif;color:var(--r);margin-bottom:.8rem}
 h1{font:400 clamp(2.3rem,4.3vw,4.8rem)/.98 "Geist Serif",serif;letter-spacing:-.015em}
 .tete p{margin-top:.9rem;font-size:.88rem}
+.tete .etat{margin-top:.35rem;color:var(--r)}
 /* Le récit */
 .grille{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:3.6rem 1.4rem;padding:4.5rem 13rem 2rem 6rem;scroll-margin-top:0}
 .grille>h2{grid-column:1/-1;font:800 clamp(2.2rem,4.4vw,4.2rem)/.85 Rokkitt,serif;color:var(--r);margin-bottom:-1.4rem}
@@ -62,7 +63,6 @@ body[data-theme=nuit] .carte{--cf:#c7bda6;--ct:#14162e;--cb:#14162e;--cbt:#c7bda
 .lire{all:unset;cursor:pointer;width:3rem;height:3rem;border-radius:50%;display:grid;place-items:center;background:var(--cb);color:var(--cbt);font-size:1rem;transition:transform 200ms}
 .lire:hover{transform:scale(1.06)}.lire:focus-visible{outline:2px solid var(--ct);outline-offset:3px}
 .barre input{width:100%;accent-color:var(--r);margin:0}.barre span{font-size:.8rem}
-.lien{grid-column:3/span 8;font:400 clamp(1.5rem,3vw,2.8rem)/1.05 "Geist Serif",serif;color:var(--r);border-bottom:1px solid currentColor;width:fit-content}
 /* Le livre */
 .livre{display:block;perspective:1100px;width:min(19rem,72%);text-decoration:none}
 .tome{display:block;position:relative;aspect-ratio:2/3;transform:rotateY(-20deg) rotateX(3deg);transform-style:preserve-3d;transition:transform 650ms cubic-bezier(.22,.8,.3,1)}
@@ -73,6 +73,17 @@ body[data-theme=nuit] .carte{--cf:#c7bda6;--ct:#14162e;--cb:#14162e;--cbt:#c7bda
 .face .d{width:62%;aspect-ratio:1;right:-9%;bottom:15%;--disc-b:#252b80}
 .tranche{position:absolute;top:1.5%;bottom:1.5%;right:-11px;width:12px;background:repeating-linear-gradient(90deg,#efe9dd 0 1px,#c9c1ae 1px 2px);transform:rotateY(70deg);transform-origin:left}
 .legende{display:block;margin-top:1.2rem;font-size:.9rem;color:var(--r)}
+/* La boîte d'ACT : le même carton kraft que le site du projet, tournée comme le livre */
+.boite{display:block;perspective:1100px;width:min(19rem,72%);text-decoration:none}
+.carton{--ep:1.5rem;display:block;position:relative;aspect-ratio:552/780;transform:rotateY(-20deg) rotateX(3deg);transform-style:preserve-3d;transition:transform 650ms cubic-bezier(.22,.8,.3,1)}
+.boite:hover .carton,.boite:focus-visible .carton{transform:rotateY(-6deg) rotateX(1deg) scale(1.02)}
+.carton>span{position:absolute;display:block;--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .16 0 0 0 0 .08 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23g)'/%3E%3C/svg%3E");background:var(--grain),#b98f64}
+.carton .dessus{inset:0;transform:translateZ(calc(var(--ep)/2))}
+.carton .cote{top:0;bottom:0;width:var(--ep);left:100%;margin-left:calc(var(--ep)/-2);transform:rotateY(90deg);background:var(--grain),#96704a}
+/* Le rabat gauche se soulève au survol, comme sur le site du projet */
+.carton .rabat{left:0;top:0;bottom:0;width:54%;transform:translateZ(calc(var(--ep)/2 + 1px));transform-origin:0 50%;box-shadow:1px 0 3px rgb(58 42 26 / .45);transition:transform 650ms cubic-bezier(.22,.8,.3,1)}
+.boite:hover .rabat,.boite:focus-visible .rabat{transform:translateZ(calc(var(--ep)/2 + 1px)) rotateY(-16deg)}
+.etiquette{position:absolute;left:12%;top:15%;width:76%;padding:.55rem .6rem;background:#f2f1ec;color:#9c3a2a;font:700 .7rem/1.25 "Courier Prime",monospace;clip-path:polygon(5% 0,100% 0,100% 92%,94% 100%,0 100%,0 8%)}
 /* Projet suivant : une simple ligne, alignée sur le texte */
 .suite{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:1.4rem;padding:5rem 13rem 4.5rem 6rem;scroll-margin-top:0}
 .suite a{grid-column:3/span 8;display:grid;grid-template-columns:auto 1fr auto;gap:1.2rem;align-items:center;padding-top:1.3rem;border-top:1px solid var(--r)}
@@ -94,8 +105,8 @@ body[data-theme=nuit] .carte{--cf:#c7bda6;--ct:#14162e;--cb:#14162e;--cbt:#c7bda
  .jour{position:absolute;right:.9rem;top:1.2rem;bottom:auto}
  .ouv{height:auto;min-height:0;padding:5.5rem 1rem 2rem}.vedette{position:static;width:100%;height:auto;margin-bottom:1.8rem}.vedette img,.vedette .fig .w{max-height:none}
  .ouv>.d{display:none}.tete{position:static;max-width:none}
- .grille,.suite{padding:2.5rem 1rem;gap:2.2rem 0}.grille>*,.suite a,.long,.lignes,.fig,.carte,.lien{grid-column:1/-1!important}
- .suite{padding-bottom:5rem}.carte{grid-template-columns:5.5rem 1fr;gap:.9rem;padding:.8rem}.barre{grid-column:1/-1}
+ .grille,.suite{padding:2.5rem 1rem;gap:2.2rem 0}.grille>*,.suite a,.long,.lignes,.fig,.carte{grid-column:1/-1!important}
+ .suite{padding-bottom:5rem}.carte{grid-template-columns:5.5rem 1fr;gap:.9rem;padding:.8rem}.carte>div{display:contents}.carte>img{grid-row:span 2}.carte strong,.carte small{grid-column:2}.barre{grid-column:1/-1}
  #loupe img{max-width:100vw}
 }
 </style></head><body>
@@ -114,7 +125,7 @@ const q=new URLSearchParams(location.search),rang=Math.max(0,PAGES.findIndex(x=>
 const esc=(t)=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
 document.title=`${P.titre} | Aliénor du Parc`;
 const preDe=(im)=>im.trait?"url(#trait)":im.sombre?"brightness(2.2)":"";
-const fig=(im,st)=>`<button class="fig${im.libre?" libre":""}${im.rond?" rond":""}${im.flotte?" flotte":""}" style="${st}" data-src="${im.s}" aria-label="${t("agrandir")}"><span class="w" style="aspect-ratio:${im.w}/${im.h}"><img class="im" loading="lazy" src="${im.s}" alt="${esc(P.titre)}" style="--pre:${preDe(im)}"></span></button>`;
+const fig=(im,st,tete)=>`<button class="fig${im.libre?" libre":""}${im.rond?" rond":""}${im.flotte?" flotte":""}" style="${st}" data-src="${im.s}" aria-label="${t("agrandir")}"><span class="w" style="aspect-ratio:${im.w}/${im.h}"><img class="im" ${tete?'fetchpriority="high"':'loading="lazy"'} decoding="async" src="${opt(im.s,800)}" srcset="${jeu(im.s)}" sizes="${tete?VEDETTE:"(max-width:900px) 100vw,60vw"}" alt="${esc(P.titre)}" style="--pre:${preDe(im)}"></span></button>`;
 // Les images sont groupées avec les phrases de la section la plus découpée
 const secs=P.sections,tisse=secs.reduce((m,x)=>x.l.length>m.l.length?x:m,secs[0]);
 const MOTIF=[{i:"1/span 8",l:"9/span 4"},{i:"6/span 7",l:"2/span 4"},{i:"2/span 6",l:"9/span 4"},{i:"5/span 8",l:"1/span 4"}];
@@ -127,12 +138,13 @@ const grille=(x)=>{
 const court=(h)=>h.replace(" du projet","").replace(/^Project s/,"S");
 // Le haut de page
 const COUV_LIVRE=null; // la pochette du livre viendra ici
-const haut=P.dossier=="ivresse"?`<a class="livre" href="livre.html?from=projet" aria-label="${t("lireA")}"><span class="tome"><span class="tranche"></span><span class="face"><em>14 minutes et 16 heures</em><span class="d" id="dlivre"></span><small>Aliénor du Parc</small></span></span><span class="legende">${t("lire")}</span></a>`:P.cover?fig(P.cover,""):`<div class="vide">Coming soon</div>`;
-const ecoute=P.dossier=="Podcast"?`<section class="grille lecteur"><div class="carte"><img src="../public/projects/Podcast.mdx/profil.png" alt="${t("pochette")}"><div><strong>Double Vision : Architecture Abroad</strong><small>Aliénor Knoll &amp; Aliénor du Parc</small><div class="barre"><button class="lire" id="lire" aria-label="${t("lecture")}"><span id="ico">▶</span></button><span id="tps">00:00</span><input id="pos" type="range" min="0" max="1000" value="0" aria-label="${t("pos")}"><span id="dur">00:00</span></div></div><audio id="son" preload="metadata" src="../public/projects/Podcast.mdx/podcats.mp3"></audio></div></section>`:"";
-const pochette=SUITE.cover?`<img class="im" loading="lazy" src="${(SUITE.images[0]&&SUITE.cover.libre?SUITE.images[0]:SUITE.cover).s}" alt="" style="--pre:${preDe(SUITE.images[0]&&SUITE.cover.libre?SUITE.images[0]:SUITE.cover)}">`:"";
+const boite=()=>`<a class="boite" href="${P.lien}" aria-label="${t("ouvrirA")}"><span class="carton"><span class="cote"></span><span class="dessus"></span><span class="rabat"><i class="etiquette">${esc(P.etiquette)}</i></span></span><span class="legende">${t("ouvrir")}</span></a>`;
+const haut=P.dossier=="ivresse"?`<a class="livre" href="livre.html?from=projet" aria-label="${t("lireA")}"><span class="tome"><span class="tranche"></span><span class="face"><em>14 minutes et 16 heures</em><span class="d"></span><small>Aliénor du Parc</small></span></span><span class="legende">${t("lire")}</span></a>`:P.lien?boite():P.cover?fig(P.cover,"",true):`<div class="vide">Coming soon</div>`;
+const ecoute=P.dossier=="Podcast"?`<section class="grille lecteur"><div class="carte"><img src="media/opt/Podcast.mdx/profil-800.webp" alt="${t("pochette")}"><div><strong>Double Vision : Architecture Abroad</strong><small>Aliénor Knoll &amp; Aliénor du Parc</small><div class="barre"><button class="lire" id="lire" aria-label="${t("lecture")}"><span id="ico">▶</span></button><span id="tps">00:00</span><input id="pos" type="range" min="0" max="1000" value="0" aria-label="${t("pos")}"><span id="dur">00:00</span></div></div><audio id="son" preload="metadata" src="../public/projects/Podcast.mdx/podcats.mp3"></audio></div></section>`:"";
+const pochette=SUITE.cover?`<img class="im" loading="lazy" decoding="async" src="${opt((SUITE.images[0]&&SUITE.cover.libre?SUITE.images[0]:SUITE.cover).s,800)}" alt="" style="--pre:${preDe(SUITE.images[0]&&SUITE.cover.libre?SUITE.images[0]:SUITE.cover)}">`:"";
 contenu.innerHTML=`<section class="ouv"><div class="d" style="width:${11+rang%5*1.6}vw;height:${11+rang%5*1.6}vw;left:${rang%2?20:24}%;top:${rang%2?3:4}%"></div><div class="d db" style="width:3.4vw;height:3.4vw;left:${rang%2?8:12}%;top:${rang%2?30:24}%"></div>
   <div class="vedette">${haut}</div>
-  <div class="tete"><b>${P.no}</b><h1>${esc(P.titre)}</h1><p>${P.an}${P.meta?" - "+esc(P.meta):""}</p></div></section>${ecoute}
+  <div class="tete"><b>${P.no}</b><h1>${esc(P.titre)}</h1><p>${P.an}${P.meta?" - "+esc(P.meta):""}</p>${P.etat?`<p class="etat">${esc(P.etat)}</p>`:""}</div></section>${ecoute}
   ${secs.map((x,k)=>`<section class="grille" id="e${k}"><h2>${esc(x.h)}</h2>${grille(x)}</section>`).join("")}
   <section class="suite" id="esuite"><a href="projet.html?p=${SUITE.i}&n=${pasRetour+1}"><span class="w">${pochette}</span><span><small>${t("suivant")}</small><h2>${esc(SUITE.titre)}</h2></span><span class="f" aria-hidden="true">→</span></a></section>`;
 document.querySelectorAll(".d").forEach((el,n)=>Courbes.decoupe(el,n+rang*5+3));restaureLangue();
@@ -145,18 +157,22 @@ const suivre=()=>{const m=innerHeight*.45;let c=null;for(const b of blocs)if(b.g
 let att=false;addEventListener("scroll",()=>{if(!att){att=true;requestAnimationFrame(()=>{att=false;suivre()})}},{passive:true});suivre();
 // Les courbes et leur réaction au survol
 const trace=()=>Courbes.dessine({page:document.getElementById("page"),fond:champ,couche,gras,graine:11+rang*13,textes:"h1,h2,.tete b,.tete p,.long p,.lignes p,.legende,.suite small"});
-trace();document.fonts?.ready.then(trace);let tm;addEventListener("resize",()=>{clearTimeout(tm);tm=setTimeout(trace,200)});
-document.querySelectorAll(".fig,.suite .w,.vide,.tome,.carte").forEach(el=>{const h=el.closest("a")||el;h.addEventListener("mouseenter",()=>Courbes.actif(el,true));h.addEventListener("mouseleave",()=>Courbes.actif(el,false))});
+trace();if(document.fonts?.status=="loading")document.fonts.ready.then(()=>(window.requestIdleCallback||setTimeout)(()=>trace()));let tm;addEventListener("resize",()=>{clearTimeout(tm);tm=setTimeout(trace,200)});
+document.querySelectorAll(".fig,.suite .w,.vide,.tome,.carton,.carte").forEach(el=>{const h=el.closest("a")||el;h.addEventListener("mouseenter",()=>Courbes.actif(el,true));h.addEventListener("mouseleave",()=>Courbes.actif(el,false))});
 // Thème
 const boutons=[...document.querySelectorAll(".jour button[data-t]")],regle=(t)=>{document.body.dataset.theme=t;boutons.forEach(b=>b.setAttribute("aria-pressed",b.dataset.t==t));try{localStorage.setItem("theme",t)}catch(e){}};
 regle(document.body.dataset.theme||"");boutons.forEach(b=>b.onclick=()=>regle(b.dataset.t));
+// Le thème reçu de l'accueil ne sert qu'une fois : recharger la page garde le choix fait ici
+if(q.has("t")){q.delete("t");history.replaceState(null,"",location.pathname+"?"+q+location.hash)}
+addEventListener("pageshow",(e)=>{if(e.persisted)try{regle(localStorage.getItem("theme")||"")}catch(x){}});
 // La maison : retour direct à l'endroit quitté dans la liste, même après plusieurs projets
 maison.addEventListener("click",(e)=>{e.preventDefault();let r=null;try{r=sessionStorage.getItem("retour")}catch(x){}if(r&&pasRetour>0&&history.length>pasRetour)history.go(-pasRetour);else location.href="l-nuit.html"});
 // Agrandir et tourner
 const lot=[P.cover,...P.images].filter(Boolean),toutes=lot.map(x=>x.s),limg=loupe.querySelector("img");let cur=0,avantLoupe=null,tour=0;
 const appliqueTour=()=>{const couche=tour%180!=0;limg.style.transform=`rotate(${tour}deg)`;limg.style.maxWidth=couche?"calc(100svh - 3rem)":"";limg.style.maxHeight=couche?"calc(100vw - 9rem)":""};
-const ouvre=(k)=>{cur=(k+toutes.length)%toutes.length;limg.src=toutes[cur];limg.style.setProperty("--pre",preDe(lot[cur]));tour=0;appliqueTour();if(!loupe.classList.contains("ok")){avantLoupe=document.activeElement;loupe.classList.add("ok");loupe.querySelector(".x").focus()}};
-const ferme=()=>{loupe.classList.remove("ok");avantLoupe?.focus?.()};
+const voisine=(k)=>opt(toutes[(k+toutes.length)%toutes.length],2400),fond=(oui)=>document.querySelectorAll("#page,#maison,#etapes,.jour").forEach(x=>x.inert=oui);
+const ouvre=(k)=>{cur=(k+toutes.length)%toutes.length;limg.src=voisine(cur);[cur-1,cur+1].forEach(v=>{new Image().src=voisine(v)});limg.style.setProperty("--pre",preDe(lot[cur]));tour=0;appliqueTour();if(!loupe.classList.contains("ok")){avantLoupe=document.activeElement;loupe.classList.add("ok");fond(true);loupe.querySelector(".x").focus()}};
+const ferme=()=>{loupe.classList.remove("ok");fond(false);avantLoupe?.focus?.()};
 document.querySelectorAll("[data-src]").forEach(el=>el.addEventListener("click",()=>ouvre(toutes.indexOf(el.dataset.src))));
 loupe.querySelector(".x").onclick=ferme;loupe.querySelector(".tourne").onclick=()=>{tour+=90;appliqueTour()};loupe.querySelector(".g").onclick=()=>ouvre(cur-1);loupe.querySelector(".dr").onclick=()=>ouvre(cur+1);
 loupe.addEventListener("click",(e)=>{if(e.target==loupe)ferme()});

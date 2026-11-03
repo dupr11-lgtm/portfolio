@@ -3,6 +3,8 @@
 <script src="i18n.js"></script>
 <script>(function(){try{var n=performance.getEntriesByType("navigation")[0];if(n&&n.type=="back_forward"&&sessionStorage.getItem("retour")){history.scrollRestoration="manual";document.documentElement.classList.add("retour")}}catch(e){}})()</script>
 <style>html.retour body{visibility:hidden}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preload" as="image" href="media/opt/centre-de-recherches.mdx/cover-1600.webp">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Rokkitt:wght@800&family=Courier+Prime&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="commun.css">
 <style>
@@ -43,7 +45,7 @@ body[data-logo-c=b]{--l0:#252b80;--l1:#6f74ba;--l2:#b5b8de}
 
 /* L'accueil */
 .hero{position:relative;height:100svh;min-height:640px}
-.carte{position:absolute;left:32%;top:9%;width:50%;height:78%;background:url(../public/projects/centre-de-recherches.mdx/cover.jpg) center/cover}
+.carte{position:absolute;left:32%;top:9%;width:50%;height:78%;background:url(media/opt/centre-de-recherches.mdx/cover-1600.webp) center/cover}
 /* Disques : papier découpé, une forme vectorielle différente à chaque fois */
 .d{position:absolute;--disc-b:#252b80}
 body[data-theme=nuit] .d{--disc-b:#c7bda6}
@@ -60,10 +62,8 @@ h1{position:absolute;left:2rem;bottom:6.6rem;font:300 clamp(3.2rem,7.4vw,7.8rem)
 /* Au survol, l'image grossit à peine et en douceur, à l'aller comme au retour */
 .it:hover .pl,.it.vu .pl,.it:hover .vide,.it.vu .vide{transform:scale(1.012)}
 .pl img{display:block;width:100%;height:100%;object-fit:cover}
-.pl .im2{position:absolute;inset:0;opacity:0;filter:url(#bleu);transition:opacity 350ms}
 .bas{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem 1.6rem;margin-top:.8rem}
 .note{font:500 1.15rem/1.2 Newsreader,serif;max-width:18rem}
-.note.dessus{margin-bottom:.7rem;margin-left:auto;text-align:right}
 .cap{display:grid;grid-template-columns:auto 1fr;gap:.15rem .7rem;align-items:start;max-width:30rem}
 .cap h3{-webkit-text-stroke:0 currentColor;transition:color 120ms,-webkit-text-stroke-width 180ms}
 .it:hover .cap h3,.it.vu .cap h3{color:var(--r);-webkit-text-stroke-width:.5px}
@@ -88,28 +88,21 @@ h1{position:absolute;left:2rem;bottom:6.6rem;font:300 clamp(3.2rem,7.4vw,7.8rem)
 .fin [data-logo],.fin [data-logo] svg{height:100%}
 .mail{position:absolute;left:6rem;bottom:2.2rem;z-index:2;font:400 clamp(2rem,6.5vw,6.5rem)/1 "Geist Serif",serif;letter-spacing:-.015em;transition:color 120ms}
 .mail:hover{color:var(--r)}
-.contact .vers{position:absolute;left:6rem;bottom:1.8rem;font-size:.84rem}
 
 /* Soleil et lune */
-.jour{position:fixed;right:1.3rem;bottom:1.2rem;z-index:12;display:flex;gap:.55rem}
+.jour{position:fixed;right:1.3rem;bottom:1.2rem;z-index:12;display:grid;grid-template-columns:repeat(2,1.45rem);gap:.3rem .55rem}
 .jour button{all:unset;cursor:pointer;width:1.45rem;height:1.45rem;color:var(--b);opacity:.5;transition:opacity 150ms,color 150ms}
 .jour button svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .jour button:hover{opacity:1}
 .jour button[aria-pressed=true]{color:var(--r);opacity:1}
 .jour button:focus-visible{outline:1.5px solid var(--r);outline-offset:3px;border-radius:4px}
-.jour .lg{width:auto;font:400 .8rem/1.45rem "Courier Prime",monospace;letter-spacing:.03em}
-.jour .sep{width:1px;height:1rem;align-self:center;background:var(--b);opacity:.3;margin:0 .1rem}
+.jour .lg{font:400 1.05rem/1.45rem "Geist Serif",serif;text-align:center}
 @media (max-width:900px){.jour{position:absolute;right:.9rem;top:3.1rem;bottom:auto}}
 
-/* Réglage d'essai, pour comparer les images : ne restera pas sur le site */
-.essai{position:fixed;right:1.3rem;bottom:1.1rem;z-index:15;width:10.5rem;background:var(--b);color:var(--p);border-radius:10px;padding:.5rem .6rem;display:flex;flex-direction:column;gap:.1rem;font-size:.7rem}
-.essai u{text-decoration:none;opacity:.7;margin-top:.25rem}
-.essai button{all:unset;cursor:pointer;padding:.1rem .4rem;border-radius:5px}
-.essai button.on{background:var(--p);color:var(--b)}
 
 @media (max-width:900px){
  .haut{position:absolute}.haut.droite{flex-direction:row;gap:.9rem}.haut.gauche.plie span{opacity:1}
- .fil{top:auto;bottom:.8rem;right:.8rem;transform:none;text-shadow:none}.fil .an,.fil li:not(:has(a.on)){display:none}
+ .fil{top:auto;bottom:.8rem;right:.8rem;transform:none}.fil .an,.fil li:not(:has(a.on)){display:none}
  .fil a,.fil a.on,.fil a:hover{transform:none;color:var(--p);background:var(--b);padding:.25rem .55rem;border-radius:7px;margin:0}
  .fil a i{position:static;display:inline;clip-path:none;transform:none;margin-right:.5rem}
  .hero{height:80svh;min-height:540px}.hero .gros{top:8%!important}
@@ -119,16 +112,12 @@ h1{position:absolute;left:2rem;bottom:6.6rem;font:300 clamp(3.2rem,7.4vw,7.8rem)
  .it{grid-column:1/-1!important;grid-row:auto!important;margin-top:0!important}
  .it:nth-of-type(even){margin-left:9%}.it:nth-of-type(odd){margin-right:9%}
  .bref,.form{grid-column:1/-1}
- .contact{padding:2rem 1rem}.fin{right:9%;top:26%;width:82%;height:28%}.mail{left:1rem;bottom:4.4rem;font-size:clamp(1.7rem,8.6vw,3rem)}.contact .vers{left:1rem;bottom:3rem}
- .essai{display:none}
+ .contact{padding:2rem 1rem}.fin{right:9%;top:26%;width:82%;height:28%}.mail{left:1rem;bottom:4.4rem;font-size:clamp(1.7rem,8.6vw,3rem)}
 }
-/* Zoom, fil et courbes restent actifs avec « réduire les animations » : effets très discrets, sans grand déplacement */
-</style></head><body data-im="bleu" data-logo-c="b" data-survol="courbes">
+</style></head><body data-im="bleu" data-logo-c="b">
 <script>(function(){var t="";try{t=localStorage.getItem("theme")||""}catch(e){}var q=new URLSearchParams(location.search);if(q.has("t"))t=q.get("t");if(location.hash=="#sombre")t="nuit";document.body.dataset.theme=t})()</script>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <filter id="bleu" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="1.3" intercept="-.13"/><feFuncG type="linear" slope="1.3" intercept="-.13"/><feFuncB type="linear" slope="1.3" intercept="-.13"/></feComponentTransfer><feComponentTransfer><feFuncR type="table" tableValues=".145 .937"/><feFuncG type="table" tableValues=".17 .914"/><feFuncB type="table" tableValues=".5 .867"/></feComponentTransfer></filter>
-<filter id="verm" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="1.3" intercept="-.13"/><feFuncG type="linear" slope="1.3" intercept="-.13"/><feFuncB type="linear" slope="1.3" intercept="-.13"/></feComponentTransfer><feComponentTransfer><feFuncR type="table" tableValues=".72 .937"/><feFuncG type="table" tableValues=".2 .914"/><feFuncB type="table" tableValues=".13 .867"/></feComponentTransfer></filter>
-<filter id="noir" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="1.3" intercept="-.13"/><feFuncG type="linear" slope="1.3" intercept="-.13"/><feFuncB type="linear" slope="1.3" intercept="-.13"/></feComponentTransfer><feComponentTransfer><feFuncR type="table" tableValues=".11 .937"/><feFuncG type="table" tableValues=".105 .914"/><feFuncB type="table" tableValues=".095 .867"/></feComponentTransfer></filter>
 <filter id="nuit-sable" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="table" tableValues=".078 .36 .78"/><feFuncG type="table" tableValues=".086 .35 .74"/><feFuncB type="table" tableValues=".18 .36 .65"/></feComponentTransfer></filter>
 
 </svg>
@@ -177,47 +166,45 @@ bref.innerHTML=BREF[LANG];
 formation.insertAdjacentHTML("beforeend",FORMATION[LANG].map(([d,l])=>`<dt>${d}</dt><dd>${l.join("<br>")}</dd>`).join(""));
 initLangue();
 
-// i : projet / court : nom dans le fil / note : ses propres mots / col, span, row, ar, mt : place sur le plan / disc : [taille, x, y] qui dépasse derrière l'image
-PROJECTS.push({title:"Cinéma",meta:"Master - ULB",year:"2026",img:null},{title:"ACT",meta:"Projet interactif - Master - ULB",year:"2026",img:null});
+// i : projet / col, span, row, ar, mt : place sur le plan / disc : [taille, x, y] qui dépasse derrière l'image
+PROJECTS.push({img:null},{img:null});
 const G=[
  ["2026",[
-  {i:14,court:"Cinéma",col:2,span:4,row:2,vide:"Coming soon"},
-  {i:15,court:"ACT",col:7,span:4,row:2,mt:90,vide:"Coming soon"},
+  {i:14,col:2,span:4,row:2,vide:"Coming soon"},
+  {i:15,col:7,span:4,row:2,mt:90,vide:t("enCours")},
  ]],
  ["2025",[
-  {i:0,court:"Entre deux corps",col:1,span:7,row:2,ar:"16/10",disc:[22,84,-12],note:"La vallée est traversée, jamais habitée.",b:"left:-.6rem;top:1.2rem"},
-  {i:1,court:"Nakagin Capsule",col:9,span:4,row:2,ar:"1/1",mt:150,bright:2.6,alt:1,note:"Travailler la lumière comme matière.",b:"right:-.7rem;top:1rem"},
-  {i:2,court:"Podcast",col:3,span:5,row:3,ar:"4/3",alt:1,note:"Pas de plan, pas de maquette, juste la voix.",b:"left:-1rem;top:45%"},
+  {i:0,col:1,span:7,row:2,ar:"16/10",disc:[22,84,-12]},
+  {i:1,col:9,span:4,row:2,ar:"1/1",mt:150,bright:2.6},
+  {i:2,col:3,span:5,row:3,ar:"4/3"},
  ]],
  ["2024",[
-  {i:5,court:"Centre de recherches",col:4,span:9,row:2,ar:"16/9",disc:[20,-7,62],dbleu:1,alt:1,note:"Construire avec l'instabilité.",b:"right:1.4rem;top:-1rem"},
+  {i:5,col:4,span:9,row:2,ar:"16/9",disc:[20,-7,62],dbleu:1},
  ]],
  ["2023",[
-  {i:3,court:"Structure bois",col:1,span:5,row:2,ar:"4/3",disc:[34,76,-14],note:"Pas un exercice de forme, mais de lecture.",b:"left:1rem;top:60%"},
-  {i:4,court:"Châtellerault",col:6,span:7,row:2,ar:"16/10",mt:110,alt:1,note:"Un espace qu'on traverse, mais qu'on n'habite pas.",b:"right:1rem;top:-.8rem"},
-  {i:6,court:"Structure béton",col:2,span:3,row:3,ar:"4/5",disc:[46,-16,48],dbleu:1},
-  {i:7,court:"Festival",col:6,span:7,row:3,ar:"16/9",mt:70,alt:1,note:"Transformer ce vide en chemin.",b:"left:-1rem;top:20%"},
-  {i:8,court:"Avenue Daumesnil",col:1,span:7,row:4,ar:"16/10",note:"Comme un fleuve urbain.",b:"right:8%;top:5%"},
-  {i:9,court:"L'école, un carré",col:9,span:4,row:4,ar:"1/1",mt:130,disc:[40,70,84],alt:1,note:"Dans une école, un carré.",b:"left:-1rem;top:1rem"},
-  {i:10,court:"32 logements",col:2,span:5,row:5,ar:"4/3",note:"De la rue au jardin, le monde change.",b:"left:-.6rem;top:30%"},
-  {i:11,court:"Ce que révèle le pli",col:8,span:4,row:5,ar:"1/1",mt:60,alt:1,note:"Une toute petite maison.",b:"left:-1rem;top:64%"},
-  {i:12,court:"Stage ouvrier",col:3,span:8,row:6,ar:"16/9",disc:[18,91,-8],note:"Le chantier impose son rythme.",b:"right:-.8rem;top:48%"},
+  {i:3,col:1,span:5,row:2,ar:"4/3",disc:[34,76,-14]},
+  {i:4,col:6,span:7,row:2,ar:"16/10",mt:110},
+  {i:6,col:2,span:3,row:3,ar:"4/5",disc:[46,-16,48],dbleu:1},
+  {i:7,col:6,span:7,row:3,ar:"16/9",mt:70},
+  {i:8,col:1,span:7,row:4,ar:"16/10"},
+  {i:9,col:9,span:4,row:4,ar:"1/1",mt:130,disc:[40,70,84]},
+  {i:10,col:2,span:5,row:5,ar:"4/3"},
+  {i:11,col:8,span:4,row:5,ar:"1/1",mt:60},
+  {i:12,col:3,span:8,row:6,ar:"16/9",disc:[18,91,-8]},
  ]],
  ["2021",[
-  {i:13,court:"Ivresse des profondeurs",col:6,span:4,row:2,note:"Pas comme excès. Comme déformation.",b:"right:-1rem;top:1rem"},
+  {i:13,col:6,span:4,row:2},
  ]],
 ];
-// Une deuxième image de chaque projet
-const R2="../public/projects/",A={0:"entre-deux-corps.mdx/3.jpg",1:"nakagin-capsule.mdx/2.png",2:"Podcast.mdx/profil.png",3:"structure-bois.mdx/2.jpg",4:"chatel.mdx/1.png",5:"centre-de-recherches.mdx/2.jpg",6:"structure-beton.mdx/2.jpg",7:"festival-structure-temporaire.mdx/3.jpg",8:"avenue-daumesnil.mdx/2.jpg",9:"ecole-sad.mdx/1.png",10:"32-logements.mdx/2.jpg",11:"escargot-sad.mdx/1.png",12:"stage-chantier.mdx/1.png"};
 let n=0,s="",tab="";
 for(const [an,items] of G){
   s+=`<li class="an">${an}</li>`;tab+=`<section class="annee" id="a${an}"><h2>${an}</h2>`;
   for(const q of items){
-    const p=PROJECTS[q.i],P=PAGES.find(x=>x.i==q.i),no=String(++n).padStart(2,"0"),id="p"+no,pre=q.bright?`--pre:brightness(${q.bright})`:"",alt=q.alt?" alt":"";
+    const p=PROJECTS[q.i],P=PAGES.find(x=>x.i==q.i),no=String(++n).padStart(2,"0"),id="p"+no,pre=q.bright?`--pre:brightness(${q.bright})`:"";
     s+=`<li><a href="#${id}" data-p="${id}"><i>${P.court}</i>${no}</a></li>`;
     tab+=`<a class="it" id="${id}" href="projet.html?p=${q.i}" style="grid-column:${q.col}/span ${q.span};grid-row:${q.row};margin-top:${q.mt||0}px"><div class="cad">
       ${q.disc?`<div class="d" style="width:${q.disc[0]}%;aspect-ratio:1;left:${q.disc[1]}%;top:${q.disc[2]}%;background:var(--${q.dbleu?"b":"r"})"></div>`:""}
-      ${p.img?`<div class="pl" style="aspect-ratio:${q.ar}"><img class="im${alt}" loading="lazy" src="${p.img}" alt="" style="${pre}"></div>`:`<div class="vide" style="position:relative;z-index:1">${q.vide||"14 min,<br>16 h"}</div>`}
+      ${p.img?`<div class="pl" style="aspect-ratio:${q.ar}"><img class="im" loading="lazy" decoding="async" src="${opt(p.img,800)}" srcset="${jeu(p.img)}" sizes="(max-width:900px) 90vw,${Math.round(q.span/.12)}vw" alt="" style="${pre}"></div>`:`<div class="vide" style="position:relative;z-index:1">${q.vide||"14 min,<br>16 h"}</div>`}
       </div>
       <div class="bas"><div class="cap"><b>${no}</b><div style="grid-column:2"><h3>${P.titre}</h3><p>${P.an} - ${P.meta}</p></div></div>${P.note?`<p class="note">${P.note}</p>`:""}</div></a>`;
   }
@@ -308,7 +295,7 @@ const dessine=()=>{
   document.getElementById("gras").innerHTML="";anims.clear();prets.clear();
 };
 const champ_svg=document.getElementById("champ");
-dessine();document.fonts?.ready.then(dessine);
+dessine();if(document.fonts?.status=="loading")document.fonts.ready.then(()=>(window.requestIdleCallback||setTimeout)(()=>dessine()));
 let tm;addEventListener("resize",()=>{clearTimeout(tm);tm=setTimeout(dessine,200)});
 
 const adresse=new URLSearchParams(location.search),boutons=[...document.querySelectorAll(".jour button[data-t]")];
@@ -319,10 +306,17 @@ regle(themeInitial);boutons.forEach(b=>b.onclick=()=>regle(b.dataset.t));
 
 // La maison ramène toujours à l'accueil
 document.querySelectorAll("[data-logo]").forEach(a=>a.addEventListener("click",(e)=>{e.preventDefault();history.replaceState(null,"",location.pathname);scrollTo({top:0,behavior:"smooth"})}));
+const adresseDe=(it)=>`${it.getAttribute("href")}&n=1&t=${document.body.dataset.theme||""}`;
 // Depuis un projet, on revient directement à l'endroit quitté, sans repasser par le haut de page
-document.querySelectorAll(".it").forEach(it=>it.addEventListener("click",(e)=>{e.preventDefault();const h=it.getAttribute("href");if(!h.startsWith("projet"))return;
+document.querySelectorAll(".it").forEach(it=>it.addEventListener("click",(e)=>{if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();const h=it.getAttribute("href");if(!h.startsWith("projet"))return;
   try{sessionStorage.setItem("retour",JSON.stringify({id:it.id,haut:it.getBoundingClientRect().top}))}catch(e){}
-  location.href=`${h}&n=1&t=${document.body.dataset.theme||""}`}));
+  location.href=adresseDe(it)}));
+// Au survol ou au toucher, la page du projet et son image se préparent : le clic est immédiat
+const anticipes=new Set();
+const anticipe=(it)=>{if(anticipes.has(it))return;anticipes.add(it);const ajoute=(o)=>document.head.append(Object.assign(document.createElement("link"),o));
+  ajoute({rel:"prefetch",href:adresseDe(it)});const c=PAGES.find(x=>x.i==+new URLSearchParams(it.search).get("p"))?.cover;
+  if(c)ajoute({rel:"preload",as:"image",imageSrcset:jeu(c.s),imageSizes:VEDETTE})};
+document.querySelectorAll(".it").forEach(it=>["mouseenter","focus","touchstart"].forEach(ev=>it.addEventListener(ev,()=>anticipe(it),{passive:true})));
 // Le fil et les projets se répondent
 const liens=[...document.querySelectorAll("[data-p]")];
 // Au survol, chaque bout de courbe s'épaissit selon sa distance au projet : pas de masque, donc pas de halo
@@ -379,7 +373,4 @@ const revenir=()=>{let r=null;try{r=JSON.parse(sessionStorage.getItem("retour"))
 if(document.documentElement.classList.contains("retour")){revenir();const montre=()=>{revenir();suivre();document.documentElement.classList.remove("retour");try{sessionStorage.removeItem("retour")}catch(e){}};Promise.race([document.fonts?.ready,new Promise(k=>setTimeout(k,300))]).then(montre)}
 addEventListener("pageshow",(e)=>{if(e.persisted){try{sessionStorage.removeItem("retour");regle(localStorage.getItem("theme")||"")}catch(x){}}});
 let att=false;addEventListener("scroll",()=>{if(!att){att=true;requestAnimationFrame(()=>{att=false;suivre()})}},{passive:true});addEventListener("resize",suivre);suivre();
-
-// Réglage d'essai
-document.querySelectorAll(".essai button").forEach(b=>b.onclick=()=>{document.body.dataset[b.dataset.k]=b.dataset.v;document.querySelectorAll(`.essai button[data-k=${b.dataset.k}]`).forEach(x=>x.classList.toggle("on",x==b));});
 </script></body></html>

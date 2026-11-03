@@ -8,6 +8,6 @@ img{display:block;max-width:100%}
 [data-logo] path{transition:transform 450ms cubic-bezier(.3,1.5,.5,1)}
 [data-logo] .l1{transform:translate(45px,30px)}
 [data-logo] .l2{transform:translate(-40px,42px)}
-[data-logo]:hover .l1,[data-logo].open .l1{transform:translate(170px,10px)}
-[data-logo]:hover .l2,[data-logo].open .l2{transform:translate(-150px,70px)}
+[data-logo]:hover .l1{transform:translate(170px,10px)}
+[data-logo]:hover .l2{transform:translate(-150px,70px)}
 @media (prefers-reduced-motion:reduce){[data-logo] path,html{transition:none;scroll-behavior:auto}}

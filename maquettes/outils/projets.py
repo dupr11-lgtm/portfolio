@@ -60,11 +60,18 @@ ATT_FR = "Projet en cours : le texte arrive bientôt."; ATT_EN = "Work in progre
 enc = lambda i, no, cfr, cen, mfr, men, d: {"i": i, "no": no, "an": "2026", "dossier": d, "encours": True,
     "court": {"fr": cfr, "en": cen}, "titre": {"fr": cfr, "en": cen}, "meta": {"fr": mfr, "en": men}, "note": {"fr": "", "en": ""},
     "cover": None, "images": [], "sections": {"fr": [{"h": "L'idée", "l": [ATT_FR]}], "en": [{"h": "The idea", "l": [ATT_EN]}]}}
-out = [enc(14, "01", "Cinéma", "Cinema", "Master - ULB", "Master's - ULB", "cinema"),
-       enc(15, "02", "ACT", "ACT", "Projet interactif - Master - ULB", "Interactive project - Master's - ULB", "act")] + out
+# ACT est en cours : à chaque mise à jour, changer la date ici. Le lien de la boîte n'est écrit qu'à cet endroit.
+ACT_LIEN = "https://boite-act.cloudflare-pentagon035.workers.dev/"
+ACT_ETAT = {"fr": "En cours - dernière mise à jour le 3 novembre 2026 - fin prévue en janvier 2027",
+            "en": "In progress - last updated on 3 November 2026 - due to finish in January 2027"}
+act = enc(15, "02", "ACT", "ACT", "Projet interactif - Master - ULB", "Interactive project - Master's - ULB", "act")
+act.update({"lien": ACT_LIEN, "etat": ACT_ETAT, "etiquette": "Comment la ville fragmente-t-elle le maillage brun de la Woluwe\u00a0?", "sections": {
+    "fr": [{"h": "Contexte", "l": ["Le texte arrive bientôt."]}, {"h": "Carnet de recherche", "l": ["Le texte arrive bientôt."]}],
+    "en": [{"h": "Context", "l": ["The text is coming soon."]}, {"h": "Research notebook", "l": ["The text is coming soon."]}]}})
+out = [enc(14, "01", "Cinéma", "Cinema", "Master - ULB", "Master's - ULB", "cinema"), act] + out
 
 # Les champs bilingues se réduisent à la langue de la visiteuse dès le chargement
 open("projets.js", "w", encoding="utf8").write(
     "window.PAGES=" + json.dumps(out, ensure_ascii=False) + ";\n"
-    "window.PAGES.forEach(function(p){var l=window.LANG||'fr';['titre','court','meta','note'].forEach(function(k){p[k]=p[k][l]});p.sections=p.sections[l]});")
+    "window.PAGES.forEach(function(p){var l=window.LANG||'fr';['titre','court','meta','note','etat'].forEach(function(k){if(p[k])p[k]=p[k][l]});p.sections=p.sections[l]});")
 print(len(out), [len(p["sections"]["en"]) - len(p["sections"]["fr"]) for p in out])
