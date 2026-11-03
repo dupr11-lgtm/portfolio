@@ -34,6 +34,15 @@ const teinte = (p) => {
   return `rgb(${PALIERS[3][1].join(",")})`;
 };
 let vagueVue = false;
+// Le haut de l'écran du téléphone (la barre de Safari) prend la couleur du fond de la page :
+// une fois la vague passée au-dessus, le fond suit l'eau pour ne pas laisser de bandeau blanc
+const barre = document.head.appendChild(Object.assign(document.createElement("meta"), { name: "theme-color", content: "#fff" }));
+let fondPage = "#fff";
+const peintFond = (c) => {
+  if (c === fondPage) return;
+  fondPage = c;
+  document.documentElement.style.background = document.body.style.background = barre.content = c;
+};
 const suit = () => {
   const H = innerHeight, niveau = Math.max(0, Math.min(H + 60, scrollY * 1.3)), surface = H - niveau, M = motif();
   eau.style.transform = `translateY(${surface}px)`;
@@ -44,6 +53,8 @@ const suit = () => {
   const couleur = teinte(pct);
   eau.style.setProperty("--eau", couleur);
   jauge.style.setProperty("--eau", couleur);
+  // Seulement quand la crête est sortie par le haut : avant, le blanc au-dessus de la vague fait partie du dessin
+  peintFond(surface < -30 ? couleur : "#fff");
   // Le titre clair est découpé selon les points mêmes de la vague, pour changer de couleur pile sur la ligne d'eau
   const b = entete.getBoundingClientRect(), v = vague.getBoundingClientRect(), gauche = v.left - b.left, haut = v.top - b.top, sx = v.width / 2880, sy = v.height / 70, bas = Math.max(b.height, haut + v.height);
   clair.style.clipPath = `polygon(${ONDE.map(([x, y]) => `${(gauche + x * sx).toFixed(1)}px ${(haut + y * sy).toFixed(1)}px`).join(",")},${(gauche + v.width).toFixed(1)}px ${bas.toFixed(1)}px,${gauche.toFixed(1)}px ${bas.toFixed(1)}px)`;
