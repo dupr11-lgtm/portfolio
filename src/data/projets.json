@@ -23,8 +23,8 @@
   },
   "cover": {
    "s": "../public/projects/cinema.mdx/cover.jpg",
-   "w": 736,
-   "h": 1104,
+   "w": 499,
+   "h": 499,
    "trait": false,
    "sombre": false,
    "libre": false,

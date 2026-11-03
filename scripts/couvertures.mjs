@@ -21,20 +21,13 @@ const bleu = (r, g, b) => degrade(EAU, 1.3 * lum(r, g, b) - 0.13);
 // Ivresse : tons moyens assombris
 const eau = (r, g, b) => degrade(EAU, palier(0.1, 0.95, lum(r, g, b)) ** 3);
 
-// Lunettes : le rouge de la photo (V médian 216) devient l'orange du site ; le reste passe dans le bleu du site
-const ORANGE = hex("#ff6a4d");
-const lunettes = (r, g, b) => {
-  const grand = Math.max(r, g, b), ecart = grand - Math.min(r, g, b);
-  const part = r > g && r > b ? palier(30, 110, ecart) : 0;
-  const teinte = ORANGE.map((v) => Math.min(255, (v * grand) / 216));
-  return entre(bleu(r, g, b), teinte, part);
-};
-
-for (const [nom, teinte] of [["cinema", lunettes], ["act", eau], ["ivresse", eau]]) {
+for (const [nom, teinte] of [["cinema", bleu], ["act", eau], ["ivresse", eau]]) {
   // Ivresse est tournée d'un quart de tour vers la droite
   let image = sharp(resolve(RACINE, `src/assets/couvertures/${nom}.jpg`)).rotate(nom == "ivresse" ? 90 : undefined).removeAlpha();
   // La source d'ACT a un fin liseré sombre sur ses bords
   if (nom == "act") image = image.extract({ left: 12, top: 12, width: 1000, height: 1000 });
+  // Cinéma est recadrée en carré autour du visage
+  if (nom == "cinema") image = image.extract({ left: 0, top: 35, width: 499, height: 499 });
   const { data, info } = await image.raw().toBuffer({ resolveWithObject: true });
   for (let i = 0; i < data.length; i += 3) {
     const [r, g, b] = teinte(data[i], data[i + 1], data[i + 2]);

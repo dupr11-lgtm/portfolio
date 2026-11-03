@@ -4,7 +4,7 @@ export const UI = {
   fr: {
     accueil: "Retour à l'accueil", themeG: "Thème", clair: "Thème clair", sombre: "Thème sombre", langue: "Langue",
     portfolio: "Portfolio", profil: "Profil", contact: "Contact",
-    hero: "Je suis étudiante en master d'architecture à l'ULB, à Bruxelles.",
+    hero: "Étudiante en master d'architecture à l'ULB, à Bruxelles.",
     description: "Portfolio d'Aliénor du Parc, étudiante en master d'architecture à l'ULB, à Bruxelles.",
     enbref: "En bref", formation: "Formation",
     suivant: "Projet suivant", etapes: "Étapes de la page",
@@ -19,7 +19,7 @@ export const UI = {
   en: {
     accueil: "Back to the homepage", themeG: "Theme", clair: "Light mode", sombre: "Dark mode", langue: "Language",
     portfolio: "Portfolio", profil: "Profile", contact: "Contact",
-    hero: "I’m studying for a Master’s in Architecture at ULB in Brussels.",
+    hero: "Master’s student in Architecture at ULB in Brussels.",
     description: "Portfolio of Aliénor du Parc, a Master’s student in Architecture at ULB in Brussels.",
     enbref: "In brief", formation: "Education",
     suivant: "Next project", etapes: "Page sections",
