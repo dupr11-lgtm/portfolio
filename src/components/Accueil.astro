@@ -62,7 +62,7 @@ for (const [an, items] of G) {
     fil += `<li><a href="#${id}" data-p="${id}"><i>${esc(P.court)}</i>${no}</a></li>`;
     table += `<a class="it" id="${id}" href="${P.url}"${vedette} style="grid-column:${q.col}/span ${q.span};grid-row:${q.row};margin-top:${q.mt || 0}px"><div class="cad">
       ${q.disc ? d(`width:${q.disc[0]}%;aspect-ratio:1;left:${q.disc[1]}%;top:${q.disc[2]}%`, !!q.dbleu) : ""}
-      ${P.couverture ? `<div class="pl" style="aspect-ratio:${q.ar}"><img class="im" loading="lazy" decoding="async" src="${opt(P.couverture, 800)}" srcset="${jeu(P.couverture)}" sizes="(max-width:900px) 90vw,${Math.round(q.span / .12)}vw" alt="${esc(P.titre)}" style="${pre}"></div>` : `<div class="vide" style="position:relative;z-index:1">${q.vide || "14 min,<br>16 h"}</div>`}
+      ${P.couverture ? `<div class="pl" style="aspect-ratio:${q.ar}"><img class="im" loading="lazy" decoding="async" src="${opt(P.couverture, 800)}" srcset="${jeu(P.couverture)}" sizes="(max-width:900px) 90vw,${Math.round(q.span / .12)}vw" alt="${esc(P.titre)}" style="${pre}"></div>` : `<div class="vide" style="position:relative;z-index:1">${q.vide || t("duree")}</div>`}
       </div>
       <div class="bas"><div class="cap"><b>${no}</b><div style="grid-column:2"><h3>${esc(P.titre)}</h3><p>${esc(P.an)} - ${esc(P.meta)}</p></div></div>${P.note ? `<p class="note">${esc(P.note)}</p>` : ""}</div></a>`;
   }

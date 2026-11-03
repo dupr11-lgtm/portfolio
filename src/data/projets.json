@@ -15,7 +15,7 @@
   },
   "meta": {
    "fr": "Master - ULB",
-   "en": "Master's - ULB"
+   "en": "Master’s - ULB"
   },
   "note": {
    "fr": "",
@@ -36,7 +36,7 @@
     {
      "h": "The idea",
      "l": [
-      "Work in progress: the text is coming soon."
+      "Work in progress: text coming soon."
      ]
     }
    ]
@@ -58,7 +58,7 @@
   },
   "meta": {
    "fr": "Projet interactif - Master - ULB",
-   "en": "Interactive project - Master's - ULB"
+   "en": "Interactive project - Master’s - ULB"
   },
   "note": {
    "fr": "",
@@ -85,13 +85,13 @@
     {
      "h": "Context",
      "l": [
-      "The text is coming soon."
+      "Text coming soon."
      ]
     },
     {
      "h": "Research notebook",
      "l": [
-      "The text is coming soon."
+      "Text coming soon."
      ]
     }
    ]
@@ -99,9 +99,12 @@
   "lien": "https://boite-act.duparc.studio/",
   "etat": {
    "fr": "En cours - dernière mise à jour le 3 novembre 2026 - fin prévue en janvier 2027",
-   "en": "In progress - last updated on 3 November 2026 - due to finish in January 2027"
+   "en": "In progress - last updated 3 November 2026 - due for completion in January 2027"
   },
-  "etiquette": "Comment la ville fragmente-t-elle le maillage brun de la Woluwe ?"
+  "etiquette": {
+   "fr": "Comment la ville fragmente-t-elle le maillage brun de la Woluwe ?",
+   "en": "How does the city fragment the soil network of the Woluwe valley?"
+  }
  },
  {
   "i": 0,
@@ -114,15 +117,15 @@
   },
   "titre": {
    "fr": "Entre deux corps - face à face, un espace collectif",
-   "en": "Between two bodies - face to face, a collective space"
+   "en": "Between two bodies - face to face, a shared space"
   },
   "meta": {
    "fr": "Licence 3 - École Spéciale d’Architecture",
-   "en": "Bachelor 3 - École Spéciale d'Architecture"
+   "en": "Third year - École Spéciale d’Architecture"
   },
   "note": {
    "fr": "La vallée est traversée, jamais habitée.",
-   "en": "The valley is crossed, never inhabited."
+   "en": "The valley is passed through, never lived in."
   },
   "cover": {
    "s": "../public/projects/entre-deux-corps.mdx/cover.jpg",
@@ -185,33 +188,33 @@
    ],
    "en": [
     {
-     "h": "Project starting point",
+     "h": "Starting point",
      "l": [
-      "Group project in the Ouro valley, in Porto. The valley is there, visible from the heights, but cut off from the neighbourhood by the relief and the cars.",
-      "My intervention sits on a cliff side, from a raised neighbourhood. The project takes the form of an intergenerational games library that fits into a terracing system designed to make the slope passable.",
-      "The challenge was not to build an object, but to create an entry point towards the park: a threshold between the upper city and the valley."
+      "A group project in the Ouro valley, in Porto. The valley is right there, visible from the high ground, but cut off from the neighbourhood by the steep terrain and the cars.",
+      "My part of the scheme sits on a cliff face, reached from a neighbourhood higher up. It takes the form of an intergenerational toy and games library, set into a system of terraces designed to make the slope walkable.",
+      "The aim was not to build an object but to make a way into the park: a threshold between the upper town and the valley."
      ]
     },
     {
-     "h": "Crossing",
+     "h": "Walk-through",
      "l": [
-      "Archicad, Midjourney, Photoshop used.",
-      "Start from an observation in the Ouro neighbourhood: the valley is crossed, never inhabited.",
-      "Take the margins today occupied by cars as raw material.",
-      "Turn them into \"gates\": open thresholds that guide planted routes and slow down movement.",
-      "Compose atmospheres rather than segments: pauses, encounters, suspended gazes.",
-      "The games library slots into this system: two volumes on the cliff, separated by a central passage.",
-      "This passage is a real threshold: shelter, halt, viewpoint, then departure towards the Douro.",
-      "Choreographing the revelation: the bridge, the river, the valley appear like a spectacle.",
-      "No isolated object. Just a crossing."
+      "Made with Archicad, Midjourney and Photoshop.",
+      "Start with what you see in the Ouro neighbourhood: the valley is passed through, never lived in.",
+      "Take the leftover strips now occupied by cars as raw material.",
+      "Turn them into ‘gates’: open thresholds that lead along planted routes and slow people down.",
+      "Compose atmospheres rather than segments: pauses, encounters, lingering views.",
+      "The games library fits into this system: two volumes on the cliff, split by a central passage.",
+      "The passage is a true threshold: shelter, resting place, viewpoint, then the way down to the Douro.",
+      "Stage the reveal: the bridge, the river and the valley unfold like a performance.",
+      "No stand-alone object. Just a way through."
      ]
     },
     {
-     "h": "Critical review",
+     "h": "Critical reflection",
      "l": [
-      "The terracing makes the slope accessible, but it erases it. We no longer follow the topography, we correct it. The descent becomes a controlled path where one could have experienced something more physical.",
-      "The games library completes the group project with points of attraction that invite people towards the valley, but it is not enough to activate it. It waits for a user who will decide to commit to the descent. This dependence weakens the whole.",
-      "The project lacks a strong point of attraction at the top, able to link everything together. One could have taken the slope as a starting point, made it a structuring constraint instead of fighting it."
+      "The terracing makes the slope accessible, but it also erases it. Rather than following the topography, we correct it. The descent becomes a managed route, where it could have been something more physical.",
+      "The games library adds focal points to the group scheme that draw people towards the valley, but it cannot bring the valley to life on its own. It relies on someone deciding to make the descent, and that dependence weakens the whole.",
+      "What the project lacks is a strong focal point at the top to tie everything together. We could have started from the slope and made it the organising constraint, instead of fighting it."
      ]
     }
    ]
@@ -228,11 +231,11 @@
   },
   "titre": {
    "fr": "Nakagin Capsule Tower - Réinterprétation",
-   "en": "Nakagin Capsule Tower - Reinterpretation"
+   "en": "Nakagin Capsule Tower - a reinterpretation"
   },
   "meta": {
    "fr": "Licence 3 - Erasmus - Staatliche Akademie der bildenden Künste, Stuttgart",
-   "en": "Bachelor 3 - Erasmus - Staatliche Akademie der bildenden Künste, Stuttgart"
+   "en": "Third year - Erasmus - State Academy of Fine Arts, Stuttgart"
   },
   "note": {
    "fr": "Travailler la lumière comme matière.",
@@ -294,34 +297,34 @@
    ],
    "en": [
     {
-     "h": "Project starting point",
+     "h": "Starting point",
      "l": [
-      "Studio on individual practices. Starting point: the Nakagin Capsule Tower, modular architecture based on the repetition of identical capsules.",
-      "Each capsule, identical in appearance, becomes a surface to personalise.",
-      "I chose to turn a capsule into an intimate place: a photographic development laboratory. It is a closed, controlled space, entirely devoted to light.",
-      "My intervention works inside the cell: I modulate the light, create an atmosphere and play with temporality, that of waiting for the print.",
-      "The goal: to turn this standard cell into a singular, almost secret experience."
+      "A studio on individual practice. The starting point: the Nakagin Capsule Tower, a piece of modular architecture built on the repetition of identical capsules.",
+      "Each capsule looks the same as the next, and becomes something to make your own.",
+      "I chose to take over one capsule as a private place: a photographic darkroom. It is an enclosed, controlled space, given over entirely to light.",
+      "My work happens inside the cell: I modulate the light, create an atmosphere and play with time, the time spent waiting for the print.",
+      "The aim: to turn a standard cell into a singular, almost secret experience."
      ]
     },
     {
-     "h": "Crossing",
+     "h": "Walk-through",
      "l": [
-      "Start from a neutral form: an empty capsule, identical for everyone.",
+      "Start from a neutral form: an empty capsule, the same for everyone.",
       "The Nakagin Tower: module, repetition, standardisation.",
-      "Inside, I look for difference.",
-      "Making the capsule a photo laboratory: a closed, almost secret place.",
-      "Working with light as material: it enters, changes, becomes an image.",
-      "Composing a slow atmosphere: waiting for the print, chemical smell, silence, concentration.",
-      "The space does not only host a use: it acts on perception.",
-      "Assembled, the capsules form a single structure, and yet each experience is unique."
+      "Inside, I go looking for difference.",
+      "Turn the capsule into a darkroom: enclosed, almost secret.",
+      "Work with light as a material: it comes in, changes, becomes an image.",
+      "Build a slow atmosphere: waiting for the print, the smell of chemicals, silence, concentration.",
+      "The space does more than house an activity: it acts on perception.",
+      "Put together, the capsules form one structure, and yet every experience is different."
      ]
     },
     {
-     "h": "Critical review",
+     "h": "Critical reflection",
      "l": [
-      "The capsule imposes a tiny, repetitive volume. Here, this constraint becomes a resource.",
-      "By introducing photographic development, I move from an arrangement to a device: light is no longer simple lighting, it produces the image. It is a sharp break with the technical projects.",
-      "But the project closes in on itself. It is a closed, coherent world, with little dialogue with the outside, with the other capsules or with the tower. Its strength is also its withdrawal."
+      "The capsule imposes a tiny, repetitive volume. Here, that constraint becomes a resource.",
+      "By bringing in photographic development, I move from a fit-out to an apparatus: light is no longer just illumination, it produces the image. That is a clean break from the technical projects.",
+      "But the project turns in on itself. It is a closed, coherent world that has little to say to the outside, to the other capsules or to the tower. Its strength is also its withdrawal."
      ]
     }
    ]
@@ -342,11 +345,11 @@
   },
   "meta": {
    "fr": "Licence 3 - Erasmus - Staatliche Akademie der bildenden Künste, Stuttgart",
-   "en": "Bachelor 3 - Erasmus - Staatliche Akademie der bildenden Künste, Stuttgart"
+   "en": "Third year - Erasmus - State Academy of Fine Arts, Stuttgart"
   },
   "note": {
    "fr": "Pas de plan, pas de maquette, juste la voix.",
-   "en": "No plans, no models, just the voice."
+   "en": "No plans, no models, just voice."
   },
   "cover": {
    "s": "../public/projects/Podcast.mdx/cover.jpg",
@@ -391,32 +394,32 @@
    ],
    "en": [
     {
-     "h": "Project starting point",
+     "h": "Starting point",
      "l": [
-      "Workshop during Erasmus in Stuttgart: creating a podcast, as a duo, around a workshop and a site: Ebelsbach castle.",
-      "My idea was to move architectural practice towards speech. No plan, no model, just the voice to convey intentions.",
-      "The episode weaves two narratives together: on one side, the students' projects; on the other, the approach of the association \"provinz:potenzial\". Here, speech does not illustrate the project: it is the project.",
-      "Available on all platforms: \"Double Vision : Architecture Abroad\""
+      "A studio during my Erasmus in Stuttgart: making a podcast, in pairs, about a workshop and a site, Ebelsbach Castle.",
+      "My idea was to shift architectural practice towards speech. No plans, no models, just voice to get the intentions across.",
+      "The episode weaves together two stories: the students’ projects on one side, and on the other the approach of the association provinz:potenzial. Here, speech does not illustrate the project. It is the project.",
+      "Available on all the usual platforms: ‘Double Vision: Architecture Abroad’"
      ]
     },
     {
-     "h": "Crossing",
+     "h": "Walk-through",
      "l": [
-      "Moving architecture towards another medium.",
-      "In Stuttgart, recording an episode that documents a workshop: final presentations, intentions, methods, gaps.",
-      "Around Ebelsbach, two stories intertwine: the students' projects and the approach of the collective provinz:potenzial.",
-      "The voice as a project tool: conveying, clarifying, sharing.",
-      "Drawing still exists, but it is no longer alone.",
-      "We do not build a space, we build access to space."
+      "Shift architecture into another medium.",
+      "In Stuttgart, record an episode documenting a workshop: final crits, intentions, methods, differences.",
+      "Around Ebelsbach, two stories intertwine: the students’ projects and the approach of the collective provinz:potenzial.",
+      "Voice as a design tool: to convey, to clarify, to share.",
+      "Drawing is still there, but it is no longer alone.",
+      "We are not building a space; we are building access to one."
      ]
     },
     {
-     "h": "Critical review",
+     "h": "Critical reflection",
      "l": [
-      "Changing medium forces you to reformulate. What you do not draw, you must say, and that clarifies.",
-      "The podcast conveys the students' intentions well, their way of working, the gap between approaches. This link is well established.",
-      "But without images, you depend entirely on discourse to imagine the spaces. The podcast mainly speaks to those who already know this register. It is not a flaw, but a limit.",
-      "What I take away: speech is a project tool in its own right. Drawing remains important, but it is no longer alone."
+      "Changing medium forces you to rephrase. What you cannot draw, you have to say, and that makes things clearer.",
+      "The podcast does justice to the students’ intentions, their ways of working and the differences between their approaches. That connection comes through clearly.",
+      "But without images, you depend entirely on what is said to picture the spaces. The podcast speaks mostly to people already familiar with this kind of language. That is less a flaw than a limit.",
+      "What I take from it: speech is a design tool in its own right. Drawing still matters, but it is no longer alone."
      ]
     }
    ]
@@ -437,7 +440,7 @@
   },
   "meta": {
    "fr": "Licence 2 - École Spéciale d’Architecture",
-   "en": "Bachelor 2 - École Spéciale d'Architecture"
+   "en": "Second year - École Spéciale d’Architecture"
   },
   "note": {
    "fr": "Construire avec l'instabilité.",
@@ -504,33 +507,33 @@
    ],
    "en": [
     {
-     "h": "Project starting point",
+     "h": "Starting point",
      "l": [
-      "Montserrat, Soufrière Hills volcano. A site rendered partly uninhabitable by an eruption in 1997.",
-      "Choosing to build a research centre as close as possible to the volcano was not obvious. It is precisely this tension, observing from inside the danger, that interested me.",
-      "I built the project around a double state: an ordinary life at the surface, an underground refuge for alerts. It is neither a normal residence nor a classic bunker. It is a space made to live with instability."
+      "Montserrat, the Soufrière Hills volcano. A site left partly uninhabitable by an eruption in 1997.",
+      "Putting a research centre as close to the volcano as possible was hardly an obvious choice. It was exactly this tension, observing from inside the danger, that interested me.",
+      "I built the project around two states: ordinary life on the surface and an underground refuge for when the alert sounds. It is neither a normal residence nor a conventional bunker, but a space made for living with instability."
      ]
     },
     {
-     "h": "Crossing",
+     "h": "Walk-through",
      "l": [
       "Building with instability.",
-      "The Soufrière Hills volcano changed Montserrat forever.",
-      "Thinking of the centre as a superimposition of two realities: everyday life at the surface, a protected space in depth.",
-      "Bringing together research on wildlife, flora and climate, while keeping risk at the centre: ash, pyroclasts, lahars.",
-      "At the first sign of an alert, everything shifts.",
-      "The bunker becomes the main architecture: buried to filter the air and protect, but pierced with a skylight to capture light.",
-      "The refuge on two levels: rest and hygiene, then communal life and endurance.",
-      "The whole is self-sufficient: solar, batteries, filtered rainwater.",
-      "Not resisting the territory. Creating a way to stay on it."
+      "The Soufrière Hills volcano changed Montserrat for good.",
+      "Think of the centre as two realities, one on top of the other: everyday life on the surface, shelter below ground.",
+      "Bring together research on wildlife, plants and climate, and keep risk at the heart of it: ash, pyroclasts, lahars.",
+      "At the first sign of an alert, everything changes.",
+      "The bunker becomes the main architecture: buried to filter the air and give protection, but pierced by a rooflight to bring in daylight.",
+      "The refuge has two levels: rest and washing, then shared living and endurance.",
+      "The whole thing runs off-grid: solar panels, batteries, filtered rainwater.",
+      "Don’t resist the territory. Find a way of staying there."
      ]
     },
     {
-     "h": "Critical review",
+     "h": "Critical reflection",
      "l": [
-      "The initial idea holds: building where the risk is greatest to observe it better. But the project does not fully commit to it.",
-      "The bunker quickly takes over. One speaks less of research than of survival. This shift is interesting, but not fully owned.",
-      "The skylight is the sign of it: keeping light under a rain of ash is both seductive and fragile. The project evokes an extreme scenario without embracing all its violence. The sensory experience is there, but at the cost of a distance from the outside."
+      "The original idea holds up: building where the risk is greatest, the better to observe it. But the project does not fully follow it through.",
+      "The bunker soon takes over. There is less talk of research than of survival. That shift is interesting, but the project does not quite own up to it.",
+      "The rooflight is the giveaway: keeping daylight under a rain of ash is as seductive as it is fragile. The project conjures up an extreme scenario without facing all of its violence. The sensory experience is there, but at the price of holding the outside at arm’s length."
      ]
     }
    ]
@@ -547,11 +550,11 @@
   },
   "titre": {
    "fr": "Structure bois - lamellé-collé",
-   "en": "Timber structure - glued laminated timber"
+   "en": "Timber structure - glulam"
   },
   "meta": {
    "fr": "Licence 2 - École Spéciale d’Architecture",
-   "en": "Bachelor 2 - École Spéciale d'Architecture"
+   "en": "Second year - École Spéciale d’Architecture"
   },
   "note": {
    "fr": "Pas un exercice de forme, mais de lecture.",
@@ -623,30 +626,30 @@
    ],
    "en": [
     {
-     "h": "Project starting point",
+     "h": "Starting point",
      "l": [
-      "Design exercise: a glued laminated timber frame on a 6 × 6 m grid, with imposed spans and an opening in the floor.",
-      "It was not an exercise in form, but in reading: understanding how vertical and horizontal forces circulate."
+      "A design exercise: a glulam frame on a 6 × 6 m grid, with set spans and a set floor opening.",
+      "It was an exercise in reading rather than form: understanding how vertical and horizontal forces travel through the structure."
      ]
     },
     {
-     "h": "Crossing",
+     "h": "Walk-through",
      "l": [
       "6 × 6 m grid.",
-      "Imposed spans and voids (floor opening, passages).",
-      "Comparing stabilisation systems: St. Andrew's crosses, portals, L-shaped forms.",
-      "Reading the mechanism: vertical forces (beams/joists/floor) vs horizontal ones (bracing).",
-      "Flitched beams: strengthening the span, supporting joists and floor. Floor opening: interrupting, then taking up again (trimming, redistribution).",
-      "Triangulate where it works. Free up where it is crossed.",
+      "Set spans and voids (floor opening, passages).",
+      "Compare ways of stabilising the frame: St Andrew’s crosses, portal frames, L-shaped frames.",
+      "Read the mechanism: vertical loads (beams, joists, floor) and horizontal loads (bracing).",
+      "Twin beams: extending the span, carrying the joists and floor. Floor opening: interrupt, then pick up again (trimmer, load redistribution).",
+      "Triangulate where the structure is working hard. Open up where people pass through.",
       "Spans and voids leave their mark. Stability becomes visible."
      ]
     },
     {
-     "h": "Critical review",
+     "h": "Critical reflection",
      "l": [
-      "The framework was very tight: the grid and the voids were imposed, the bracing systems given.",
-      "What works: the structure is readable, the forces are well taken up, the floor opening is handled correctly.",
-      "What is missing: a position taken. The answer almost seems obvious, which shifts the interest towards the precision of the model. You acquire tools, but you are not asking questions yet."
+      "The brief was very tight: the grid and voids were set, and the bracing systems were given.",
+      "What works: the structure is legible, the loads are properly carried and the floor opening is correctly handled.",
+      "What is missing: a point of view. The answer seems almost obvious, which shifts the interest onto the precision of the model. You pick up tools, but you are not yet asking questions."
      ]
     }
    ]
@@ -663,15 +666,15 @@
   },
   "titre": {
    "fr": "Réhabilitation par le végétal, Châtellerault",
-   "en": "Rehabilitation through planting, Châtellerault"
+   "en": "Regeneration through planting, Châtellerault"
   },
   "meta": {
    "fr": "Licence 2 - École Spéciale d’Architecture",
-   "en": "Bachelor 2 - École Spéciale d'Architecture"
+   "en": "Second year - École Spéciale d’Architecture"
   },
   "note": {
    "fr": "Un espace qu'on traverse, mais qu'on n'habite pas.",
-   "en": "A space you cross, but don't inhabit."
+   "en": "A space you pass through but never stay in."
   },
   "cover": {
    "s": "../public/projects/chatel.mdx/cover.png",
@@ -733,32 +736,32 @@
    ],
    "en": [
     {
-     "h": "Project starting point",
+     "h": "Starting point",
      "l": [
-      "Châtellerault, Place Émile Zola. A former car park that became a simple thoroughfare.",
-      "I crossed this square every day without ever stopping. That observation gave birth to the project: a space one crosses, but does not inhabit.",
-      "The goal was to give it body again, not through a strong gesture, but through the ground. Vegetation becomes an organising tool: creating shade, pauses, flexible routes."
+      "Châtellerault, Place Émile Zola. A former car park that has become nothing more than a through route.",
+      "I crossed this square every day without ever stopping. That was where the project came from: a space you pass through but never stay in.",
+      "The aim was to give it some substance again, through the ground rather than a grand gesture. Planting becomes a way of organising the space, creating shade, places to pause and loose, informal routes."
      ]
     },
     {
-     "h": "Crossing",
+     "h": "Walk-through",
      "l": [
-      "Place Émile Zola, Châtellerault: crossed constantly, almost never inhabited.",
-      "Former car park converted into a simple transit axis.",
-      "Giving this space back its everyday life.",
-      "Vegetation as a tool of use: it guides, calms, brings shade.",
-      "Around the trees, pockets of pause: places where you can stop, not just pass.",
-      "The ground becomes a device: permeable, infiltrating, less uniform.",
-      "Wood-chip paths, planted surfaces: tracing flexible, porous routes.",
+      "Place Émile Zola, Châtellerault: always crossed, hardly ever lived in.",
+      "A former car park turned into a mere through route.",
+      "Bring everyday life back to the space.",
+      "Planting as something to use: it guides, calms and gives shade.",
+      "Around the trees, pockets of rest: places to stop, not just pass.",
+      "The ground becomes a device: permeable, absorbent, less uniform.",
+      "Wood-chip paths and planted areas trace loose, porous routes.",
       "The square changes its rhythm, not just its form."
      ]
     },
     {
-     "h": "Critical review",
+     "h": "Critical reflection",
      "l": [
-      "The strategy is right: introducing vegetation to correct the lack of comfort and the absence of resting areas. It answers the diagnosis.",
-      "But the solution stays predictable. Planting trees where there are none is logical, not transformative.",
-      "The square will be more pleasant to cross. Will it become a place where people stay? That is not certain. The project improves the crossing without guaranteeing the use."
+      "The strategy is sound: bringing in planting to make up for the lack of comfort and places to rest. It answers the analysis of the site.",
+      "But the solution is predictable. Planting trees where there are none is logical, not transformative.",
+      "The square will be a nicer place to walk through. Will it become somewhere people stay? That is far from certain. The project improves the crossing without guaranteeing anyone will use the place."
      ]
     }
    ]
@@ -779,7 +782,7 @@
   },
   "meta": {
    "fr": "Licence 1 - École Spéciale d’Architecture",
-   "en": "Bachelor 1 - École Spéciale d'Architecture"
+   "en": "First year - École Spéciale d’Architecture"
   },
   "note": {
    "fr": "",
@@ -853,32 +856,32 @@
    ],
    "en": [
     {
-     "h": "Project starting point",
+     "h": "Starting point",
      "l": [
-      "Exercise on load paths.",
-      "Two elements structure the project: a main concrete volume (continuity, inertia) and a roof made of triangulated trusses.",
-      "The goal was to explain the path of the forces from the roof to the foundations. The openings (windows, doors) become controlled cuts: lintels, piers and sills are placed where they should be.",
-      "The emphasis was on the mechanics of the structure, not on the formal effect."
+      "An exercise on load paths.",
+      "Two elements give the project its structure: a main concrete volume (continuity, inertia) and a triangulated truss roof.",
+      "The aim was to explain how the forces travel from the roof down to the foundations. The openings (windows, doors) become controlled cuts, with lintels, piers and sills placed exactly where they are needed.",
+      "The emphasis was on the mechanics of the structure rather than on formal effect."
      ]
     },
     {
-     "h": "Crossing",
+     "h": "Walk-through",
      "l": [
       "Concrete body: supports, continuity, inertia.",
       "Roof: triangulated truss.",
-      "From the roof to the foundations, following the path of the loads.",
-      "Openings = controlled cuts: lintels, sills, piers exactly where they should be.",
-      "Window placement dictated by the structure, not the other way around.",
+      "From roof to foundations, follow the load path.",
+      "Openings = controlled cuts: lintels, sills and piers exactly where they are needed.",
+      "The structure sets the position of the windows, not the other way round.",
       "Less decoration, more visible mechanics."
      ]
     },
     {
-     "h": "Critical review",
+     "h": "Critical reflection",
      "l": [
-      "As with the timber structure, the framework was very strict.",
-      "The project is coherent: at a glance you see how the loads descend and are taken up. But this coherence comes from the framework, not from a personal stance.",
-      "It shows that I understood the principle. It does not push the thinking further.",
-      "In the end, it is mainly the model that counts: the precision of the formwork, the clarity of the rendering. The project is a good technical exercise, but not yet a personal vision."
+      "As with the timber structure, the brief was very strict.",
+      "The project is coherent: you can see at a glance how the loads come down and where they are carried. But that coherence comes from the brief, not from any stance of my own.",
+      "It shows I grasped the principle. It does not take the thinking any further.",
+      "In the end, what counts most is the model: the precision of the formwork, the crispness of the finish. It is a good technical exercise, but not yet a personal vision."
      ]
     }
    ]
@@ -895,11 +898,11 @@
   },
   "titre": {
    "fr": "Festival - Structure temporaire",
-   "en": "Festival - Temporary structure"
+   "en": "Festival - temporary structure"
   },
   "meta": {
    "fr": "Licence 2 - École Spéciale d’Architecture",
-   "en": "Bachelor 2 - École Spéciale d'Architecture"
+   "en": "Second year - École Spéciale d’Architecture"
   },
   "note": {
    "fr": "Transformer ce vide en chemin.",
@@ -975,34 +978,34 @@
    ],
    "en": [
     {
-     "h": "Project starting point",
+     "h": "Starting point",
      "l": [
-      "On the banks of the Seine. A ditch cuts off access to the landscape.",
-      "The idea was to turn this void into a path, not by filling it, but by crossing it at height.",
-      "I designed a light structure: standard scaffolding and recovered textile. This choice met the technical constraints of an ephemeral festival, but also the very idea of the project. The textile becomes a filter: first opaque, it holds the gaze. Then it tears, gradually. The Seine appears at the end.",
-      "This project does not build a space. It builds a duration. It holds the gaze."
+      "The banks of the Seine. A ditch cuts off access to the landscape.",
+      "The idea was to turn this void into a path, by crossing it at height rather than filling it in.",
+      "I designed a lightweight structure of standard scaffolding and salvaged textile. The choice met the technical constraints of a short-lived festival, but it also came from the idea itself. The textile acts as a filter: opaque at first, it holds your gaze. Then, by degrees, it tears. The Seine appears at the very end.",
+      "This project does not build a space. It builds a length of time. It holds your gaze."
      ]
     },
     {
-     "h": "Crossing",
+     "h": "Walk-through",
      "l": [
-      "On the banks of the Seine, a ditch blocks our way.",
+      "On the banks of the Seine, a ditch bars the way.",
       "Turning this void into a path.",
-      "Dismantlable scaffolding, recovered textiles.",
-      "The simple frame, the light filtering skin.",
-      "The visitor climbs gently. Each step is a sequence.",
-      "At first, the fabric captures the view. Then it loosens.",
-      "The landscape arrives gradually.",
+      "Demountable scaffolding, salvaged textiles.",
+      "A simple frame, a light, filtering skin.",
+      "Visitors climb gently. Every step is a sequence.",
+      "At first, the fabric takes up the view. Then it slackens.",
+      "The landscape arrives by degrees.",
       "Little by little, the Seine appears.",
-      "No immediate visual shock. We build the anticipation."
+      "No sudden visual shock. The anticipation is what gets built."
      ]
     },
     {
-     "h": "Critical review",
+     "h": "Critical reflection",
      "l": [
-      "The project rests on a single principle: the ascent. It works in discovery, in the moment.",
-      "That is its strength and its limit. It assumes that people climb and, once at the top, the tension drops: there is nothing left to inhabit. The structure serves the experience, but never becomes a place in itself.",
-      "It is a deliberate choice. But it means the project only exists in movement. When still, it fades away."
+      "The project rests on one principle: the climb. It works through discovery, in the moment.",
+      "That is both its strength and its limit. It assumes people will climb, and once they reach the top the tension falls away: there is nothing left to inhabit. The structure serves the experience but never becomes a place in its own right.",
+      "It was a deliberate choice. But it means the project only exists in motion. Once you stop, it fades."
      ]
     }
    ]
@@ -1019,11 +1022,11 @@
   },
   "titre": {
    "fr": "Réaménagement de l'Avenue Daumesnil, Paris",
-   "en": "Redesign of Avenue Daumesnil, Paris"
+   "en": "Redesigning Avenue Daumesnil, Paris"
   },
   "meta": {
    "fr": "perso",
-   "en": "personal"
+   "en": "Personal project"
   },
   "note": {
    "fr": "Comme un fleuve urbain.",
@@ -1097,32 +1100,32 @@
    ],
    "en": [
     {
-     "h": "Project starting point",
+     "h": "Starting point",
      "l": [
-      "I have known Avenue Daumesnil on foot and by bike for a long time. It is an artery I cross often and whose dysfunctions I see every day: pedestrians and cyclists in conflict, crossings that are hard to read, a feeling of danger at peak hours.",
-      "This project was born from that daily frustration.",
-      "I wanted to recompose the avenue by layering three logics: mobility, landscape and water management. The idea was not to redo everything, but to give every use a clear and continuous space."
+      "I have known Avenue Daumesnil for years, on foot and by bike. I use this artery often and see what is wrong with it every day: pedestrians and cyclists in conflict, junctions that are hard to read, a sense of danger at rush hour.",
+      "The project grew out of that daily frustration.",
+      "I wanted to rework the avenue by layering three logics: movement, landscape and water management. The idea was not to start again from scratch but to give each use its own clear, continuous space."
      ]
     },
     {
-     "h": "Crossing",
+     "h": "Walk-through",
      "l": [
       "An artery: Avenue Daumesnil.",
       "Linking Bastille to Vincennes, like an urban river.",
-      "Three layers: mobility, landscape, water.",
-      "A cycle lane in the middle, lined with planting to structure the flows.",
+      "Three layers: movement, landscape, water.",
+      "A cycle lane down the middle, lined with planting to organise the flows.",
       "The ground becomes a filter: swales, permeable pavements, asphalt that breathes.",
-      "Collected water flows to the Bois, then to the Marne when there is a surplus.",
-      "Sober street lamps, powered by the sun, soften the night.",
-      "Not just crossing the avenue, but making it work as a real landscape."
+      "The water collected runs to the Bois de Vincennes, and any surplus on to the Marne.",
+      "Understated solar street lamps soften the night.",
+      "Not just crossing the avenue, but making it work as a proper landscape."
      ]
     },
     {
-     "h": "Critical review",
+     "h": "Critical reflection",
      "l": [
-      "The project gives the avenue readability. It organises, it clarifies, it structures.",
-      "But it treats the avenue as a standard section, identical from Bastille to Vincennes. The intersections, where the conflicts are real and the flows cross, are not addressed. Yet every intersection is unique and deserves close attention.",
-      "That is the limit: I redrew the avenue from my own experience of passing through, without checking whether it would absorb the traffic volumes. The project remains a coherent but abstract vision."
+      "The project makes the avenue legible. It organises, clarifies and structures.",
+      "But it treats the avenue as one standard section, the same from Bastille to Vincennes. The junctions, where the conflicts are real and the flows cross, are left untouched. And yet every junction is different and needs careful attention.",
+      "That is the limit: I redrew the avenue from my own experience of passing along it, without checking whether it could actually take the traffic. The project remains a coherent vision, but an abstract one."
      ]
     }
    ]
@@ -1139,11 +1142,11 @@
   },
   "titre": {
    "fr": "Réaménagement de l'école, ESA",
-   "en": "Redesign of the school, ESA"
+   "en": "Redesigning the school, ESA"
   },
   "meta": {
    "fr": "Licence 2 - École Spéciale d’Architecture",
-   "en": "Bachelor 2 - École Spéciale d'Architecture"
+   "en": "Second year - École Spéciale d’Architecture"
   },
   "note": {
    "fr": "Dans une école, un carré.",
@@ -1233,51 +1236,51 @@
    ],
    "en": [
     {
-     "h": "Project starting point",
+     "h": "Starting point",
      "l": [
       "In a school, a square.",
-      "Short exercise, done in three hours.",
-      "Making architecture an instrument.",
-      "Combining use, structure and sound.",
-      "Letting the wind, the rain and the bodies activate the space."
+      "A short exercise, done in three hours.",
+      "Make architecture an instrument.",
+      "Bring together use, structure and sound.",
+      "Let the wind, the rain and people’s bodies set the space in motion."
      ]
     },
     {
-     "h": "Crossing",
+     "h": "Walk-through",
      "l": [
       "You enter the square.",
       "A stretched canvas.",
       "It gives shade.",
-      "The wind passes.",
+      "The wind goes by.",
       "It vibrates.",
       "A sound appears.",
       "Further on, tubes.",
-      "They filter the gaze.",
+      "They filter the view.",
       "The wind blows.",
       "The sound comes out, hesitant.",
-      "In the centre, a table.",
-      "You sit.",
-      "You rest.",
+      "In the middle, a table.",
+      "You sit down.",
+      "You put things down.",
       "You work.",
-      "Then you strike.",
+      "Then you knock on it.",
       "The wood resonates.",
-      "The rain falls.",
+      "Rain falls.",
       "The drops arrive.",
       "They strike.",
-      "Repeat.",
+      "Again and again.",
       "Further on, a mass.",
       "A gong.",
       "You touch it.",
       "It answers.",
       "For a long time.",
-      "Sounds do not add up.",
+      "The sounds don’t add up.",
       "They cross.",
       "Answer each other.",
       "Get lost.",
-      "No one directs.",
-      "You use.",
+      "Nobody is in charge.",
+      "You use it.",
       "Then you play.",
-      "Without really deciding.",
+      "Without really deciding to.",
       "The square becomes an active space.",
       "Music appears.",
       "Unstable.",
@@ -1295,15 +1298,15 @@
   "dossier": "32-logements",
   "court": {
    "fr": "32 logements",
-   "en": "32 flats"
+   "en": "32 homes"
   },
   "titre": {
    "fr": "32 logements rue Bardinet, 75014 Paris",
-   "en": "32 flats, rue Bardinet, 75014 Paris"
+   "en": "32 homes, rue Bardinet, 75014 Paris"
   },
   "meta": {
    "fr": "Licence 2 - École Spéciale d’Architecture",
-   "en": "Bachelor 2 - École Spéciale d'Architecture"
+   "en": "Second year - École Spéciale d’Architecture"
   },
   "note": {
    "fr": "De la rue au jardin, le monde change.",
@@ -1380,35 +1383,35 @@
    ],
    "en": [
     {
-     "h": "Project starting point",
+     "h": "Starting point",
      "l": [
-      "Paris, 14th arrondissement. A courtyard enclosed between towers, almost invisible from the street.",
-      "I started from a simple question: how to bring light and privacy into such a constrained site?",
-      "I chose to split the programme into two distinct volumes: one for students, one for families.",
-      "The garden became the real heart of the project: not a residual space, but the only link between the street and the back of the plot.",
-      "It was the first time I worked on housing in a dense urban context. Here I learned to read a site not as a plan, but as a sequence."
+      "Paris, 14th arrondissement. A courtyard hemmed in by towers, almost invisible from the street.",
+      "I began with a simple question: how do you bring light and privacy into so constrained a site?",
+      "I chose to split the programme into two separate volumes, one for students and one for families.",
+      "The garden became the real heart of the project: not a leftover space, but the only link between the street and the back of the plot.",
+      "It was my first time working on housing in a dense setting. It taught me to read a site as a sequence rather than a plan."
      ]
     },
     {
-     "h": "Crossing",
+     "h": "Walk-through",
      "l": [
-      "Archicad used.",
-      "Two buildings hidden in a courtyard. From the street to the garden, the world changes.",
-      "A first building aligns with the street. It houses student flats, made of studios and shared spaces.",
-      "A passage opens towards the heart of the plot. The noise and the crowd fade away. The ground turns green. The eye frees itself from the façades.",
-      "At the back, the second building appears set back, lower. Attached to the existing wall, it touches the garden. It hosts larger apartments for stable residents.",
-      "Circulation runs along exterior galleries, protected by cladding. This filter creates depth: you feel sheltered, close to your entrance without being exposed.",
-      "On the ground floor, each apartment has a mini-garden. This planted cul-de-sac limits through traffic and gives the feeling of being at home, away from it all.",
-      "Step by step, the atmospheres shift: from the open street to the peaceful garden, from the semi-sheltered corridor to the domestic space.",
-      "The project proposes thresholds rather than a sharp separation: privacy is gained progressively, despite the towers all around."
+      "Made with Archicad.",
+      "Two buildings tucked away in a courtyard. From the street to the garden, the world changes.",
+      "The first building lines up with the street. It houses students, in studio flats and shared spaces.",
+      "A passage opens towards the heart of the plot. The noise and the crowds fade. The ground turns green. The eye is released from the façades.",
+      "At the back, the second building appears, set back and lower. Attached to the existing wall, it comes down to meet the garden. It holds larger flats for long-term residents.",
+      "People reach their front doors along access decks screened by cladding. This filter adds depth: you feel sheltered, close to your door without being exposed.",
+      "On the ground floor, every flat has its own small garden. This planted cul-de-sac cuts down on passers-by and gives you the feeling of being at home, set apart.",
+      "Bit by bit, the atmosphere changes: from open street to quiet garden, from half-sheltered walkway to the home.",
+      "The project proposes thresholds rather than a hard division: privacy is earned gradually, despite the towers all around."
      ]
     },
     {
-     "h": "Critical review",
+     "h": "Critical reflection",
      "l": [
-      "The project works through an accumulation of thresholds. Each step, street, garden, gallery, threshold, establishes a distance from the city. It is accurate and coherent.",
-      "But this logic stays implicit. I did not set it as a principle from the start: it came in successive touches, as the project developed.",
-      "The arrival sequence could have structured everything else. It only accompanies the rest, because that principle arrived late in the project."
+      "The project works by accumulating thresholds. Each stage (street, garden, access deck, threshold) puts some distance between you and the city. It is sound and coherent.",
+      "But that logic remains implicit. I did not set it out as a principle from the start: it emerged bit by bit as the project went on.",
+      "The arrival sequence could have shaped everything else. Instead it merely goes along with it, because the principle came so late in the project."
      ]
     }
    ]
@@ -1429,7 +1432,7 @@
   },
   "meta": {
    "fr": "Licence 2 - École Spéciale d’Architecture",
-   "en": "Bachelor 2 - École Spéciale d'Architecture"
+   "en": "Second year - École Spéciale d’Architecture"
   },
   "note": {
    "fr": "Une toute petite maison.",
@@ -1495,32 +1498,32 @@
    ],
    "en": [
     {
-     "h": "Project starting point",
+     "h": "Starting point",
      "l": [
-      "Course exercise: designing a folded leaflet for a free project.",
-      "I chose to put something a little absurd in it, a house for a snail, because the format interested me more than the subject. A leaflet is an object you handle, that reveals itself in stages.",
-      "The challenge was to make the physical object, the text and the folding coexist in a single medium, without one crushing the others."
+      "A course exercise: design a fold-out leaflet for a project of your choice.",
+      "I chose to put in something slightly absurd, a house for a snail, because I was more interested in the format than the subject. A leaflet is an object you handle, one that reveals itself in stages.",
+      "The challenge was to get the physical object, the text and the folding to share one format without any of them overwhelming the others."
      ]
     },
     {
-     "h": "Crossing",
+     "h": "Walk-through",
      "l": [
-      "Choosing a snail.",
-      "A simple object, a tiny house.",
-      "The leaflet becomes its setting.",
-      "In the centre, an empty space waiting. The shell takes its place.",
-      "The front opens like a poster: the snail on display.",
+      "Choose a snail.",
+      "A simple object, a very small house.",
+      "The leaflet becomes its jewel case.",
+      "In the centre, an empty space waiting. The shell moves in.",
+      "The front opens out like a poster: the snail on display.",
       "Then the fold appears.",
-      "The leaflet closes, divides, turns: four flaps, three reading moments and an individual setting.",
-      "You handle, you open, you discover in fragments.",
-      "The project does not show everything at once; it offers a journey."
+      "The leaflet closes, divides and turns: four panels, three stages of reading and a case of its own.",
+      "You handle it, open it, discover it piece by piece.",
+      "The project does not show everything at once. It invites you along the way."
      ]
     },
     {
-     "h": "Critical review",
+     "h": "Critical reflection",
      "l": [
-      "The idea works: the object in the centre, the text around it, the folding as revelation. It is clear and coherent with the brief.",
-      "But the leaflet fulfils its role without going beyond it. It contains the object instead of creating a universe around it. The room for exploration was there, the constraint allowed it, and I did not seize it."
+      "The idea works: the object in the centre, the text around it, the folding as a reveal. It is clear, and it meets the brief.",
+      "But the leaflet does its job and goes no further. It holds the object rather than building a world around it. There was room to explore, the brief allowed it, and I did not take it."
      ]
     }
    ]
@@ -1533,19 +1536,19 @@
   "dossier": "stage-chantier",
   "court": {
    "fr": "Stage ouvrier",
-   "en": "Worker placement"
+   "en": "Site placement"
   },
   "titre": {
    "fr": "Stage ouvrier - SIAAP, Clichy-la-Garenne",
-   "en": "Worker placement - SIAAP, Clichy-la-Garenne"
+   "en": "Site placement - SIAAP, Clichy-la-Garenne"
   },
   "meta": {
    "fr": "Licence 1 - École Spéciale d’Architecture",
-   "en": "Bachelor 1 - École Spéciale d'Architecture"
+   "en": "First year - École Spéciale d’Architecture"
   },
   "note": {
    "fr": "Le chantier impose son rythme.",
-   "en": "The construction site sets the pace."
+   "en": "The site sets the pace."
   },
   "cover": {
    "s": "../public/projects/stage-chantier.mdx/cover.png",
@@ -1607,32 +1610,32 @@
    ],
    "en": [
     {
-     "h": "Field immersion",
+     "h": "On site",
      "l": [
-      "Clichy-la-Garenne. Paris sewage pumping and pre-treatment plant.",
-      "First contact with a real, active construction site, already shaped by its own constraints.",
-      "This worker placement, carried out in the first year, takes place on a civil engineering site dedicated to the overhaul of the plant.",
-      "There I discover a place under permanent tension: safety rules, coordination between trades, continuous traffic, difficult access.",
-      "Integrated into a team of formworkers, I take part in the everyday gestures: setting up formwork, installing shoring towers, passivating the rebar, preparing pouring zones, roughening the existing concrete to ensure connections.",
-      "I also work on a thick slab designed to take heavy loads: laying conduits, monitoring the rebar, pouring the concrete, vibrating it, checking its consistency.",
-      "The site imposes its rhythm.",
-      "Open sewage, noise, surprises, access constraints: here, nothing is abstract.",
-      "At the same time, I observe its wider organisation: planning meetings, coordination of teams, management of unexpected events, constant adjustments."
+      "Clichy-la-Garenne. A wastewater pumping and pre-treatment works serving Paris.",
+      "My first contact with a real, live construction site, already shaped by its own constraints.",
+      "This hands-on placement, done in my first year, is on a civil engineering site where the works are being overhauled.",
+      "What I find is a place under constant pressure: safety rules, coordination between trades, non-stop traffic, difficult access.",
+      "As part of a team of formwork carpenters, I join in the daily work: putting up formwork, erecting falsework towers, passivating the reinforcement, preparing areas for pouring, scabbling the existing concrete so that the new will key in.",
+      "I also work on a very thick slab designed to carry heavy loads: setting the ducts, checking the reinforcement, pouring the concrete, vibrating it and testing its consistency.",
+      "The site sets the pace.",
+      "Open channels of sewage, noise, the unexpected, restricted access: nothing here is abstract.",
+      "Meanwhile, I watch how the site is organised more widely: programme meetings, coordinating the teams, dealing with setbacks, constant adjustments."
      ]
     },
     {
-     "h": "Lessons learned",
+     "h": "What I learnt",
      "l": [
-      "This placement taught me rigour, but above all adaptation.",
-      "Each intervention is part of a chain where you have to check, adjust, sometimes redo.",
-      "I understood the gap between drawing and the ground.",
-      "On paper, everything seems held together.",
-      "On site, everything is negotiated, coordinated, corrected.",
-      "What I take away: building means constantly articulating three actions.",
+      "The placement taught me rigour but, above all, adaptability.",
+      "Every task is part of a chain where you have to check, adjust and sometimes redo.",
+      "It showed me the gap between the drawing and the reality on the ground.",
+      "On paper, everything seems to hold together.",
+      "On site, everything gets negotiated, coordinated, corrected.",
+      "What I take from it: building means constantly juggling three things.",
       "Adapting.",
       "Coordinating.",
       "Checking.",
-      "It is this reality of the construction site, as a place where drawing is translated, that now guides the way I look at architecture."
+      "It is this reality of the site, as the place where the drawing gets translated, that now shapes the way I look at architecture."
      ]
     }
    ]
@@ -1645,15 +1648,15 @@
   "dossier": "ivresse",
   "court": {
    "fr": "Ivresse des profondeurs",
-   "en": "Dizziness of the depths"
+   "en": "Rapture of the deep"
   },
   "titre": {
    "fr": "Ivresse des profondeurs - récit",
-   "en": "Dizziness of the depths - narrative"
+   "en": "Rapture of the deep - a short story"
   },
   "meta": {
    "fr": "Bachelor Design d'Espace - Immaconcept",
-   "en": "Bachelor of Spatial Design - Immaconcept"
+   "en": "Bachelor in Spatial Design - Immaconcept"
   },
   "note": {
    "fr": "Pas comme excès. Comme déformation.",
@@ -1711,43 +1714,43 @@
     {
      "h": "Context",
      "l": [
-      "Writing exercise around the theme of dizziness.",
-      "A year-long project, between imagination and writing.",
-      "The course framework imposes a long form, thought of as a book. Building a narrative from a state.",
-      "Setting up a character, a place, a context.",
-      "Then letting the writing develop an experience."
+      "A writing exercise on the theme of intoxication.",
+      "A piece of work that took a year, somewhere between imagination and writing.",
+      "The course called for a long form, conceived as a book. Build a story out of a state of being.",
+      "Establish a character, a place, a setting.",
+      "Then let the writing develop an experience."
      ]
     },
     {
      "h": "Research notebook",
      "l": [
-      "The starting point: dizziness.",
+      "The starting point: intoxication.",
       "Not as excess. As distortion.",
-      "I look for a state where perception slips.",
-      "I come across the dizziness of the depths.",
-      "From 30 metres, nitrogen takes effect.",
-      "Movements slow down.",
-      "Judgement blurs.",
+      "I am looking for a state in which perception slips.",
+      "I come across rapture of the deep.",
+      "From 30 metres down, nitrogen starts to take effect.",
+      "Movements slow.",
+      "Judgement clouds.",
       "Reality becomes unstable.",
       "Euphoria.",
       "Confusion.",
       "Tunnel vision.",
-      "Loss of time.",
+      "Losing track of time.",
       "Nothing is stable.",
       "And above all, nothing is predictable.",
-      "Even the mechanism stays vague.",
+      "Even the mechanism remains unclear.",
       "Gas, membranes, proteins.",
-      "We do not really know.",
-      "This vagueness becomes material.",
-      "From there, I build.",
+      "Nobody really knows.",
+      "That uncertainty becomes my material.",
+      "From there, I start building.",
       "A character: Paul.",
       "A place: Dahab, the Blue Hole.",
-      "A goal: to descend.",
+      "A goal: to go down.",
       "Everything is prepared.",
       "Controlled.",
-      "And yet, everything can give way.",
+      "And yet anything might give way.",
       "The descent becomes something else.",
-      "A body that malfunctions.",
+      "A body going awry.",
       "A space that acts."
      ]
     }

@@ -2,8 +2,9 @@
 import Jour from "@/components/Jour.astro";
 import Logo from "@/components/Logo.astro";
 import { scriptEnLigne } from "@/data/scriptEnLigne";
-import { esc, prefixe, type Lang } from "@/data/site";
-import L from "@/data/livre.json";
+import { codeLangue, prefixe, type Lang } from "@/data/site";
+import LFr from "@/data/livre.json";
+import LEn from "@/data/livre.en.json";
 import { traduction } from "@/i18n/ui";
 import Base from "@/layouts/Base.astro";
 import "@/styles/livre.css";
@@ -14,19 +15,22 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = traduction(lang);
+const L = lang === "en" ? LEn : LFr;
+const code = codeLangue(lang);
+const exergue = lang === "en" ? `‘${L.epigraph}’` : `« ${L.epigraph} »`;
 const projet = `${prefixe(lang)}/post/ivresse`;
 const reperes: number[] = [];
 for (let m = 50; m < L.maxDepth; m += 50) reperes.push(m);
 ---
 
-<Base title="14 minutes et 16 heures | Aliénor du Parc" description={L.epigraph} lang={lang} chemin="/livre/ivresse" theme={false} icone="-livre" attributs={{ "data-max": L.maxDepth }}>
+<Base title={`${t("livreTitre")} | Aliénor du Parc`} description={L.epigraph} lang={lang} chemin="/livre/ivresse" theme={false} icone="-livre" attributs={{ "data-max": L.maxDepth }}>
   <a id="maison" data-logo href={projet} aria-label={t("retourProjet")}><Logo /></a>
   <div class="eau" id="eau" aria-hidden="true"><svg class="vague" id="vague" viewBox="0 0 2880 70" preserveAspectRatio="none"><path id="onde"></path></svg><div class="masse"></div></div>
-  <div class="entete" id="entete"><header class="titre"><h1>14 minutes<br />et 16 heures</h1><p><span>{t("recit")}</span><br /><a href="#corps">{t("descendre")}</a></p></header></div>
-  <article class="corps" id="corps" lang="fr">
+  <div class="entete" id="entete"><header class="titre"><h1>14 minutes<br />{t("livreFin")}</h1><p><span>{t("recit")}</span><br /><a href="#corps">{t("descendre")}</a></p></header></div>
+  <article class="corps" id="corps" lang={code}>
     <div class="reperes" aria-hidden="true">{reperes.map((m) => <span style={`top:${((m / L.maxDepth) * 100).toFixed(2)}%`}>-{m} m</span>)}</div>
-    <p class="exergue">« {L.epigraph} »</p>
-    <p class="note" lang={lang}>{t("note")}</p>
+    <p class="exergue">{exergue}</p>
+    <p class="note">{t("note")}</p>
     <div class="intro">{L.intro.map((x) => <p>{x}</p>)}</div>
     {L.chapters.map((c) => (
       <>
@@ -35,10 +39,10 @@ for (let m = 50; m < L.maxDepth; m += 50) reperes.push(m);
       </>
     ))}
   </article>
-  <footer class="fin" id="fin" lang="fr">
+  <footer class="fin" id="fin" lang={code}>
     <b>{L.maxDepth} m</b>
     {L.back.map((x) => <p>{x}</p>)}
-    <nav lang={lang}><a href={projet} id="retour">{t("retourProjet")}</a></nav>
+    <nav><a href={projet} id="retour">{t("retourProjet")}</a></nav>
   </footer>
   <Jour lang={lang} chemin="/livre/ivresse" theme={false} />
   <div class="jauge" id="jauge" aria-hidden="true"><small>{t("profondeur")}</small><b id="prof">0 m</b></div>

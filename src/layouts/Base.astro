@@ -1,5 +1,5 @@
 ---
-import type { Lang } from "@/data/site";
+import { codeLangue, type Lang } from "@/data/site";
 import "@/styles/commun.css";
 
 interface Props {
@@ -23,7 +23,7 @@ const version = (l: Lang) => new URL((l === "en" ? "/en" : "") + (chemin === "/"
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={codeLangue(lang)}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -43,7 +43,7 @@ const version = (l: Lang) => new URL((l === "en" ? "/en" : "") + (chemin === "/"
     <meta property="og:url" content={canonique} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:locale" content={lang === "fr" ? "fr_FR" : "en_US"} />
+    <meta property="og:locale" content={lang === "fr" ? "fr_FR" : "en_GB"} />
     <meta property="og:image" content={apercu} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />

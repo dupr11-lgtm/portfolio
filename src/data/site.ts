@@ -9,6 +9,9 @@ const SLUGS: Record<string, string> = {
   "festival-structure-temporaire": "festival--structure-temporaire",
 };
 
+// L'anglais du site est britannique : la césure et les lecteurs d'écran suivent ce code
+export const codeLangue = (lang: Lang) => (lang === "en" ? "en-GB" : "fr");
+
 export const prefixe = (lang: Lang) => (lang === "en" ? "/en" : "");
 export const accueil = (lang: Lang) => prefixe(lang) || "/";
 
@@ -32,6 +35,7 @@ export const pagesEn = (lang: Lang) =>
     meta: p.meta[lang] as string,
     note: p.note[lang] as string,
     etat: p.etat?.[lang] as string | undefined,
+    etiquette: p.etiquette?.[lang] as string | undefined,
     sections: p.sections[lang] as { h: string; l: string[] }[],
     couverture: (couvertures as (string | null)[])[p.i] || null,
   }));

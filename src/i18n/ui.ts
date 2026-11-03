@@ -14,20 +14,22 @@ export const UI = {
     enCours: "En cours", ouvrir: "Ouvrir la boîte →", ouvrirA: "Ouvrir la boîte du projet ACT",
     retourProjet: "Retour au projet", recit: "Récit - Aliénor du Parc - 2021", descendre: "Descendre ↓", note: "Note d'intention", profondeur: "Profondeur",
     introuvable: "Page introuvable",
+    livreTitre: "14 minutes et 16 heures", livreFin: "et 16 heures", duree: "14 min,<br>16 h", podcastTitre: "Double Vision : Architecture Abroad",
   },
   en: {
-    accueil: "Back to home", themeG: "Theme", clair: "Light theme", sombre: "Dark theme", langue: "Language",
+    accueil: "Back to the homepage", themeG: "Theme", clair: "Light mode", sombre: "Dark mode", langue: "Language",
     portfolio: "Portfolio", profil: "Profile", contact: "Contact",
-    hero: "I am a master's student in architecture at ULB in Brussels.",
-    description: "Portfolio of Aliénor du Parc, a master's student in architecture at ULB in Brussels.",
-    enbref: "In short", formation: "Education",
-    suivant: "Next project", etapes: "Page steps",
+    hero: "I’m studying for a Master’s in Architecture at ULB in Brussels.",
+    description: "Portfolio of Aliénor du Parc, a Master’s student in Architecture at ULB in Brussels.",
+    enbref: "In brief", formation: "Education",
+    suivant: "Next project", etapes: "Page sections",
     agrandir: "Enlarge image", fermer: "Close", tourner: "Rotate image", prec: "Previous image", suiv: "Next image", loupe: "Enlarged image",
-    lecture: "Play or pause", pos: "Seek", pochette: "Podcast artwork, Aliénor Knoll and Aliénor du Parc",
-    lire: "Read the story (in French) →", lireA: "Read 14 minutes et 16 heures",
+    lecture: "Play or pause", pos: "Playback position", pochette: "Podcast cover art, Aliénor Knoll and Aliénor du Parc",
+    lire: "Read the story →", lireA: "Read 14 minutes and 16 hours",
     enCours: "In progress", ouvrir: "Open the box →", ouvrirA: "Open the ACT project box",
-    retourProjet: "Back to project", recit: "Short story - Aliénor du Parc - 2021 - written in French", descendre: "Scroll down ↓", note: "Author's note", profondeur: "Depth",
+    retourProjet: "Back to the project", recit: "Short story - Aliénor du Parc - 2021 - translated from the French", descendre: "Dive in ↓", note: "Author’s note", profondeur: "Depth",
     introuvable: "Page not found",
+    livreTitre: "14 minutes and 16 hours", livreFin: "and 16 hours", duree: "14 min,<br>16 hrs", podcastTitre: "Double Vision: Architecture Abroad",
   },
 } as const;
 
@@ -35,7 +37,7 @@ export const traduction = (lang: Lang) => (k: keyof (typeof UI)["fr"]) => UI[lan
 
 export const BREF = {
   fr: "Je suis étudiante en master d'architecture à l'ULB, à Bruxelles.<br><br>Si je ne suis pas sur Midjourney ou en train de discuter avec Claude, je suis sûrement en train d'écrire un nouvel épisode de podcast ou de préparer mon prochain marathon.",
-  en: "I am a master's student in architecture at ULB in Brussels.<br><br>When I'm not on Midjourney or chatting with Claude, I'm probably writing a new podcast episode or training for my next marathon.",
+  en: "I’m studying for a Master’s in Architecture at ULB in Brussels.<br><br>When I’m not on Midjourney or chatting to Claude, I’m probably writing a new podcast episode or training for my next marathon.",
 };
 
 export const FORMATION: Record<Lang, [string, string[]][]> = {
@@ -48,11 +50,11 @@ export const FORMATION: Record<Lang, [string, string[]][]> = {
     ["2018 - 2020", ["Lycée Isaac de l'Étoile, Poitiers", "Seconde - Option Création Culture Design et Histoire des Arts"]],
   ],
   en: [
-    ["2026 - present", ["Master's - Faculty of Architecture La Cambre Horta, ULB, Brussels"]],
-    ["2022 - 2025", ["Bachelor - École Spéciale d'Architecture, Paris"]],
-    ["October 2024 - February 2025", ["Erasmus - State Academy of Fine Arts, Stuttgart"]],
-    ["2021 - 2022", ["Bachelor of Spatial Design - Immaconcept, Bordeaux"]],
-    ["2020 - 2021", ["High school diploma - Lycée Saint-Jacques-de-Compostelle, Dax", "Specialties: History, Geography, Geopolitics, Political Science, Mathematics"]],
-    ["2018 - 2020", ["Lycée Isaac de l'Étoile, Poitiers", "Sophomore year - Option: Creation, Culture, Design and Art History"]],
+    ["2026 - present", ["Master’s in Architecture - Faculty of Architecture La Cambre Horta, ULB, Brussels"]],
+    ["2022 - 2025", ["Bachelor’s degree in Architecture (Licence) - École Spéciale d’Architecture, Paris"]],
+    ["October 2024 - February 2025", ["Erasmus exchange - State Academy of Fine Arts, Stuttgart"]],
+    ["2021 - 2022", ["Bachelor in Spatial Design - Immaconcept, Bordeaux"]],
+    ["2020 - 2021", ["French Baccalauréat (equivalent to A levels) - Lycée Saint-Jacques-de-Compostelle, Dax", "Specialist subjects: History, Geography, Geopolitics and Political Science; Mathematics"]],
+    ["2018 - 2020", ["Lycée Isaac de l’Étoile, Poitiers", "Seconde (equivalent to Year 11) - Options: Creation, Culture and Design; History of Art"]],
   ],
 };
