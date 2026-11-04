@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
+import { TELEPHONE } from "@/scripts/reglages.js";
 import couvertures from "./couvertures.json";
 import projets from "./projets.json";
 
@@ -17,7 +18,7 @@ export const codeLangue = (lang: Lang) => (lang === "en" ? "en-GB" : "fr");
 export const prefixe = (lang: Lang) => (lang === "en" ? "/en" : "");
 export const accueil = (lang: Lang) => prefixe(lang) || "/";
 
-// Les images de /opt restent 30 jours en cache (public/_headers) : leur adresse porte l'empreinte du fichier,
+// Les images de /opt restent un an en cache (public/_headers) : leur adresse porte l'empreinte du fichier,
 // pour qu'une image retouchée soit rechargée aussitôt
 const empreintes = new Map<string, string>();
 export const v = (url: string) => {
@@ -32,8 +33,11 @@ export const v = (url: string) => {
 // Les images compressées par scripts/images.mjs : une version par largeur, jamais l'original
 export const opt = (s: string, l: number) =>
   v(s.replace(/^.*\/projects\/|^media\//, "/opt/").replace(/\.\w+$/, `-${l}.webp`));
-export const jeu = (s: string) => `${opt(s, 800)} 800w,${opt(s, 1600)} 1600w,${opt(s, 2400)} 2400w`;
+export const jeu = (s: string) => `${opt(s, 800)} 800w,${opt(s, 1200)} 1200w,${opt(s, 1600)} 1600w,${opt(s, 2400)} 2400w`;
 export const VEDETTE = "(max-width:900px) 100vw,41vw";
+// Sur téléphone, seule la version 800 est proposée au navigateur, quelle que soit la finesse de l'écran :
+// imagesNettes() (scripts/reglages.js) la remplace ensuite par la 1200
+export const sourceTelephone = (s: string, taille: string) => `<source media="${TELEPHONE}" srcset="${opt(s, 800)} 800w" sizes="${taille}">`;
 
 export const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 

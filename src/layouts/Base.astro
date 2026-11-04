@@ -61,11 +61,10 @@ const version = (l: Lang) => new URL((l === "en" ? "/en" : "") + (chemin === "/"
     <link rel="apple-touch-icon" href={`/apple-touch-icon${icone}.png?v=8`} />
     <link rel="sitemap" href="/sitemap.xml" />
     <script defer src="https://u.herbievine.com/script.js" data-website-id="db8d3099-07fb-4913-9489-e87067418f74"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <slot name="tete" />
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Rokkitt:wght@800&family=Courier+Prime&display=swap" rel="stylesheet" />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/newsreader-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/courier-prime-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/rokkitt-latin.woff2" crossorigin />
   </head>
   <body {...attributs}>
     {theme && <script is:inline>(function(){var t="";try{t=localStorage.getItem("theme")||""}catch(e){}if(location.hash=="#sombre")t="nuit";document.body.dataset.theme=t})()</script>}

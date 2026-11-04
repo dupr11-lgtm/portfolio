@@ -2,7 +2,7 @@
 import Jour from "@/components/Jour.astro";
 import Logo from "@/components/Logo.astro";
 import { scriptEnLigne } from "@/data/scriptEnLigne";
-import { accueil, esc, jeu, opt, pagesEn, partage, prefixe, v, VEDETTE, type Image, type Lang } from "@/data/site";
+import { accueil, esc, jeu, opt, pagesEn, partage, prefixe, sourceTelephone, v, VEDETTE, type Image, type Lang } from "@/data/site";
 import { traduction } from "@/i18n/ui";
 import Base from "@/layouts/Base.astro";
 import { disque } from "@/scripts/formes.js";
@@ -19,7 +19,7 @@ const PAGES = pagesEn(lang);
 const rang = PAGES.findIndex((x) => x.slug == slug), P = PAGES[rang], SUITE = PAGES[(rang + 1) % PAGES.length];
 const preDe = (im: Image) => (im.trait ? "url(#trait)" : im.sombre ? "brightness(2.2)" : "");
 const styleIm = (im: Image) => (im.brut ? "filter:none" : `--pre:${preDe(im)}`);
-const fig = (im: Image, st: string, tete?: boolean) => `<button class="fig${im.libre ? " libre" : ""}${im.rond ? " rond" : ""}${im.flotte ? " flotte" : ""}" style="${st}" data-src="${im.s}" aria-label="${t("agrandir")}"><span class="w" style="aspect-ratio:${im.w}/${im.h}"><img class="im" ${tete ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" src="${opt(im.s, 800)}" srcset="${jeu(im.s)}" sizes="${tete ? VEDETTE : "(max-width:900px) 100vw,60vw"}" alt="${esc(P.titre)}" style="${styleIm(im)}"></span></button>`;
+const fig = (im: Image, st: string, tete?: boolean) => `<button class="fig${im.libre ? " libre" : ""}${im.rond ? " rond" : ""}${im.flotte ? " flotte" : ""}" style="${st}" data-src="${im.s}" aria-label="${t("agrandir")}"><span class="w" style="aspect-ratio:${im.w}/${im.h}"><picture>${sourceTelephone(im.s, "100vw")}<img class="im" ${tete ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" src="${opt(im.s, 800)}" srcset="${jeu(im.s)}" sizes="${tete ? VEDETTE : "(max-width:900px) 100vw,60vw"}" alt="${esc(P.titre)}" style="${styleIm(im)}"></picture></span></button>`;
 // Les images sont groupées avec les phrases de la section la plus découpée
 const secs = P.sections, tisse = secs.reduce((m, x) => (x.l.length > m.l.length ? x : m), secs[0]);
 const MOTIF = [{ i: "1/span 8", l: "9/span 4" }, { i: "6/span 7", l: "2/span 4" }, { i: "2/span 6", l: "9/span 4" }, { i: "5/span 8", l: "1/span 4" }];
@@ -52,7 +52,7 @@ const contenu = `<section class="ouv">${disques}
   ${secs.map((x, k) => `<section class="grille" id="e${k}"><h2>${esc(x.h)}</h2>${grille(x)}</section>`).join("")}
   <section class="suite" id="esuite"><a href="${SUITE.url}"${preSuite}><span class="w">${pochette}</span><span><small>${t("suivant")}</small><h2>${esc(SUITE.titre)}</h2></span><span class="f" aria-hidden="true">→</span></a></section>`;
 const ET: [string, string][] = [...secs.map((x, k): [string, string] => ["e" + k, court(x.h)]), ["esuite", t("suivant")]];
-const lot = [P.cover, ...P.images].filter(Boolean).map((im: Image) => ({ s: im.s, u: opt(im.s, 2400), pre: preDe(im), brut: im.brut }));
+const lot = [P.cover, ...P.images].filter(Boolean).map((im: Image) => ({ s: im.s, b: opt(im.s, 800), n: opt(im.s, 1200), u: opt(im.s, 2400), pre: preDe(im), brut: im.brut }));
 const texte = secs[0]?.l[0] || "";
 const description = [`${P.an}${P.meta ? " - " + P.meta : ""}`, texte].filter(Boolean).join(". ").slice(0, 200);
 ---
@@ -65,7 +65,7 @@ const description = [`${P.an}${P.meta ? " - " + P.meta : ""}`, texte].filter(Boo
   </ol>
   <Jour lang={lang} chemin={`/post/${P.slug}`} />
   <div id="page">
-    <svg id="champ" aria-hidden="true"></svg>
+    <div id="champ" aria-hidden="true"></div>
     <svg id="couche" aria-hidden="true"><g id="gras" fill="none" stroke-linecap="round" style="stroke:var(--r)"></g></svg>
     <main id="contenu" set:html={contenu}></main>
   </div>

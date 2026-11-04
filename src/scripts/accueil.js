@@ -1,5 +1,5 @@
-import { contour, ringPath } from "./formes.js";
-import { apresPolices, initLangue, initTheme } from "./reglages.js";
+import { bandes, contour, grasAuDefilement, peintBandes, ringPath } from "./formes.js";
+import { apresPolices, imagesNettes, initLangue, initTheme, surRedimension, surTelephone } from "./reglages.js";
 
 // La forme de l'accueil, puis un vrai relevé de courbes de niveau sur toute la hauteur de la page :
 // les lignes partent de la carte et continuent sans fin jusqu'en bas
@@ -30,7 +30,7 @@ const dessine=()=>{
     return -Math.log(e)*110+relief(px,py)*m*m*(3-2*m)};
   const C=9,nx=Math.ceil(W/C)+1,ny=Math.ceil(H/C)+1,v=new Float32Array(nx*ny);
   for(let j=0;j<ny;j++)for(let i=0;i<nx;i++)v[j*nx+i]=champ(i*C,j*C);
-  const E=38;let fin="",fort="";SEG=[];TEXTES=[];LARG=W;
+  const E=38,B=bandes(H);SEG=[];TEXTES=[];LARG=W;
   const S=(a,b,va,vb,L)=>a+(b-a)*(L-va)/(vb-va),niveaux=new Map();
   for(let j=0;j<ny-1;j++)for(let i=0;i<nx-1;i++){
     const A=v[j*nx+i],B=v[j*nx+i+1],D=v[(j+1)*nx+i],G2=v[(j+1)*nx+i+1],mn=Math.min(A,B,D,G2),mx=Math.max(A,B,D,G2),x=i*C,y=j*C;
@@ -43,42 +43,34 @@ const dessine=()=>{
     }
   }
   // On relie les petits traits en lignes continues, puis on les arrondit
-  const fmt=(n)=>n.toFixed(1);
   for(const [l,segs] of niveaux){
     const cle=(x,y)=>x.toFixed(2)+","+y.toFixed(2),ends=new Map(),vu=new Uint8Array(segs.length);
     segs.forEach((g,i)=>{for(const e of [cle(g[0],g[1]),cle(g[2],g[3])])(ends.get(e)||ends.set(e,[]).get(e)).push(i)});
     const pousse=(pts,avant)=>{for(;;){const c=avant?pts[0]:pts[pts.length-1],i=(ends.get(cle(c[0],c[1]))||[]).find(n=>!vu[n]);if(i==null)return;vu[i]=1;const g=segs[i],p=cle(g[0],g[1])==cle(c[0],c[1])?[g[2],g[3]]:[g[0],g[1]];if(avant)pts.unshift(p);else pts.push(p)}};
-    const f=l%5==0?1:0;let d="";
+    const f=l%5==0?1:0;
     segs.forEach((g,i)=>{if(vu[i])return;vu[i]=1;const pts=[[g[0],g[1]],[g[2],g[3]]];pousse(pts,false);pousse(pts,true);
-      let ax=pts[0][0],ay=pts[0][1];d+=`M${fmt(ax)} ${fmt(ay)}`;
+      let ax=pts[0][0],ay=pts[0][1];
       for(let n=1;n<pts.length;n++){const c=pts[n],fin_=n==pts.length-1,bx=fin_?c[0]:(c[0]+pts[n+1][0])/2,by=fin_?c[1]:(c[1]+pts[n+1][1])/2;
-        d+=`Q${fmt(c[0])} ${fmt(c[1])} ${fmt(bx)} ${fmt(by)}`;
+        B.courbe(f,ax,ay,c[0],c[1],bx,by);
         const mx=.25*ax+.5*c[0]+.25*bx,my=.25*ay+.5*c[1]+.25*by;SEG.push(ax,ay,mx,my,f,mx,my,bx,by,f);ax=bx;ay=by}});
-    if(f)fort+=d;else fin+=d;
   }
-  champ_svg.setAttribute("width",W);champ_svg.setAttribute("height",H);champ_svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
   // Sans cadre : les courbes s'effacent doucement autour de chaque ligne de texte, comme sur une carte autour des cotes
   const trous=[];
   const garde=(el)=>{const fixe=getComputedStyle(el).position=="fixed"||el.closest(".haut")&&getComputedStyle(el.closest(".haut")).position=="fixed",g=document.createRange();g.selectNodeContents(el);
-    for(const q of g.getClientRects()){if(q.width<2||q.height<2)continue;const X=q.left-(fixe?0:o.left)-8,Y=q.top-(fixe?0:o.top)-5;if(!fixe)TEXTES.push([X,Y,X+q.width+16,Y+q.height+10]);trous.push(`<rect x="${X.toFixed(0)}" y="${Y.toFixed(0)}" width="${(q.width+16).toFixed(0)}" height="${(q.height+10).toFixed(0)}" rx="8"/>`)}};
+    for(const q of g.getClientRects()){if(q.width<2||q.height<2)continue;const X=q.left-(fixe?0:o.left)-8,Y=q.top-(fixe?0:o.top)-5;if(!fixe)TEXTES.push([X,Y,X+q.width+16,Y+q.height+10]);trous.push({y:Y,h:q.height+10,r:`<rect x="${X.toFixed(0)}" y="${Y.toFixed(0)}" width="${(q.width+16).toFixed(0)}" height="${(q.height+10).toFixed(0)}" rx="8"/>`})}};
   document.querySelectorAll(TEXTES_GARDES).forEach(garde);
-  const mx=document.querySelector(".fin svg").getScreenCTM();
-  const silhouette=`<path d="${MAISON}" fill="#000" transform="matrix(${mx.a} ${mx.b} ${mx.c} ${mx.d} ${mx.e-o.left} ${mx.f-o.top})"/>`;
-  const marge=W>900?`<rect x="${W-260}" y="0" width="260" height="${H}" fill="url(#fondu)"/>`:"";
-  champ_svg.innerHTML=`<defs><linearGradient id="fondu" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".8"/></linearGradient>
-    <filter id="flou" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><feGaussianBlur stdDeviation="4"/></filter>
-    <mask id="garde" maskUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><rect width="${W}" height="${H}" fill="#fff"/><g fill="#000" opacity=".5" filter="url(#flou)">${trous.join("")}</g>${marge}${silhouette}</mask>
-    <g id="lignes" fill="none" stroke-linecap="round"><path d="${fin}" stroke-width=".65"/><path d="${fort}" stroke-width="1.4"/></g></defs>
-    <use href="#lignes" style="stroke:var(--r)" mask="url(#garde)"/>`;
+  const maison=document.querySelector(".fin svg"),mx=maison.getScreenCTM(),rm=maison.getBoundingClientRect();
+  const silhouette={y:rm.top-o.top,h:rm.height,r:`<path d="${MAISON}" fill="#000" transform="matrix(${mx.a} ${mx.b} ${mx.c} ${mx.d} ${mx.e-o.left} ${mx.f-o.top})"/>`};
+  peintBandes(champ_el,B.lots,{W,H,trous,force:.5,silhouette});
   // Les lignes en gras ont leur propre calque : les animer ne redessine pas tout le relief
   const couche=document.getElementById("couche");couche.setAttribute("width",W);couche.setAttribute("height",H);couche.setAttribute("viewBox",`0 0 ${W} ${H}`);
   document.getElementById("gras").innerHTML="";anims.clear();prets.clear();
 };
-const champ_svg=document.getElementById("champ");
+const champ_el=document.getElementById("champ");
 dessine();apresPolices(dessine,TEXTES_GARDES);
-let tm;addEventListener("resize",()=>{clearTimeout(tm);tm=setTimeout(dessine,200)});
+surRedimension(dessine);
 
-initTheme();initLangue();
+initTheme();initLangue();imagesNettes();
 
 // La maison ramène toujours à l'accueil
 document.querySelectorAll("[data-logo]").forEach(a=>a.addEventListener("click",(e)=>{e.preventDefault();history.replaceState(null,"",location.pathname);scrollTo({top:0,behavior:"smooth"})}));
@@ -126,7 +118,9 @@ const actif=(it,oui)=>{
   an.but=oui;
   if(!enCours){enCours=true;avant=performance.now();requestAnimationFrame(tic)}
 };
-document.querySelectorAll(".it").forEach(it=>{it.addEventListener("mouseenter",()=>actif(it,true));it.addEventListener("mouseleave",()=>{if(!it.classList.contains("vu"))actif(it,false)})});
+// Sans souris, c'est le projet au milieu de l'écran qui épaissit ses lignes
+if(surTelephone())grasAuDefilement(champ_el,[...document.querySelectorAll(".it")],proches,{NIV,EPAIS});
+else document.querySelectorAll(".it").forEach(it=>{it.addEventListener("mouseenter",()=>actif(it,true));it.addEventListener("mouseleave",()=>{if(!it.classList.contains("vu"))actif(it,false)})});
 liens.forEach(a=>{const it=document.getElementById(a.dataset.p);a.onmouseenter=()=>{it.classList.add("vu");actif(it,true)};a.onmouseleave=()=>{it.classList.remove("vu");if(!it.matches(":hover"))actif(it,false)}});
 const its=[...document.querySelectorAll(".it")],herop=document.querySelector(".hero"),prof=document.getElementById("profil");
 const suivre=()=>{

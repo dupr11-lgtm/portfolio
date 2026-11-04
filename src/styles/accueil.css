@@ -1,7 +1,5 @@
 :root{--p:#efe9dd;--b:#252b80;--r:#d8452e}
 body{background:var(--p);color:var(--b);font:400 .78rem/1.3 "Courier Prime",monospace}
-@font-face{font-family:"Geist Serif";src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-serif/GeistSerif-Regular.woff2) format("woff2");font-display:swap}
-@font-face{font-family:"Geist";font-weight:500;src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-sans/Geist-Medium.woff2) format("woff2");font-display:swap}
 h1{font-family:"Geist Serif",serif;font-weight:400;letter-spacing:-.015em}
 [data-logo] span{font-family:"Geist Serif",serif;font-weight:400}
 #page{position:relative;overflow:hidden}
@@ -36,7 +34,9 @@ body[data-logo-c=b]{--l0:#252b80;--l1:#6f74ba;--l2:#b5b8de}
 
 /* L'accueil */
 .hero{position:relative;height:100svh;min-height:640px}
-.carte{position:absolute;left:32%;top:9%;width:50%;height:78%;background:url(/opt/centre-de-recherches.mdx/cover-1600.webp) center/cover}
+.carte{position:absolute;left:32%;top:9%;width:50%;height:78%;background:var(--carte) center/cover}
+/* Les adresses de l'image viennent d'Accueil.astro, avec leur empreinte : la même que le preload, pour ne pas la télécharger deux fois */
+@media (hover:none) and (max-width:900px){.carte{background-image:var(--carte-tel)}}
 /* Disques : papier découpé, une forme vectorielle différente à chaque fois */
 .d{position:absolute;--disc-b:#252b80}
 body[data-theme=nuit] .d{--disc-b:#c7bda6}

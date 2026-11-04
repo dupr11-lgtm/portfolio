@@ -1,5 +1,3 @@
-@font-face{font-family:"Geist Serif";src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-serif/GeistSerif-Regular.woff2) format("woff2");font-display:swap}
-@font-face{font-family:"Geist";font-weight:500;src:url(https://cdn.jsdelivr.net/npm/geist@1.9.0/dist/fonts/geist-sans/Geist-Medium.woff2) format("woff2");font-display:swap}
 :root{--p:#efe9dd;--b:#252b80;--r:#d8452e;--l0:#252b80;--l1:#6f74ba;--l2:#b5b8de;--disc-b:#252b80}
 body[data-theme=nuit]{--p:#14162e;--b:#ece6da;--r:#ff6a4d;--l0:#ece6da;--l1:#9da1d6;--l2:#5a5f9e;--disc-b:#c7bda6}
 body{background:var(--p);color:var(--b);font:400 .84rem/1.35 "Courier Prime",monospace;transition:background-color 300ms,color 300ms}
